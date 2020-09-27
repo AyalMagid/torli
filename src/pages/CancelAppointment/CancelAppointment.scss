@@ -1,0 +1,65 @@
+
+.cancel-appointment{
+    width: 100%;
+    .table-title{
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    transition: 0.5s;
+    i{
+        color:white;
+        font-size: 1.1rem;
+        margin-right: 5px;
+    }
+    
+        fieldset{
+            // min-width: 300px;
+        }
+
+    .cancel-form-title {
+        color : #172b4d;
+    }
+    .table-wrapper{
+        min-width: 85%;
+    
+    .apointment-details{
+        text-align: right;
+        color :#e91e63;
+        background-color:lighten(#e91e63, 45%);
+        border: 0.2px solid #f0d1dbd3;
+        border-radius: 5px;
+        .table-cell{
+            border-bottom: 2.5px solid white;
+            padding: 20px;
+        }
+    }
+}
+    .trash-btn{
+        color :white;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        min-width: 48%;
+        padding: 10px;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        background-color: #e91e63;
+        cursor: pointer;
+    }
+}
+
+.rotate{
+    transform: rotate(45deg);
+}
+
+.space{
+    height: 150px;
+}
+
+.last-cell{
+    padding: 20px;
+}
+
+.motion-div{
+    width: 100%;
+}

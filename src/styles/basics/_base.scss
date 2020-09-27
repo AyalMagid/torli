@@ -1,0 +1,37 @@
+@font-face {
+    font-family: Tinos;
+    src: url('../fonts/static/Heebo-Regular.ttf');
+  }
+
+html {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Tinos;
+}
+
+body {
+    color: #172b4d;
+    margin: 0;
+    font-size: 1rem;
+    background-color: rgba(236, 236, 236, 0.322);
+    height: 100%;
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+    html {
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      width: 100vh;
+      overflow-x: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+
+
+

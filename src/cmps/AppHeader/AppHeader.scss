@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Aguafina+Script');
+#text{
+    font-family: "Aguafina Script", cursive;
+    text-align: center;
+    font-size: 25px;
+    // background-color: rgb(84, 84, 84);
+    text-shadow: rgb(83, 83, 83) 2px 2px 2px;
+}
+
+.app-header {
+    width: 100%;
+    margin-block-end: 1rem;
+    // box-shadow: 0px 1px 2px #00000033;
+    .upper-header {
+        justify-content: flex-end;
+        h2{
+            padding-top: 9px;
+            font-size:1rem;
+            padding-top: 9px;
+        }
+        justify-content: flex-end;
+        height: 3rem;
+        background-color:#e91e63;
+        color: #f6f6f6;
+        padding: 0 28px;
+        width: 100%;
+    }
+    .bottom-header{
+        padding: 0;
+        height: 3rem;
+           h3 {
+            font-size: 1.1rem;
+        }
+        text-align: center;
+        .bottom-header-title{
+            width:50%;
+        }
+    }
+    h3 {
+        color: #a5abb1;
+    }
+}
+
+fieldset {
+    border-color:#e91e63!important
+}
+
+.MuiInputBase-input {
+    height: 5px!important;
+}
+
+@media screen and (min-width: 500px) {
+    .app-header {
+        width: 480px
+    }
+  }
+
+
+@import url('https://fonts.googleapis.com/css?family=Aguafina+Script');
+#text{
+    font-family: "Aguafina Script", cursive;
+    text-align: center;
+    font-size: 25px;
+    // background-color: rgb(84, 84, 84);
+    text-shadow: rgb(83, 83, 83) 2px 2px 2px;
+}
