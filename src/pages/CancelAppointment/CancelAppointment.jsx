@@ -124,6 +124,7 @@ export function _CancelAppointment(props) {
     }
 
     return (
+        <div className="cancel-appointment flex column align-center space-between ">
         <motion.div
             className="motion-div"
             initial="out"
@@ -132,8 +133,8 @@ export function _CancelAppointment(props) {
             variants={pageVariants}
             transition={pageTransition}
         >
-            <main className="main-container cancel-appointment flex column align-center space-around ">
-                <div className="flex align-center column">
+            <main >
+                <div className="cancelation-title-phone">
                     <div className="cancel-form-title">נא להזין מספר טלפון לביטול התור  :</div>
                     <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
                 </div>
@@ -149,8 +150,7 @@ export function _CancelAppointment(props) {
                         <div className="space"></div>
                     }
                 </div>
-                <div className="space"></div>
-                {(eventToCancel) && <button onClick={cancelAppointment} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>}
+               {(eventToCancel) && <button onClick={cancelAppointment} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>}
 
                 <Modal
                     aria-labelledby="transition-modal-title"
@@ -173,6 +173,7 @@ export function _CancelAppointment(props) {
                 </Modal>
             </main>
         </motion.div>
+        </div>
     );
 }
 

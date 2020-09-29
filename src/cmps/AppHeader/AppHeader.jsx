@@ -13,7 +13,7 @@ export function AppHeader(props) {
         <>
             <div className="app-header">
                 <header className="flex upper-header align-center">
-                    <h2 id="text" className="logo"> Tor-Li<i  className="fas fa-tasks"></i></h2>
+                    <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
                 </header>
                 <TabsApp />
                 {(location.pathname === '/cancelAppointment')? '': <StepperApp />}

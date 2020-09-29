@@ -42,14 +42,14 @@ function _NavBtns(props) {
 
     return (
 
-        <div className={`StepperApp-btns-container flex align-center space-around `}>
-          <div className="StepperApp-btn-wrraper StepperApp-btn-wrraper-back"> 
-            <button className={`StepperApp-btn ${activeBackBtn}`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
+        <div className={`nav-btns-container flex align-center space-around `}>
+          <div className="nav-btn-wrraper nav-btn-wrraper-back"> 
+            <button className={`nav-btn ${activeBackBtn}`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
                 חזור
             </button>
           </div>
-          <div className={`StepperApp-btn-wrraper StepperApp-btn-wrraper-next ${hideBtn} `}>
-            <button className={`StepperApp-btn ${activeNextBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
+          <div className={`nav-btn-wrraper nav-btn-wrraper-next ${hideBtn} `}>
+            <button className={`nav-btn ${activeNextBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
                     {(props.activeStep === 2) ? 'אשר' : 'הבא'}
             </button>
           </div>

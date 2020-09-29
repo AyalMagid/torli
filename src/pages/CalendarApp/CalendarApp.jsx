@@ -80,6 +80,7 @@ export function _CalendarApp(props) {
                 animate="in"
                 variants={pageVariants}
                 transition={pageTransition}
+                style={{width:"100%"}}
             >
                 <div className="calendar-picker-container">
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >

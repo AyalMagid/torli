@@ -1,10 +1,10 @@
 
 
-.main-header{
-    height: 54px;
-    background-color: pink;
-    width: 500px;
-}
+// .main-header{
+//     height: 54px;
+//     background-color: pink;
+//     width: 500px;
+// }
 
 .calander{
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -14,16 +14,7 @@
     left: 40%;
     top: 45px
 }
-.black{
-    color: black;
-}
 
-i{
-    &:hover{
-        cursor: pointer;
-    }
-}
-
-.absolute{
-    position: absolute; 
+.treatment-app{
+    width:100%;
 }

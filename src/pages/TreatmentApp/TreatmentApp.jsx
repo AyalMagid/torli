@@ -33,7 +33,7 @@ export function _TreatmentApp(props) {
 
     if (!treatments) return 'loading...'
     return (
-    <>
+    <div className="treatment-app">
         <motion.div
             initial="out"
             exit="in"
@@ -44,7 +44,7 @@ export function _TreatmentApp(props) {
             <TreatmentList treatments={treatments}  />
         </motion.div>
     <NavBtns />
-    </>
+    </div>
     )
 }
 

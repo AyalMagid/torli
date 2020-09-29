@@ -1,28 +1,26 @@
-*{
-    box-sizing: border-box;
-}
-
-.form-title{
-    padding: 7px;
-}
-
-.restart-btn{
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    padding-left: 13px;
-    padding-right: 13px;
-    font-size: 0.9rem;
-    color: #808080;
-    position: absolute;
-    left: 0;
-    top: 169px;
-    cursor: pointer;
+.submit-form{
+    .restart-btn{
+        border-radius: 5px;
+        border: none;
+        padding: 10px;
+        padding-left: 13px;
+        padding-right: 13px;
+        font-size: 0.9rem;
+        color: #808080;
+        position: absolute;
+        left: 0;
+        top: 169px;
+        cursor: pointer;
+    }
+    margin-top: 2rem;
+    .form-title{
+        padding: 7px;
+    }
 }
 
 
 @media screen and (min-width: 500px) {
     .restart-btn{
-        left: 192PX;
+        // left: 192PX;
     }
   }

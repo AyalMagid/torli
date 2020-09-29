@@ -110,7 +110,7 @@ export function _SubmitForm(props) {
 
     const {name, phone, email} = credentials
     return (
-        <>
+        <div className="submit-form flex column align-center">
             <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>
             <motion.div
                 initial="out"
@@ -121,7 +121,7 @@ export function _SubmitForm(props) {
                 style={{ textAlign: 'center' }}
             >
                 <div>
-                    <form className={`${classes.input} submit-form flex column align-center`} noValidate autoComplete="off">
+                    <form className={`${classes.input}`} noValidate autoComplete="off">
                         <div>
                             <div className="form-title">שם מלא :</div>
                             <TextField autoFocus={true} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
@@ -161,7 +161,7 @@ export function _SubmitForm(props) {
                 </div>
             </motion.div>
             <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />
-        </>
+        </div>
     );
 }
 
