@@ -13,8 +13,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import { motion } from 'framer-motion'
-import './SubmitForm.scss';
 import TreatmentService from "../../services/TreatmentService";
+import StorageService from "../../services/StorageService";
+import './SubmitForm.scss';
 
 // style for motion div
 const pageVariants = {
@@ -29,7 +30,7 @@ const pageVariants = {
 }
 
 const pageTransition = {
-    duration: 1.3,
+    duration:0.5,
     type: "spring",
     stiffness: 50
 }
@@ -56,18 +57,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 export function _SubmitForm(props) {
     
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [markedTreatmetns, setmarkedTreatmetns] = React.useState('');
+    const [markedTreatmetns, setMarkedTreatmetns] = React.useState('');
     const [credentials, setCredentials] = React.useState({name:'',phone:'',email:''})
     const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(props.treatment.date)
     const endTime = UtilsService.calculateEndTime(props.treatment.time,props.duration)
 
     useEffect(() => {
-        setmarkedTreatmetns(TreatmentService.getMarkedTreatmentsStr(props.treatments))
+        setMarkedTreatmetns(TreatmentService.getMarkedTreatmentsStr(props.treatments))
+        const user = StorageService.loadFromStorage('tori-user')
+        if (user) {
+            setCredentials (user)
+        }
     }, [props.treatments])
     
     const handleOpen = () => {
@@ -84,9 +88,10 @@ export function _SubmitForm(props) {
         props.history.push('/')
     }
 
-    function setAppointment () {
+    async function setAppointment () {
         const {name,phone,email} = credentials
-        CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment)
+        await CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment)
+        StorageService.saveToStorage('tori-user', credentials)
     }
 
     function handleChange({ target }) {
@@ -112,6 +117,11 @@ export function _SubmitForm(props) {
     return (
         <div className="submit-form flex column align-center">
             <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>
+            <div className="appointment-details">
+                    <div>סוג הטיפול : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
+                    <div>תאריך : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
+                    <div>בין השעות : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
+            </div>
             <motion.div
                 initial="out"
                 exit="in"

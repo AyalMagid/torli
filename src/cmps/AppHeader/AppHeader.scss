@@ -30,10 +30,12 @@ fieldset {
     height: 5px!important;
 }
 
-@media screen and (min-width: 500px) {
+//   I phone 5
+@media screen and (max-height: 570px) {
     .app-header {
-        // width: 480px
-    }
+        .upper-header {
+
+            padding: 0 24px;
+        }
   }
-
-
+}

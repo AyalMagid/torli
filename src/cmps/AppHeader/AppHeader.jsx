@@ -15,7 +15,7 @@ export function AppHeader(props) {
                 <header className="flex upper-header align-center">
                     <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
                 </header>
-                <TabsApp />
+                {((location.pathname === '/')||(location.pathname === '/cancelAppointment'))? <TabsApp /> : ''}
                 {(location.pathname === '/cancelAppointment')? '': <StepperApp />}
             </div>
 

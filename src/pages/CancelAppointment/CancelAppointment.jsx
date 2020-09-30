@@ -11,6 +11,7 @@ import { setTimeSlots } from '../../actions/calendarActions.js';
 import { updateActiveStep } from '../../actions/stepperActions';
 import UtilsService from "../../services/UtilsService";
 import CalendarService from '../../services/CalendarService';
+import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import StoreService from '../../services/StoreService';
 import './CancelAppointment.scss';
@@ -28,7 +29,7 @@ const pageVariants = {
 }
 
 const pageTransition = {
-    duration: 1.3,
+    duration:0.5,
     type: "spring",
     stiffness: 50
 }
@@ -85,12 +86,12 @@ export function _CancelAppointment(props) {
       }
 
     async function cancelAppointment() {
-        const events = await CalendarService.getEventByPhone(phone)
+        const events = await EventService.getEventByPhone(phone)
         const eventToRmove = events[0]
         // delete from Calendar
-        CalendarService.remove(eventToRmove.eventId)
+        CalendarService.removeEventFromCalendar(eventToRmove.eventId)
         // delete from mongo data base
-        CalendarService.removeEventFromDB(eventToRmove._id)
+        EventService.removeEventFromDB(eventToRmove._id)
         EmailService.sendEmail(eventToCancel.name, eventToCancel.date, eventToCancel.email, false)
         setEventToCancel(null)
         handleOpen()
@@ -103,18 +104,27 @@ export function _CancelAppointment(props) {
             case 'phone':
                 setPhone(value)
                 if (value.length >= 9 && value.length <= 10) {
-                    CalendarService.getEventByPhone(value)
-                        .then(ev => {
-                            if (!ev[0]) return
-                            const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(ev[0].date)
-                            setEventToCancel({
-                                treatments: ev[0].treatments,
-                                startTime: UtilsService.changeTimeForDisplay(ev[0].startTime, -3),
-                                endTime: UtilsService.changeTimeForDisplay(ev[0].endTime, -3),
-                                date: dateIsraeliDisplay,
-                                email:ev[0].email,
-                                name:ev[0].name,
+                    EventService.getEventByPhone(value)
+                        .then(events => {
+                            if (!events[0]) return
+                            const filteredEvents = events.filter(event => {
+                              let year = event.date.slice(0, 4)
+                              let month = event.date.slice(5, 7)
+                              let day = event.date.slice(8, 10)
+                              const date = new Date(year, month-1, day).getTime()
+                              return (date > Date.now())
                             })
+                            if (filteredEvents.length){
+                             const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(filteredEvents[0].date)
+                            setEventToCancel({
+                                treatments: filteredEvents[0].treatments,
+                                startTime: UtilsService.changeTimeForDisplay(filteredEvents[0].startTime, -3),
+                                endTime: UtilsService.changeTimeForDisplay(filteredEvents[0].endTime, -3),
+                                date: dateIsraeliDisplay,
+                                email:filteredEvents[0].email,
+                                name:filteredEvents[0].name,
+                            })
+                          }
                         })
                 }
                 break;

@@ -38,5 +38,12 @@ main {
   }
 
 
+  //   Ipad
+  @media screen and (min-height: 1000px) {
+    .main-container {
+        // width: 390px;
+        max-height: 770px;
+    }
+  }
 
 

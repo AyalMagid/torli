@@ -7,6 +7,12 @@
         margin-right: 10px;
         background-color:rgba(236,236,236,0);
         top: 65px;
+        .fully-booked{
+            color: #b9b9b9;
+            .fully-booked-title{
+                font-size: 14px;
+            }
+        }
     }
 }
 

@@ -27,7 +27,6 @@ export default {
 
 
 async function ajax(endpoint, method='get', data=null) {
-
     // let h = new Headers()
     // h.append('Authorization','Bearer mFzYTSGauAA4QGdG6rI9MtfvvfEZHo')
     

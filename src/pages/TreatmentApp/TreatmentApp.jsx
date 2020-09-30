@@ -4,8 +4,10 @@ import { loadTreatments } from '../../actions/treatmentActions.js';
 import { TreatmentList } from '../../cmps/TreatmentList/TreatmentList';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { motion } from 'framer-motion'
+import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './TreatmentApp.scss';
 import '../../styles/style.scss';
+
 
 // style motion div
 const pageVariants={
@@ -20,7 +22,7 @@ const pageVariants={
 }
 
 const pageTransition={
-    duration:1.3,
+    duration:0.5,
     type:"spring",
     stiffness:50
 }
@@ -31,7 +33,7 @@ export function _TreatmentApp(props) {
         if (!treatments) loadTreatments()
     },[loadTreatments,treatments]);
 
-    if (!treatments) return 'loading...'
+    if (!treatments) return <div className="loader"><LoaderApp/></div>
     return (
     <div className="treatment-app">
         <motion.div

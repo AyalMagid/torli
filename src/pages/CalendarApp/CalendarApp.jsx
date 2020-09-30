@@ -26,7 +26,7 @@ const pageVariants={
 }
 
 const pageTransition={
-    duration:1.3,
+    duration:0.5,
     type:"spring",
     stiffness:50
 }
@@ -63,7 +63,7 @@ export function _CalendarApp(props) {
     const [loader, setLoader] = useState(true);
 
     const { loadTimeSlots } = props
-    useEffect(() => { loadTimeSlots() }, [loadTimeSlots]);
+    useEffect(() => { loadTimeSlots()}, [loadTimeSlots]);
 
     async function handleChange(date) {
         setLoader(false)
@@ -87,6 +87,7 @@ export function _CalendarApp(props) {
                     <ThemeProvider theme={materialTheme}>
                         <KeyboardDatePicker
                             disableToolbar
+                            disablePast={true}
                             variant="dialog"
                             okLabel="אישור"
                             cancelLabel="ביטול"
@@ -103,7 +104,7 @@ export function _CalendarApp(props) {
                 </MuiPickersUtilsProvider>
                 </div>
                 <div className="main-container time-slot-lists-container">
-                    {(props.timeSlots && loader) ? <TimeslotList timeSlots={props.timeSlots} />
+                    {(props.timeSlots && loader) ? <TimeslotList date={selectedDate} timeSlots={props.timeSlots} duration={props.duration} />
                         :<div className="loaderContainer flex  justify-center"><LoaderApp/></div>}
                 </div>
             </motion.div>
@@ -114,7 +115,8 @@ export function _CalendarApp(props) {
 
 function mapStateProps(state) {
     return {
-        timeSlots: state.CalendarReducer.timeSlots
+        timeSlots: state.CalendarReducer.timeSlots,
+        duration: state.TreatmentReducer.duration
     }
 }
 

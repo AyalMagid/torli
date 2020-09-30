@@ -1,24 +1,39 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { DailySlots } from '../DailySlots/DailySlots';
 import UtilsService from '../../services/UtilsService';
 import './TimeslotList.scss';
 
 export function TimeslotList(props) {
-    console.log(props.timeSlots);
+
+    useEffect(() => {
+        //  console.log(props.date.toISOString())
+        }, []);
+
     return (
         <div className="timeslot-list flex">
             {
                 Object.keys(props.timeSlots).map(day => {
-                    const date = (props.timeSlots[day])[0].start.slice(0, 10)
+                    const isDateFullyBooked = (typeof props.timeSlots[day] == 'string') ? true : false
+                    const date = isDateFullyBooked ? props.timeSlots[day].slice(0, 10) : (props.timeSlots[day])[0].start.slice(0, 10)
                     // running on each day
-                    const slotsForPreview = UtilsService.getDailySlotsForPreview(props.timeSlots[day], 30)
+                    const slotsForPreview = isDateFullyBooked ? [] : UtilsService.getDailySlotsForPreview(props.timeSlots[day], props.duration)
                     return (
                         <div key={UtilsService.idGen()}>
                             <div className="date-container">
-                                <div>
-                                    {UtilsService.getDayByHebrewWord(new Date((props.timeSlots[day])[0].start).getDay())}
+                                {
+                                isDateFullyBooked?     
+                                <div className="fully-booked">
+                                    <div>{UtilsService.getDayByHebrewWord(new Date(date).getDay())}</div>
+                                    <div>{UtilsService.convertDateToIsraelisDisplay(date)}</div>
+                                    <br/>
+                                    <div className="fully-booked-title">אין תור פנוי</div>
                                 </div>
-                                {UtilsService.convertDateToIsraelisDisplay(date)}
+                                :
+                                <div>
+                                    <div>{UtilsService.getDayByHebrewWord(new Date((props.timeSlots[day])[0].start).getDay())}</div>
+                                    <div>{UtilsService.convertDateToIsraelisDisplay(date)}</div>
+                                </div>
+                                }
                             </div>
                             <DailySlots timeSlots={slotsForPreview} date={date} />
                         </div>

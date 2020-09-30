@@ -23,15 +23,19 @@ export function setCalendar(calendar) {
 
 
 export function loadTimeSlots(pickedDate = null){
-    if (!pickedDate) {
-      var firstDay = UtilsService.getIsosDate (0)
-      var secondDay = UtilsService.getIsosDate (1)
-      var thirdDay = UtilsService.getIsosDate (2)
-    } else {
-      firstDay = UtilsService.getIsosDate (-1, pickedDate)
-      secondDay = UtilsService.getIsosDate (0,  pickedDate)
-      thirdDay = UtilsService.getIsosDate (1, pickedDate ) 
-    }
+      if (!pickedDate) {
+        var firstDay = UtilsService.getIsosDate (0)
+        var secondDay = UtilsService.getIsosDate (1)
+        var thirdDay = UtilsService.getIsosDate (2)
+      } else {
+      // get day after and day before
+      // firstDay = UtilsService.getIsosDate (-1, pickedDate)
+      // secondDay = UtilsService.getIsosDate (0,  pickedDate)
+      // thirdDay = UtilsService.getIsosDate (1, pickedDate )
+        firstDay = UtilsService.getIsosDate (0, pickedDate)
+        secondDay = UtilsService.getIsosDate (1, pickedDate)
+        thirdDay = UtilsService.getIsosDate (2, pickedDate ) 
+      } 
   return async dispatch => {
     try {
       const timeSlots = {

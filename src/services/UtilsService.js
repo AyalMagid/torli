@@ -149,7 +149,6 @@ function convertDateToIsraelisDisplay(date) {
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
 function getDayByHebrewWord(idx) {
-  console.log(idx);
   const days = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"]
   return days[idx]
 }

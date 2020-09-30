@@ -22,7 +22,7 @@ import UtilsService from '../../services/UtilsService';
 
         <div className="daily-slots flex column align-center space-between">
             {props.timeSlots.map(ts => <button onClick={() => onAppointmentChoice(ts, props.date, 1)}
-                className="timeslot-btn" key={UtilsService.idGen()}>{ts}</button>)}
+            className="timeslot-btn" key={UtilsService.idGen()}>{ts}</button>)}
         </div>
     )
 }

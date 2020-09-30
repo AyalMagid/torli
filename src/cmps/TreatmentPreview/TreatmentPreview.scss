@@ -42,3 +42,11 @@ input.switch:checked {
 .blue{
   background-color: yellowgreen;
 }
+
+
+//   I phone 5
+@media screen and (max-height: 570px) {
+  .treatment-preview{
+    padding: 24px;
+  }
+}

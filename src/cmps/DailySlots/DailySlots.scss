@@ -3,6 +3,14 @@
     // padding: 1.7rem;
     margin-right: 1rem;
     margin-left: 1rem;
+    min-width: 80px;
+    .fully-booked{
+        font-size: 14px;
+        font-weight: 400;
+        color: #f44336;
+        padding-top: 12px;
+        padding-right: 3px;
+    }
     .timeslot-btn{
         outline: none;
         font-size: 1rem;

@@ -1,4 +1,7 @@
 .submit-form{
+    form{
+        margin-top: 6rem;
+    }
     .restart-btn{
         border-radius: 5px;
         border: none;
@@ -9,14 +12,29 @@
         color: #808080;
         position: absolute;
         left: 0;
-        top: 169px;
+        top: 105px;
         cursor: pointer;
+        background-color: transparent;
     }
     margin-top: 2rem;
     .form-title{
         padding: 7px;
+        color:#808080
+    }
+    .appointment-details{
+        margin-bottom: 1.5rem;
+        position: absolute;
+        right: 0;
+        top: 105px;
+        color: #808080;
+        // background-color: #fdeff4;
+        padding: 5px 10px;
+        max-width: 50%;
+        background-color: #f3f3f3;
+        border-radius: 0 0 0 15px;
     }
 }
+
 
 
 @media screen and (min-width: 500px) {
