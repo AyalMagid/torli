@@ -1,23 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { updateActiveStep } from '../../actions/stepperActions';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useLocation } from 'react-router-dom';
 import './NavBtns.scss';
 function _NavBtns(props) {
 
-    const [hideBtn, setHideBtn] = useState('');
-    const [activeNextBtn, setActiveNextBtn] = useState('');
-    const [activeBackBtn, setActiveBackBtn] = useState('');
+    const location = useLocation()
+    const [activeBtn, setActiveBtn] = useState('');
 
     useEffect(() => {toggleBtnsStyle()});
 
     function toggleBtnsStyle() {
-        if (props.activeStep !== 1) {setHideBtn('')}
-        else {setHideBtn("hide-btn")}
-        if (props.activeStep) {setActiveBackBtn('active-btn')}
-        else {setActiveBackBtn('')}
-        if ((props.activeStep === 2 && !props.treatment) || (props.duration) ){setActiveNextBtn('active-btn') 
-        } else {setActiveNextBtn('')} 
+        if ((props.activeStep === 2 && !props.treatment) || (props.duration) ){setActiveBtn('active-btn') 
+        } else {setActiveBtn('')} 
     }
 
     function isNextBtnDisable() {
@@ -42,17 +37,35 @@ function _NavBtns(props) {
 
     return (
 
-        <div className={`nav-btns-container flex align-center space-around `}>
-          <div className="nav-btn-wrraper nav-btn-wrraper-back"> 
-            <button className={`nav-btn ${activeBackBtn}`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
-                חזור
+        <div className={`nav-btns-container`}>
+        {
+          (location.pathname === '/')?
+          <div className={`nav-btn-wrraper`}>
+            <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
+                הבא
             </button>
           </div>
-          <div className={`nav-btn-wrraper nav-btn-wrraper-next ${hideBtn} `}>
-            <button className={`nav-btn ${activeNextBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
-                    {(props.activeStep === 2) ? 'אשר' : 'הבא'}
-            </button>
-          </div>
+            :
+             (location.pathname !== '/form')?
+            <div className="nav-btn-wrraper"> 
+                <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
+                    חזור
+                </button>
+            </div>
+            :
+            <div className="flex btns-wrraper">
+                <div className="nav-btn-wrraper"> 
+                    <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
+                        חזור
+                    </button>
+                </div>
+                <div className={`nav-btn-wrraper`}>
+                <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
+                    אשר
+                </button>
+                </div>
+            </div>
+        }
         </div>
 
     )

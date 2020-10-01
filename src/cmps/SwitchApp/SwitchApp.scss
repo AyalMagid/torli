@@ -1,0 +1,12 @@
+.MuiSwitch-thumb{
+    // color:#172b4d;
+}
+
+.MuiSwitch-colorSecondary.Mui-checked {
+    color: #5e6777!important;
+}
+
+
+.MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color: #1c3b6d!important;
+}

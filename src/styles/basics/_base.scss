@@ -5,6 +5,7 @@
 
 html {
     height: 100%;
+    
 }
 
 * {
@@ -19,6 +20,8 @@ body {
     background-color: rgba(236, 236, 236, 0.322);
     height: 100%;
     overflow: hidden;
+    background-image: url(../img/handlight.png);
+    background-size: cover;
 }
 
 

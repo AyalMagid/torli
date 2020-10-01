@@ -9,10 +9,10 @@
         padding-left: 13px;
         padding-right: 13px;
         font-size: 0.9rem;
-        color: #808080;
+        color: white;
         position: absolute;
-        left: 0;
-        top: 105px;
+        right: 20px;
+        top: 5px;
         cursor: pointer;
         background-color: transparent;
     }
@@ -22,16 +22,16 @@
         color:#808080
     }
     .appointment-details{
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         position: absolute;
         right: 0;
-        top: 105px;
-        color: #808080;
+        top: 110px;
         // background-color: #fdeff4;
-        padding: 5px 10px;
-        max-width: 50%;
-        background-color: #f3f3f3;
-        border-radius: 0 0 0 15px;
+        color: grey;
+        padding: 35px;
+        font-size: 14px;
+        // background-color: #f3f3f3;
+        // border-radius: 0 0 0 15px;
     }
 }
 

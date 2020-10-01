@@ -149,7 +149,7 @@ export function _CancelAppointment(props) {
                     <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
                 </div>
                 <div className="table-wrapper">
-                    {(eventToCancel) && <div className="table-title"> פרטי התור :</div>}
+                    {/* {(eventToCancel) && <div className="table-title"> פרטי התור :</div>} */}
                     {(eventToCancel) ?
                         <div className="apointment-details">
                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventToCancel.treatments}</div>

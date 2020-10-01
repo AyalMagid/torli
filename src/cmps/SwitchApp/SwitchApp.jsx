@@ -3,6 +3,7 @@ import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset,createMuiTheme,ThemeProvider } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
+import './SwitchApp.scss'
 
 const theme = createMuiTheme({
   direction: 'rtl',

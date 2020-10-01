@@ -6,7 +6,7 @@ export class LoaderApp extends React.Component {
     return (
       <Loader
         type="Oval"
-        color="#e91e63"
+        color="#273650"
         height={75}
         width={75}
         timeout={3000} //3 secs
