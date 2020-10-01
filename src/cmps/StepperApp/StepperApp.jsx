@@ -11,7 +11,7 @@ const theme = createMuiTheme({
 // add margin left from the circules
   palette: {
     primary: {
-      main: '#e91e63'
+      main: '#273650'
     }
   },
 });

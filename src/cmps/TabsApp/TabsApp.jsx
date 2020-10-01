@@ -12,9 +12,9 @@ export function _TabsApp(props) {
 
   // tabs style
   const style = {
-    width:'50%',
+    width:'25%',
     boxShadow:'none',
-    color:'#172b4d'
+    color:'white'
   }
 
   const handleChange = (event, newValue) => {
@@ -29,9 +29,10 @@ export function _TabsApp(props) {
   return (
 
     <AppBar position="static" style={{boxShadow:'none'}} >
-      <Tabs value={value} onChange={handleChange} className="tabs">
+      <Tabs value={value} onChange={handleChange} className="tabs flex space-between">
         <Tab label="זימון" style={style}/>
         <Tab label="ביטול" style={style}/>
+        <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
       </Tabs>
     </AppBar>
   );

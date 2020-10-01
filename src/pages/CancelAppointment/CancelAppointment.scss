@@ -19,22 +19,24 @@
     // fieldset{
     //     // width: 300px;
     // }
-    .table-wrapper{
-        .table-title{
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-    }
+    // .table-wrapper{
+        // .table-title{
+        //     text-align: center;
+        //     margin-bottom: 1rem;
+        // }
+    // }
 
     .table-wrapper{
       .apointment-details{
         text-align: right;
-        color :#e91e63;
-        background-color:lighten(#e91e63, 45%);
-        border: 0.2px solid #f0d1dbd3;
+        color: #182c4e;
+        margin-top: 3rem;
+        // background-color:lighten(#e91e63, 45%);
+        background-color: #d8d8d80d;
+        border: 0.2px solid white;
         border-radius: 5px;
         .table-cell{
-            border-bottom: 2.5px solid white;
+            border-bottom: 0.2px solid white;
             padding: 20px;
         }
         .last-cell{
@@ -57,7 +59,7 @@
         width: 100%;
         padding: 10px;
         font-size: 1rem;
-        background-color: #e91e63;
+        background-color:#273650;
         cursor: pointer;
         left: 50%;
         margin-left: -50%; /* Negative half of width. */
