@@ -13,6 +13,7 @@ export function AppHeader(props) {
         <>
             <div className="app-header">
                 <header className="flex upper-header align-center">
+                <img src={require('../../styles/logo.PNG')} />
                     <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
                 </header>
                 {((location.pathname === '/')||(location.pathname === '/cancelAppointment'))? <TabsApp /> : ''}
