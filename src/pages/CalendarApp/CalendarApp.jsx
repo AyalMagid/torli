@@ -69,7 +69,7 @@ export function _CalendarApp(props) {
         setLoader(false)
         handleDateChange(date)
         await props.loadTimeSlots(date)
-        setLoader(true)
+        if(props.timeSlots)setLoader(true)
     }
 
     return (

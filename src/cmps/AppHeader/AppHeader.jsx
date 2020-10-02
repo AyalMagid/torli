@@ -15,7 +15,6 @@ export function AppHeader(props) {
                 {
                 ((location.pathname !== '/') && (location.pathname !== '/cancelAppointment')) && 
                 <header className="flex upper-header align-center">
-                <img src={require('../../styles/logo.PNG')} />
                     <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
                 </header>
                 }
