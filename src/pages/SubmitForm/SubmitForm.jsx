@@ -128,9 +128,8 @@ export function _SubmitForm(props) {
                 animate="in"
                 variants={pageVariants}
                 transition={pageTransition}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', width:'100%' }}
             >
-                <div>
                     <form className={`${classes.input}`} noValidate autoComplete="off">
                         <div>
                             <div className="form-title">שם מלא :</div>
@@ -168,7 +167,6 @@ export function _SubmitForm(props) {
                             </div>
                         </Fade>
                     </Modal>
-                </div>
             </motion.div>
             <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />
         </div>

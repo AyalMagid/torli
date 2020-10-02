@@ -60,16 +60,23 @@ const materialTheme = createMuiTheme({
 export function _CalendarApp(props) {
 
     const [selectedDate, handleDateChange] = useState(new Date());
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
 
     const { loadTimeSlots } = props
-    useEffect(() => { loadTimeSlots()}, [loadTimeSlots]);
+    useEffect(() => { 
+        loadTimeSlots()
+        if(props.timeSlots){
+            setLoader(false) 
+        }
+    }, [loadTimeSlots]);
 
     async function handleChange(date) {
-        setLoader(false)
+        setLoader(true)
         handleDateChange(date)
         await props.loadTimeSlots(date)
-        setLoader(true)
+        if(props.timeSlots){
+            setLoader(false) 
+        }
     }
 
     return (
@@ -87,7 +94,7 @@ export function _CalendarApp(props) {
                     <ThemeProvider theme={materialTheme}>
                         <KeyboardDatePicker
                             disableToolbar
-                            disablePast={true}
+                            // disablePast={true}
                             variant="dialog"
                             okLabel="אישור"
                             cancelLabel="ביטול"
@@ -104,7 +111,7 @@ export function _CalendarApp(props) {
                 </MuiPickersUtilsProvider>
                 </div>
                 <div className="main-container time-slot-lists-container">
-                    {(props.timeSlots && loader) ? <TimeslotList date={selectedDate} timeSlots={props.timeSlots} duration={props.duration} />
+                    {(props.timeSlots && !loader) ? <TimeslotList date={selectedDate} timeSlots={props.timeSlots} duration={props.duration} />
                         :<div className="loaderContainer flex  justify-center"><LoaderApp/></div>}
                 </div>
             </motion.div>

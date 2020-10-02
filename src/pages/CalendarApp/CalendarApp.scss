@@ -35,8 +35,7 @@
 @media screen and (max-height: 810px) and (min-height: 730px){
     .time-slot-lists-container{
         // width: 390px;
-        padding-top: 15px;
-        max-height: 380px;
+        max-height: 365px;
     }
   }
 
@@ -44,8 +43,7 @@
 @media screen and (min-height: 810px) {
     .time-slot-lists-container{
         // width: 390px;
-        padding-top: 15px;
-        max-height: 475px;
+        max-height: 460px;
     }
   }
 
@@ -53,6 +51,6 @@
 @media screen and (min-height: 1000px) {
     .time-slot-lists-container{
         // width: 390px;
-        max-height: 710px;
+        max-height: 690px;
     }
   }
