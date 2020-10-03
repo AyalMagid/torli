@@ -104,16 +104,21 @@ export function _CancelAppointment(props) {
             case 'phone':
                 setPhone(value)
                 if (value.length >= 9 && value.length <= 10) {
+                    console.log(value)
                     EventService.getEventByPhone(value)
                         .then(events => {
                             if (!events[0]) return
+                            console.log(events)
                             const filteredEvents = events.filter(event => {
                               let year = event.date.slice(0, 4)
                               let month = event.date.slice(5, 7)
                               let day = event.date.slice(8, 10)
                               const date = new Date(year, month-1, day).getTime()
+                              console.log('date',new Date(date))
+                              console.log('Date.now',new Date(Date.now()).toString())
                               return (date > Date.now())
                             })
+                            console.log(filteredEvents)
                             if (filteredEvents.length){
                              const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(filteredEvents[0].date)
                             setEventToCancel({
