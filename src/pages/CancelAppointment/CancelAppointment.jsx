@@ -108,9 +108,7 @@ export function _CancelAppointment(props) {
                     EventService.getEventByPhone(value)
                         .then(events => {
                             if (!events[0]) return
-                            console.log(events)
                             const filteredEvents = events.filter(event => {
-                                console.log(event)
                               let year = event.date.slice(0, 4)
                               let month = event.date.slice(5, 7)
                               let day = event.date.slice(8, 10)
