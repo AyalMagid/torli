@@ -1,8 +1,7 @@
 import HttpService from './HttpService'
 import EventService from './EventService'
 import UtilsService from "../services/UtilsService";
-import EmailService from '../services/EmailService'
-import axios from 'axios';
+import EmailService from '../services/EmailService';
 
 export default {
     getCalendar,
@@ -11,21 +10,6 @@ export default {
     removeEventFromCalendar,
     setAppointment
 }
-
-// // AYAL'S CALENDAR
-// const ACCOUNT_ID = '413361439'
-// const CALENDAR_ID = 'calendar_YXlhbG1pc2huQGdtYWlsLmNvbQ'
-// const TOKEN = "Bearer mFzYTSGauAA4QGdG6rI9MtfvvfEZHo"
-
-// BAR SECOND
-const ACCOUNT_ID = '416830154'
-const CALENDAR_ID = "calendar_YmFydmFyZm1hbjNAZ21haWwuY29t"
-const TOKEN = "Bearer Zz1lcWHR2WjThDJhiLrJ4fgJ8ZzoxU"
-
-// BAR
-// const ACCOUNT_ID = '416457905'
-// const CALENDAR_ID = 'calendar_YmFydmFydGVzdEBnbWFpbC5jb20'
-// const TOKEN = "Bearer gVTIuU0seE73kvJqfCyLS8uFYV3cwm"
 
 // get the first calendar connected to this TOKEN (usually only 1 should be there)
 function getCalendar() {
@@ -41,32 +25,11 @@ async function removeEventFromCalendar (eventId){
     return HttpService.delete('calendar',{eventId})
 }
 
-// async function getAvailbleDailySlots (startTime, endtTime, duration){ 
-//     const dailySlots = {startTime, endtTime, duration}
-//     return await HttpService.post('calendar/slots', dailySlots)
-// }
-
-// if no time slots availble returns only the date - update also in backend 
 async function getAvailbleDailySlots (startTime, endtTime, duration){ 
-    const timeSlots = await axios({
-      method: 'post',
-      url: `https://api.kloudless.com/v1/accounts/${ACCOUNT_ID}/cal/availability`,
-      headers: {Authorization: TOKEN, 'Content-Type': 'application/json'},
-      data: JSON.stringify( {
-          "meeting_duration": `PT${duration}`,
-              "time_windows": [
-                  {
-                      "start": startTime,
-                      "end": endtTime
-                  }
-              ] 
-      })
-    })
-    if (timeSlots.data.time_windows.length) return timeSlots.data.time_windows
-    // return just a string with the date which is needed for later
-    else return startTime
-  }
-  
+    const dailySlots = {startTime, endtTime, duration}
+    return await HttpService.post('calendar/slots', dailySlots)
+}
+
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
 async function setAppointment(treatments, duration, phone, email, name, treatment) {
     let time = UtilsService.changeTimeForDisplay(treatment.time, 3)

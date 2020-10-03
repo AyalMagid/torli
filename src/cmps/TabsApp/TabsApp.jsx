@@ -8,7 +8,7 @@ import './TabsApp.scss';
 export function _TabsApp(props) {
   const [value, setValue] = React.useState(0);
   const location = useLocation()
-  useEffect(() => {(location.pathname !== '/cancelAppointment')? setValue(0): setValue(1)});
+  useEffect(() => {(location.pathname !== '/cancelAppointment')? setValue(0): setValue(1)},[value,location]);
 
   // tabs style
   const style = {

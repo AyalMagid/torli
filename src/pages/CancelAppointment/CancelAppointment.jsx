@@ -110,12 +110,14 @@ export function _CancelAppointment(props) {
                             if (!events[0]) return
                             console.log(events)
                             const filteredEvents = events.filter(event => {
+                                console.log(event)
                               let year = event.date.slice(0, 4)
                               let month = event.date.slice(5, 7)
                               let day = event.date.slice(8, 10)
-                              const date = new Date(year, month-1, day).getTime()
-                              console.log('date',new Date(date))
-                              console.log('Date.now',new Date(Date.now()).toString())
+                              let hours = +event.startTime.slice(0,2)+3
+                              console.log(hours)
+                              const date = new Date(year, month-1, day, hours, 0).getTime()
+                              console.log(date, Date.now())
                               return (date > Date.now())
                             })
                             console.log(filteredEvents)
