@@ -79,7 +79,7 @@ export function _CancelAppointment(props) {
         props.history.push('/')
     };
 
-    const [eventToCancel, setEventToCancel] = useState(null)
+    const [eventsToCancel, setEventsToCancel] = useState(null)
 
     const [pageCount, setPageCount] = useState(0)
 
@@ -88,17 +88,15 @@ export function _CancelAppointment(props) {
     }
 
     async function cancelAppointment(eventId) {
-        console.log(eventId)
         const events = await EventService.getEventByPhone(phone)
-        let eventToRmove = events.filter(event => event._id === eventId)
-        eventToRmove=eventToRmove[0]
+        let eventToRmove = events.find(event => event._id === eventId)
         console.log(eventToRmove)
         // delete from Calendar
         CalendarService.removeEventFromCalendar(eventToRmove.eventId)
         // delete from mongo data base
         EventService.removeEventFromDB(eventToRmove._id)
         EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
-        setEventToCancel(null)
+        setEventsToCancel(null)
         handleOpen()
     }
 
@@ -126,8 +124,7 @@ export function _CancelAppointment(props) {
                             })
                             console.log(filteredEvents)
                             if (filteredEvents.length) {
-                                console.log(UtilsService.readyForDisplay(filteredEvents))
-                                setEventToCancel(UtilsService.readyForDisplay(filteredEvents))
+                                setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
                             }
                         })
                 }
@@ -149,24 +146,28 @@ export function _CancelAppointment(props) {
             >
                 <main >
                     <div className="cancelation-title-phone">
-                        <div className="cancel-form-title">נא להזין מספר טלפון לביטול התור  :</div>
+                        <div className="cancel-form-title">נא להזין מספר טלפון :</div>
                         <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
                     </div>
                     <div className="table-wrapper">
-                        {(eventToCancel) ?
+                        {(eventsToCancel) ?
                             <div>
                                 <div className="apointment-details">
-                                    <div className="table-cell"> <span>סוג הטיפול</span> : {eventToCancel[pageCount].treatments}</div>
-                                    <div className="table-cell"> בתאריך : {eventToCancel[pageCount].date}</div>
-                                    <div className="last-cell"> בין השעות : {`${eventToCancel[pageCount].endTime} - ${eventToCancel[pageCount].startTime}`}</div>
+                                    <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
+                                    <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
+                                    <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
                                 </div>
-                                {(eventToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-double-right"></i>
-                                :<i className="arrow-disabled fas fa-angle-double-right"></i>
+                                {(eventsToCancel.length > 1) &&
+                                    <div className="arrows-container flex space-between">
+                                        {(eventsToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-right"></i>
+                                            : <i className="arrow-disabled fas fa-angle-right"></i>
+                                        }
+                                        {eventsToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-left"></i>
+                                            : <i className="arrow-disabled fas fa-angle-left"></i>
+                                        }
+                                    </div>
                                 }
-                                {eventToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-double-left"></i>
-                                :<i className="arrow-disabled fas fa-angle-double-left"></i>
-                                }
-                                <button onClick={() => cancelAppointment(eventToCancel[pageCount].id)} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>
+                                <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>
                             </div>
                             :
                             <div className="space"></div>

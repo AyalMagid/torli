@@ -43,16 +43,7 @@
             padding: 20px;
             }
         }
-        .arrow{
-            font-size: 30px;
-            padding: 40px;
-            color: #172b4d;
-        }
-        .arrow-disabled{
-            font-size: 30px;
-            padding: 40px;
-            color:  #384d7288;
-        }
+      
     }
     i{
         color:white;
@@ -76,8 +67,24 @@
     }
 }
 
-// .rotate{
-//     transform: rotate(45deg);
-// }
+
+.arrows-container{
+    width: 55%;
+    margin: 90px auto;
+.arrow{
+    font-size: 30px;
+    color: #172b4d;
+}
+.arrow-disabled{
+    font-size: 30px;
+    color:  #384d7288;
+}
+}
 
 
+//   I phone 5
+@media screen and (max-height: 570px) {
+    .arrows-container{
+        margin: 40px auto;
+    }
+}

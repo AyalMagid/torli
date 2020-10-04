@@ -9,7 +9,7 @@ export default {
   arrayToString,
   convertDateToIsraelisDisplay,
   getDayByHebrewWord,
-  readyForDisplay
+  getEventReadyForDisplay
 }
 
 function englishToHebrew(word) {
@@ -155,7 +155,7 @@ function getDayByHebrewWord(idx) {
 }
 
 
-function readyForDisplay(filteredEvents) {
+function getEventReadyForDisplay(filteredEvents) {
   return filteredEvents.map(event => {
     return {
       id:event._id,
