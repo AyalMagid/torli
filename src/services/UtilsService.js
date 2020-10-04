@@ -8,7 +8,8 @@ export default {
   calculateEndTime,
   arrayToString,
   convertDateToIsraelisDisplay,
-  getDayByHebrewWord
+  getDayByHebrewWord,
+  readyForDisplay
 }
 
 function englishToHebrew(word) {
@@ -149,7 +150,21 @@ function convertDateToIsraelisDisplay(date) {
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
 function getDayByHebrewWord(idx) {
-  const days = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"]
+  const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"]
   return days[idx]
 }
 
+
+function readyForDisplay(filteredEvents) {
+  return filteredEvents.map(event => {
+    return {
+      id:event._id,
+      treatments: event.treatments,
+      startTime: changeTimeForDisplay(event.startTime, -3),
+      endTime: changeTimeForDisplay(event.endTime, -3),
+      date: convertDateToIsraelisDisplay(event.date),
+      email: event.email,
+      name: event.name,
+    }
+  })
+}

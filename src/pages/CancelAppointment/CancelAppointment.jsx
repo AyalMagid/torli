@@ -29,7 +29,7 @@ const pageVariants = {
 }
 
 const pageTransition = {
-    duration:0.5,
+    duration: 0.5,
     type: "spring",
     stiffness: 50
 }
@@ -38,7 +38,7 @@ const pageTransition = {
 export function _CancelAppointment(props) {
 
 
-// style material ui modal
+    // style material ui modal
     const useStyles = makeStyles((theme) => ({
 
         modal: {
@@ -67,7 +67,7 @@ export function _CancelAppointment(props) {
 
     const [open, setOpen] = React.useState(false);
 
-    const [phone, setPhone] =  React.useState('');
+    const [phone, setPhone] = React.useState('');
 
     const handleOpen = () => {
         setOpen(true);
@@ -81,18 +81,23 @@ export function _CancelAppointment(props) {
 
     const [eventToCancel, setEventToCancel] = useState(null)
 
+    const [pageCount, setPageCount] = useState(0)
+
     function init() {
         StoreService.initApp()
-      }
+    }
 
-    async function cancelAppointment() {
+    async function cancelAppointment(eventId) {
+        console.log(eventId)
         const events = await EventService.getEventByPhone(phone)
-        const eventToRmove = events[0]
+        let eventToRmove = events.filter(event => event._id === eventId)
+        eventToRmove=eventToRmove[0]
+        console.log(eventToRmove)
         // delete from Calendar
         CalendarService.removeEventFromCalendar(eventToRmove.eventId)
         // delete from mongo data base
         EventService.removeEventFromDB(eventToRmove._id)
-        EmailService.sendEmail(eventToCancel.name, eventToCancel.date, eventToCancel.email, false)
+        EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
         setEventToCancel(null)
         handleOpen()
     }
@@ -108,28 +113,22 @@ export function _CancelAppointment(props) {
                     EventService.getEventByPhone(value)
                         .then(events => {
                             if (!events[0]) return
+                            console.log(events)
                             const filteredEvents = events.filter(event => {
-                              let year = event.date.slice(0, 4)
-                              let month = event.date.slice(5, 7)
-                              let day = event.date.slice(8, 10)
-                              let hours = +event.startTime.slice(0,2)+3
-                              console.log(hours)
-                              const date = new Date(year, month-1, day, hours, 0).getTime()
-                              console.log(date, Date.now())
-                              return (date > Date.now())
+                                let year = event.date.slice(0, 4)
+                                let month = event.date.slice(5, 7)
+                                let day = event.date.slice(8, 10)
+                                let hours = +event.startTime.slice(0, 2) + 3
+                                console.log(hours)
+                                const date = new Date(year, month - 1, day, hours, 0).getTime()
+                                console.log(date, Date.now())
+                                return (date > Date.now())
                             })
                             console.log(filteredEvents)
-                            if (filteredEvents.length){
-                             const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(filteredEvents[0].date)
-                            setEventToCancel({
-                                treatments: filteredEvents[0].treatments,
-                                startTime: UtilsService.changeTimeForDisplay(filteredEvents[0].startTime, -3),
-                                endTime: UtilsService.changeTimeForDisplay(filteredEvents[0].endTime, -3),
-                                date: dateIsraeliDisplay,
-                                email:filteredEvents[0].email,
-                                name:filteredEvents[0].name,
-                            })
-                          }
+                            if (filteredEvents.length) {
+                                console.log(UtilsService.readyForDisplay(filteredEvents))
+                                setEventToCancel(UtilsService.readyForDisplay(filteredEvents))
+                            }
                         })
                 }
                 break;
@@ -140,54 +139,61 @@ export function _CancelAppointment(props) {
 
     return (
         <div className="cancel-appointment flex column align-center space-between ">
-        <motion.div
-            className="motion-div"
-            initial="out"
-            exit="in"
-            animate="in"
-            variants={pageVariants}
-            transition={pageTransition}
-        >
-            <main >
-                <div className="cancelation-title-phone">
-                    <div className="cancel-form-title">נא להזין מספר טלפון לביטול התור  :</div>
-                    <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-                </div>
-                <div className="table-wrapper">
-                    {/* {(eventToCancel) && <div className="table-title"> פרטי התור :</div>} */}
-                    {(eventToCancel) ?
-                        <div className="apointment-details">
-                            <div className="table-cell"> <span>סוג הטיפול</span> : {eventToCancel.treatments}</div>
-                            <div className="table-cell"> בתאריך : {eventToCancel.date}</div>
-                            <div className="last-cell"> בין השעות : {`${eventToCancel.endTime} - ${eventToCancel.startTime}`}</div>
-                        </div>
-                        :
-                        <div className="space"></div>
-                    }
-                </div>
-               {(eventToCancel) && <button onClick={cancelAppointment} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>}
+            <motion.div
+                className="motion-div"
+                initial="out"
+                exit="in"
+                animate="in"
+                variants={pageVariants}
+                transition={pageTransition}
+            >
+                <main >
+                    <div className="cancelation-title-phone">
+                        <div className="cancel-form-title">נא להזין מספר טלפון לביטול התור  :</div>
+                        <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
+                    </div>
+                    <div className="table-wrapper">
+                        {(eventToCancel) ?
+                            <div>
+                                <div className="apointment-details">
+                                    <div className="table-cell"> <span>סוג הטיפול</span> : {eventToCancel[pageCount].treatments}</div>
+                                    <div className="table-cell"> בתאריך : {eventToCancel[pageCount].date}</div>
+                                    <div className="last-cell"> בין השעות : {`${eventToCancel[pageCount].endTime} - ${eventToCancel[pageCount].startTime}`}</div>
+                                </div>
+                                {(eventToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-double-right"></i>
+                                :<i className="arrow-disabled fas fa-angle-double-right"></i>
+                                }
+                                {eventToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-double-left"></i>
+                                :<i className="arrow-disabled fas fa-angle-double-left"></i>
+                                }
+                                <button onClick={() => cancelAppointment(eventToCancel[pageCount].id)} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>
+                            </div>
+                            :
+                            <div className="space"></div>
+                        }
+                    </div>
 
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                        <div className={classes.paper}>
-                            <h2 id="transition-modal-title">התור בוטל</h2>
-                            <p id="transition-modal-description"></p>
-                        </div>
-                    </Fade>
-                </Modal>
-            </main>
-        </motion.div>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500,
+                        }}
+                    >
+                        <Fade in={open}>
+                            <div className={classes.paper}>
+                                <h2 id="transition-modal-title">התור בוטל</h2>
+                                <p id="transition-modal-description"></p>
+                            </div>
+                        </Fade>
+                    </Modal>
+                </main>
+            </motion.div>
         </div>
     );
 }
