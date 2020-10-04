@@ -76,7 +76,7 @@ export function _CancelAppointment(props) {
     const handleClose = () => {
         setOpen(false);
         init()
-        props.history.push('/')
+        props.history.push('/treatments')
     };
 
     const [eventsToCancel, setEventsToCancel] = useState(null)

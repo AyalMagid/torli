@@ -22,7 +22,7 @@ export function _TabsApp(props) {
     if (newValue === 1) {
       props.history.push('/cancelAppointment')
     } else {
-      props.history.push('/')
+      props.history.push('/treatments')
     }
   };
 

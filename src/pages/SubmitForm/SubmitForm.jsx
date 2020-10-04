@@ -85,7 +85,7 @@ export function _SubmitForm(props) {
 
     function init() {
         StoreService.initApp()
-        props.history.push('/')
+        props.history.push('/treatments')
     }
 
     async function setAppointment () {

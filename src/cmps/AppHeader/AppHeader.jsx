@@ -11,17 +11,19 @@ export function AppHeader(props) {
 
     return (
         <>
-            <div className="app-header">
-                {
-                ((location.pathname !== '/') && (location.pathname !== '/cancelAppointment')) && 
-                <header className="flex upper-header align-center">
-                    <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
-                </header>
-                }
-                {((location.pathname === '/')||(location.pathname === '/cancelAppointment'))? <TabsApp /> : ''}
-                {(location.pathname === '/cancelAppointment')? '': <StepperApp />}
-            </div>
-
+            {
+                (location.pathname !== '/') &&
+                <div className="app-header">
+                    {
+                        ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')) &&
+                        <header className="flex upper-header align-center">
+                            <h2 id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
+                        </header>
+                    }
+                    {((location.pathname === '/treatments') || (location.pathname === '/cancelAppointment')) ? <TabsApp /> : ''}
+                    {(location.pathname === '/cancelAppointment') ? '' : <StepperApp />}
+                </div>
+            }
         </>
     )
 }

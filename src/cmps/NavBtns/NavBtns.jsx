@@ -32,14 +32,14 @@ function _NavBtns(props) {
         }    
         else if (props.activeStep === 1 && diff > 0) props.history.push('/form')
         else if (props.activeStep === 2 && diff < 0) props.history.push('/calendar')
-        else if (props.activeStep === 1 && diff < 0) props.history.push('/')
+        else if (props.activeStep === 1 && diff < 0) props.history.push('/treatments')
     }
 
     return (
 
         <div className={`nav-btns-container`}>
         {
-          (location.pathname === '/')?
+          (location.pathname === '/treatments')?
           <div className={`nav-btn-wrraper`}>
             <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
                 הבא
