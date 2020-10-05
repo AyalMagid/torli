@@ -1,43 +1,122 @@
 .home-page{
-    background-color:#f7f0f0;
+    background-color:#273650ed;
     width: 100%;
     height: 100%;
-     .icon-img{
-        width: 100px;
-        height: 100px;
-        padding: 10px;
-        border-radius: 50%;
-    }
-
     a{
         text-decoration: none;
     }
+    .queue-container{
+        color:#fee7ee;
+        text-align: center;
+        i{
+            font-size:25px ;
+        }
+    }
+    
+.remove-queue-container{
+    color:#fee7ee;
+    text-align: center;
+    i{
+        font-size:25px ;
+    }
+}
+
+.phone{
+    i{
+        font-size:27px ;
+    }
+        color:#fee7ee;
+        text-align: center;
+}
 }
 
 
-.remove-queue-container{
-    background-color:lightcoral;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
+.icons-container{
+    height: 90%;
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+.cover-photo{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.circle{
+    margin-bottom: 10px;
+    background-color:#fee7ee;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    border-radius: 50%;
+    color:#1d293f;
+    width: 60px;
+    height: 60px;
+    i{
+        font-size: 30px;
+    }
 }
 
-.remove-img{
-    padding-top: 5px;
-    width: 50px;
-    height: 50px;
+
+
+
+.top-icons-container{
+    padding: 20px;
+    width: 100%;
 }
 
-.icons-container{
-    height: 80%;
-    width: 80%;
+.bottom-icons-container{
+    padding: 20px;
+    width: 100%;
 }
 
-.waze-title{
-    color: black;
+.facebook-container{
+    color:#fee7ee;
     text-align: center;
+}
+.instagram-container{
+    color:#fee7ee;
+    text-align: center;
+}
+.waze-container{
+    color:#fee7ee;
+    text-align: center;
+}
+
+.home-page-wrapper{
+    width: 100%;
+    height: 100%;
+    background-image: url('../../styles/img/hex3.png');
+    background-position: center;
+}
+
+
+
+
+.profile-container{
+    text-align: center;
+.profile-img{
+    background-image: url('../../styles/img/adi2.png');
+    background-size: cover;
+    background-position: center;
+    width: 160px;
+    height: 160px;
+    border: 2px solid #fee7ee ;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+    position: absolute;
+    top: 148px;
+    left: 132px;
+    .profile-title{
+        font-size: 22px;
+        font-weight: 500;
+        color:#fee7ee;
+     }
+    .profile-sub-title{
+        color:#fee7ee;
+    }  
 }

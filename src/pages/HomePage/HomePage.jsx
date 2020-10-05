@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from 'react-redux';
-import UtilsService from "../../services/UtilsService";
 import { withRouter } from 'react-router-dom';
 import './HomePage.scss';
 
@@ -9,28 +8,48 @@ export function _HomePage(props) {
     const facebook = 'bokeresh'
     const instagram = 'restylebar'
     return (
-        <main className="home-page flex align-center justify-center">
-            <div className="icons-container flex align-center justify-center">
-                <div>
-                    <div className="flex space-aruond">
-                        <a href={`https://www.facebook.com/${facebook}/`} className="facebook-container"><img className="icon-img" src={require('../../styles/img/facebook.svg')} /></a>
-                        <a href={`https://www.instagram.com/${instagram}/`} className="instagram-container"><img className="icon-img" src={require('../../styles/img/instagram.svg')} /></a>
-                        <div className="waze-container flex column align-center jutify-center">
-                            <a href={wazeUrl} className="flex column align-center jutify-center"><img className="icon-img" src={require('../../styles/img/waze.svg')} />
-                            <div className="waze-title">ניווט לבית
-                        <br />
-                                <span >העסק</span>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div className="flex space-aruond">
-                        <div onClick={() => props.history.push('/treatments')} className="queue-container"><img className="icon-img" src={require('../../styles/img/user.svg')} /></div>
-                        <div onClick={() => props.history.push('/cancelAppointment')} className="remove-queue-container"><img className="remove-img" src={require('../../styles/img/browser.svg')} /></div>
+        <div className="home-page-wrapper">
+            <main className="home-page">
+                <img className="cover-photo" src={require('../../styles/img/oo.png')} />
+                <div className="profile-container">
+                    <div className="profile-img"></div>
+                    <div className="profile-text-container">
+                        <div className="profile-title">Dee Nail Salon</div>
+                        <div className="profile-sub-title">מכון לבניית ציפורניים</div>
                     </div>
                 </div>
-            </div>
-        </main>
+                <div className="icons-container flex column align-center justify-center">
+                    <div className="top-icons-container flex space-around">
+                        <a className="facebook-container" href={`https://www.facebook.com/${facebook}/`} >
+                            <div className="circle"><i class="fab fa-facebook-f"></i> </div>
+                       פייסבוק
+                        </a>
+                        <a className="instagram-container" href={`https://www.instagram.com/${instagram}/`}>
+                            <div className="circle"><i class="fab fa-instagram"></i></div>
+                           אינסטגרם
+                        </a>
+                        <a className="waze-container" href={wazeUrl}>
+                            <div className="circle"> <i className="fab fa-waze"></i></div>
+                        נווט אלינו
+                        </a>
+                    </div>
+                    <div className="bottom-icons-container flex space-around">
+                        <div className="queue-container" onClick={() => props.history.push('/treatments')}>
+                            <div className="circle"><i class="fas fa-user-clock"></i></div>
+                    קביעת תור
+                    </div>
+                        <div className="remove-queue-container" onClick={() => props.history.push('/cancelAppointment')}>
+                            <div className="circle"><i class="fas fa-user-times"></i></div>
+                    ביטול תור
+                    </div>
+                        <a className="phone" href="tel:0538281511">
+                            <div className="circle"><i className="fas fa-phone-alt"></i></div>
+                         חייג אלינו
+                    </a>
+                    </div>
+                </div>
+            </main>
+        </div>
     );
 }
 

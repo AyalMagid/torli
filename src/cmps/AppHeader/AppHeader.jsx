@@ -1,11 +1,11 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,withRouter } from 'react-router-dom';
 import { TabsApp } from '../TabsApp/TabsApp.jsx';
 import { StepperApp } from '../StepperApp/StepperApp.jsx';
 import './AppHeader.scss';
 
 
-export function AppHeader(props) {
+   function _AppHeader(props) {
 
     const location = useLocation()
 
@@ -17,7 +17,7 @@ export function AppHeader(props) {
                     {
                         ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')) &&
                         <header className="flex upper-header align-center">
-                            <h2 id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
+                            <h2 onClick={()=>props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
                         </header>
                     }
                     {((location.pathname === '/treatments') || (location.pathname === '/cancelAppointment')) ? <TabsApp /> : ''}
@@ -28,7 +28,7 @@ export function AppHeader(props) {
     )
 }
 
-
+export const AppHeader = withRouter(_AppHeader)
 
 
 

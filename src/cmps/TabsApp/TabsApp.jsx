@@ -32,7 +32,7 @@ export function _TabsApp(props) {
       <Tabs value={value} onChange={handleChange} className="tabs flex space-between">
         <Tab label="זימון" style={style}/>
         <Tab label="ניהול תורים" style={style}/>
-        <h2 id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
+        <h2 onClick={()=>props.history.push('/')} id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
       </Tabs>
     </AppBar>
   );

@@ -167,7 +167,7 @@ export function _CancelAppointment(props) {
                                         }
                                     </div>
                                 }
-                                <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> מחק תור <i className="fas fa-trash" ></i></button>
+                                <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> בטל תור <i className="fas fa-trash" ></i></button>
                             </div>
                             :
                             <div className="space"></div>
