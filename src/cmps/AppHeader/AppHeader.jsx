@@ -12,7 +12,7 @@ import './AppHeader.scss';
     return (
         <>
             {
-                (location.pathname !== '/') &&
+                (location.pathname !== '/')&&
                 <div className="app-header">
                     {
                         ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')) &&
@@ -21,7 +21,7 @@ import './AppHeader.scss';
                         </header>
                     }
                     {((location.pathname === '/treatments') || (location.pathname === '/cancelAppointment')) ? <TabsApp /> : ''}
-                    {(location.pathname === '/cancelAppointment') ? '' : <StepperApp />}
+                    {(location.pathname === '/cancelAppointment')||(location.pathname === '/login') ? '' : <StepperApp />}
                 </div>
             }
         </>

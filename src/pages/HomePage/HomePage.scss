@@ -1,3 +1,9 @@
+
+@import url('https://fonts.googleapis.com/css?family=Bad+Script');
+#profile-title{
+    font-family: "Bad Script", cursive;
+}
+
 .home-page{
     background-color:#273650ed;
     width: 100%;
@@ -6,16 +12,12 @@
         text-decoration: none;
     }
     .queue-container{
-        color:#fee7ee;
-        text-align: center;
         i{
             font-size:25px ;
         }
     }
     
 .remove-queue-container{
-    color:#fee7ee;
-    text-align: center;
     i{
         font-size:25px ;
     }
@@ -25,16 +27,19 @@
     i{
         font-size:27px ;
     }
-        color:#fee7ee;
-        text-align: center;
 }
 }
 
 
 .icons-container{
+    text-align: center;
+    color: #ffe3ee;
     height: 90%;
     width: 80%;
     margin: 0 auto;
+    a{
+        color: #ffe3ee;
+    }
 }
 
 
@@ -47,7 +52,7 @@
 
 .circle{
     margin-bottom: 10px;
-    background-color:#fee7ee;
+    background-color:#ffe3ee;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,15 +79,12 @@
 }
 
 .facebook-container{
-    color:#fee7ee;
     text-align: center;
 }
 .instagram-container{
-    color:#fee7ee;
     text-align: center;
 }
 .waze-container{
-    color:#fee7ee;
     text-align: center;
 }
 
@@ -99,24 +101,64 @@
 .profile-container{
     text-align: center;
 .profile-img{
-    background-image: url('../../styles/img/adi2.png');
+    background-image: url('../../styles/img/logo3.png');
     background-size: cover;
     background-position: center;
     width: 160px;
     height: 160px;
-    border: 2px solid #fee7ee ;
+    border: 2px solid #ffe3ee ;
     border-radius: 50%;
     margin-bottom: 10px;
 }
     position: absolute;
-    top: 148px;
+    top: 132px;
     left: 132px;
     .profile-title{
         font-size: 22px;
-        font-weight: 500;
-        color:#fee7ee;
+        font-family: "Bad Script", cursive;
+        color:white;
+        font-weight: bold;
      }
     .profile-sub-title{
-        color:#fee7ee;
+        color:white;
     }  
 }
+
+
+
+
+
+@media screen and (min-height: 810px) {
+    .profile-container{
+        left:110px;
+    }
+  }
+
+
+
+
+  @media screen and (max-height: 570px) {
+    .profile-container{
+        top: 109px;
+        left: 86px;
+    }
+    .top-icons-container{
+        padding: 0;
+        padding-bottom: 10px;
+    }
+    
+    .bottom-icons-container{
+        padding: 0;
+        padding-bottom: 10px;
+    }
+}
+
+
+
+
+//   I phone 6-8 
+@media screen and (max-height: 670px) and (min-height: 570px){
+    .profile-container{
+        left: 109px;
+    }
+  }

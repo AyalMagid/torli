@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import UtilsService from "../../services/UtilsService";
@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
 import { motion } from 'framer-motion'
 import TreatmentService from "../../services/TreatmentService";
 import StorageService from "../../services/StorageService";
@@ -30,7 +29,7 @@ const pageVariants = {
 }
 
 const pageTransition = {
-    duration:0.5,
+    duration: 0.5,
     type: "spring",
     stiffness: 50
 }
@@ -58,22 +57,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function _SubmitForm(props) {
-    
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [markedTreatmetns, setMarkedTreatmetns] = React.useState('');
-    const [credentials, setCredentials] = React.useState({name:'',phone:'',email:''})
+    const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
     const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(props.treatment.date)
-    const endTime = UtilsService.calculateEndTime(props.treatment.time,props.duration)
+    const endTime = UtilsService.calculateEndTime(props.treatment.time, props.duration)
 
     useEffect(() => {
         setMarkedTreatmetns(TreatmentService.getMarkedTreatmentsStr(props.treatments))
         const user = StorageService.loadFromStorage('tori-user')
         if (user) {
-            setCredentials (user)
+            setCredentials(user)
         }
     }, [props.treatments])
-    
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -88,8 +87,8 @@ export function _SubmitForm(props) {
         props.history.push('/treatments')
     }
 
-    async function setAppointment () {
-        const {name,phone,email} = credentials
+    async function setAppointment() {
+        const { name, phone, email } = credentials
         await CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment)
         StorageService.saveToStorage('tori-user', credentials)
     }
@@ -99,28 +98,28 @@ export function _SubmitForm(props) {
         const value = target.value;
         switch (field) {
             case 'name':
-            setCredentials({...credentials,name:value})
-            break;
+                setCredentials({ ...credentials, name: value })
+                break;
             case 'phone':
-            setCredentials({...credentials,phone:value})
-            break;
+                setCredentials({ ...credentials, phone: value })
+                break;
             case 'email':
-            setCredentials({...credentials,email:value})
-            break;
+                setCredentials({ ...credentials, email: value })
+                break;
             default:
-            console.log('Err updating name/phone/email')
+                console.log('Err updating name/phone/email')
         }
     }
-    
 
-    const {name, phone, email} = credentials
+
+    const { name, phone, email } = credentials
     return (
-        <div className="submit-form flex column align-center">
+        <div className="submit-form flex column  align-center">
             <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>
-            <div className="appointment-details">
-                    <div>סוג הטיפול : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
-                    <div>תאריך : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
-                    <div>בין השעות : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
+            <div className="user-details">
+                <div>שם : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
+                <div>טלפון : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
+                <div>אימייל : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
             </div>
             <motion.div
                 initial="out"
@@ -128,45 +127,36 @@ export function _SubmitForm(props) {
                 animate="in"
                 variants={pageVariants}
                 transition={pageTransition}
-                style={{ textAlign: 'center', width:'100%' }}
+                style={{ textAlign: 'center', width: '100%' }}
             >
-                    <form className={`${classes.input}`} noValidate autoComplete="off">
-                        <div>
-                            <div className="form-title">שם מלא :</div>
-                            <TextField autoFocus={true} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <div className="form-title">טלפון :</div>
-                            <TextField name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <div className="form-title">מייל :</div>
-                            <TextField name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
-                        </div>
-                    </form>
+                <div className="appointment-details">
+                    <div className="table-cell">סוג הטיפול : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
+                    <div className="table-cell">תאריך : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
+                    <div className="last-cell">בין השעות : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
+                </div>
 
-                    <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
-                        className={classes.modal}
-                        open={open}
-                        onClose={handleClose}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                            timeout: 500,
-                        }}
-                    >
-                        <Fade in={open}>
-                            <div className={classes.paper}>
-                                <h2 id="transition-modal-title">התור נקבע בהצלחה</h2>
-                                <div> נקבע לך תור ל: {markedTreatmetns}  </div>
-                                <div> בתאריך {dateIsraeliDisplay}</div>
-                                <div> בין השעות: {endTime} - {props.treatment.time}</div>
-                                
-                            </div>
-                        </Fade>
-                    </Modal>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <div className={classes.paper}>
+                            <h2 id="transition-modal-title">התור נקבע בהצלחה</h2>
+                            <div> נקבע לך תור ל: {markedTreatmetns}  </div>
+                            <div> בתאריך {dateIsraeliDisplay}</div>
+                            <div> בין השעות: {endTime} - {props.treatment.time}</div>
+
+                        </div>
+                    </Fade>
+                </Modal>
             </motion.div>
             <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import StoreService from '../../services/StoreService';
+import StorageService from "../../services/StorageService";
 import './CancelAppointment.scss';
 
 // style motion div
@@ -36,6 +37,13 @@ const pageTransition = {
 
 
 export function _CancelAppointment(props) {
+
+    useEffect(() => {
+        const user = StorageService.loadFromStorage('tori-user')
+       console.log(user)
+        setPhone(user.phone)
+        getEventsByPhone()
+    });
 
 
     // style material ui modal
@@ -87,6 +95,29 @@ export function _CancelAppointment(props) {
         StoreService.initApp()
     }
 
+    function getEventsByPhone(){
+        console.log(phone)
+        EventService.getEventByPhone(phone)
+            .then(events => {
+                if (!events[0]) return
+                console.log(events)
+                const filteredEvents = events.filter(event => {
+                    let year = event.date.slice(0, 4)
+                    let month = event.date.slice(5, 7)
+                    let day = event.date.slice(8, 10)
+                    let hours = +event.startTime.slice(0, 2) + 3
+                    console.log(hours)
+                    const date = new Date(year, month - 1, day, hours, 0).getTime()
+                    console.log(date, Date.now())
+                    return (date > Date.now())
+                })
+                console.log(filteredEvents)
+                if (filteredEvents.length) {
+                    setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
+                }
+            })
+        }
+
     async function cancelAppointment(eventId) {
         const events = await EventService.getEventByPhone(phone)
         let eventToRmove = events.find(event => event._id === eventId)
@@ -100,40 +131,6 @@ export function _CancelAppointment(props) {
         handleOpen()
     }
 
-    function handleChange({ target }) {
-        const field = target.name;
-        const value = target.value;
-        switch (field) {
-            case 'phone':
-                setPhone(value)
-                if (value.length >= 9 && value.length <= 10) {
-                    console.log(value)
-                    EventService.getEventByPhone(value)
-                        .then(events => {
-                            if (!events[0]) return
-                            console.log(events)
-                            const filteredEvents = events.filter(event => {
-                                let year = event.date.slice(0, 4)
-                                let month = event.date.slice(5, 7)
-                                let day = event.date.slice(8, 10)
-                                let hours = +event.startTime.slice(0, 2) + 3
-                                console.log(hours)
-                                const date = new Date(year, month - 1, day, hours, 0).getTime()
-                                console.log(date, Date.now())
-                                return (date > Date.now())
-                            })
-                            console.log(filteredEvents)
-                            if (filteredEvents.length) {
-                                setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
-                            }
-                        })
-                }
-                break;
-            default:
-                console.log("err in phone switch case - cancel appoinment");
-        }
-    }
-
     return (
         <div className="cancel-appointment flex column align-center space-between ">
             <motion.div
@@ -145,10 +142,6 @@ export function _CancelAppointment(props) {
                 transition={pageTransition}
             >
                 <main >
-                    <div className="cancelation-title-phone">
-                        <div className="cancel-form-title">נא להזין מספר טלפון :</div>
-                        <TextField autoFocus={true} className={classes.root} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-                    </div>
                     <div className="table-wrapper">
                         {(eventsToCancel) ?
                             <div>

@@ -6,6 +6,7 @@ import { TreatmentApp } from './pages/TreatmentApp/TreatmentApp.jsx'
 import { CalendarApp } from './pages/CalendarApp/CalendarApp.jsx'
 import { SubmitForm } from './pages/SubmitForm/SubmitForm.jsx'
 import { CancelAppointment } from './pages/CancelAppointment/CancelAppointment.jsx'
+import { Login } from './pages/Login/Login.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { HashRouter as Router} from 'react-router-dom';
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/cancelAppointment" component={CancelAppointment} />
             <Route path="/form" component={SubmitForm} />
             <Route path="/treatments" component={TreatmentApp} />
+            <Route path="/login" component={Login} />
             <Route path="/" component={HomePage} />
           </Switch>
       </div>
