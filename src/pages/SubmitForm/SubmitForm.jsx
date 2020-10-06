@@ -93,33 +93,15 @@ export function _SubmitForm(props) {
         StorageService.saveToStorage('tori-user', credentials)
     }
 
-    function handleChange({ target }) {
-        const field = target.name;
-        const value = target.value;
-        switch (field) {
-            case 'name':
-                setCredentials({ ...credentials, name: value })
-                break;
-            case 'phone':
-                setCredentials({ ...credentials, phone: value })
-                break;
-            case 'email':
-                setCredentials({ ...credentials, email: value })
-                break;
-            default:
-                console.log('Err updating name/phone/email')
-        }
-    }
-
 
     const { name, phone, email } = credentials
     return (
         <div className="submit-form flex column  align-center">
             <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>
             <div className="user-details">
-                <div>שם : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
-                <div>טלפון : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
-                <div>אימייל : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
+                <div>שם : {name}</div>
+                <div>טלפון : {phone}</div>
+                <div>אימייל : {email}</div>
             </div>
             <motion.div
                 initial="out"

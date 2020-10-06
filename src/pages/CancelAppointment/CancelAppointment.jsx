@@ -37,14 +37,9 @@ const pageTransition = {
 
 
 export function _CancelAppointment(props) {
-
     useEffect(() => {
-        const user = StorageService.loadFromStorage('tori-user')
-       console.log(user)
-        setPhone(user.phone)
         getEventsByPhone()
-    });
-
+    },[]);
 
     // style material ui modal
     const useStyles = makeStyles((theme) => ({
@@ -75,7 +70,7 @@ export function _CancelAppointment(props) {
 
     const [open, setOpen] = React.useState(false);
 
-    const [phone, setPhone] = React.useState('');
+    const [phone, setPhone] = React.useState(StorageService.loadFromStorage('tori-user').phone);
 
     const handleOpen = () => {
         setOpen(true);
