@@ -8,6 +8,8 @@ import { SubmitForm } from './pages/SubmitForm/SubmitForm.jsx'
 import { CancelAppointment } from './pages/CancelAppointment/CancelAppointment.jsx'
 import { Login } from './pages/Login/Login.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
+import { UserPage } from './pages/UserPage/UserPage.jsx'
+import { AdminPage } from './pages/AdminPage/AdminPage.jsx'
 import { HashRouter as Router} from 'react-router-dom';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
             <Route path="/form" component={SubmitForm} />
             <Route path="/treatments" component={TreatmentApp} />
             <Route path="/login" component={Login} />
+            <Route path="/userpage" component={UserPage} />
+            <Route path="/adminpage" component={AdminPage} />
             <Route path="/" component={HomePage} />
           </Switch>
       </div>

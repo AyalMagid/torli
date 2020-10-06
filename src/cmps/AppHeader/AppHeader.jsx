@@ -21,7 +21,8 @@ import './AppHeader.scss';
                         </header>
                     }
                     {((location.pathname === '/treatments') || (location.pathname === '/cancelAppointment')) ? <TabsApp /> : ''}
-                    {(location.pathname === '/cancelAppointment')||(location.pathname === '/login') ? '' : <StepperApp />}
+                    {(location.pathname === '/cancelAppointment')||(location.pathname === '/login')
+                    ||(location.pathname === '/adminpage')||(location.pathname === '/userpage') ? '' : <StepperApp />}
                 </div>
             }
         </>

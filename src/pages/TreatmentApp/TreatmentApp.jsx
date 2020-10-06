@@ -43,6 +43,9 @@ export function _TreatmentApp(props) {
             variants={pageVariants}
             transition={pageTransition}
         >
+            <div className="treatment-title">
+                בחרי סוג טיפול אחד או יותר ולחצי 'הבא'.
+            </div>
             <TreatmentList treatments={treatments}  />
         </motion.div>
     <NavBtns />

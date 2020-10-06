@@ -4,15 +4,13 @@ import { withRouter } from 'react-router-dom';
 import './HomePage.scss';
 import StorageService from "../../services/StorageService";
 export function _HomePage(props) {
-    let user = null;
-    useEffect(() => {
-        user = StorageService.loadFromStorage('tori-user')
-    }, [])
 
-     function changeRoute(route){
-      (user)? props.history.push(route):props.history.push('/login')
-     }
+    function changeRoute(route) {
+        (user) ? props.history.push(route) : props.history.push('/login')
+    }
 
+    const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
+    const ownerPhone = '123456789'
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
     const facebook = 'bokeresh'
     const instagram = 'restylebar'
@@ -20,6 +18,13 @@ export function _HomePage(props) {
         <div className="home-page-wrapper">
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/maby1finish.png')} />
+                {(user) ?
+                    (user.phone === ownerPhone) ? <div className="admin-logo circle" onClick={() => props.history.push('/adminpage')}>
+                        <i class="fas fa-user-tie"></i> </div> :
+                        <div className="user-logo circle" onClick={() => props.history.push('/userpage')}>
+                            <i class="far fa-user"></i>
+                        </div>
+                    : ""}
                 <div className="profile-container">
                     <div className="profile-img"></div>
                     <div className="profile-text-container">
@@ -43,11 +48,11 @@ export function _HomePage(props) {
                         </a>
                     </div>
                     <div className="bottom-icons-container flex space-around">
-                        <div className="queue-container" onClick={()=>changeRoute('/treatments')}>
+                        <div className="queue-container" onClick={() => changeRoute('/treatments')}>
                             <div className="circle"><i class="fas fa-user-clock"></i></div>
                     קביעת תור
                     </div>
-                        <div className="remove-queue-container" onClick={()=>changeRoute('/cancelAppointment')}>
+                        <div className="remove-queue-container" onClick={() => changeRoute('/cancelAppointment')}>
                             <div className="circle"><i class="fas fa-user-times"></i></div>
                     ביטול תור
                     </div>

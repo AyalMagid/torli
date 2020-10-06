@@ -90,6 +90,9 @@ export function _CalendarApp(props) {
                 style={{width:"100%"}}
             >
                 <div className="calendar-picker-container">
+                    <div className="date-picker-title">
+                        בחרי תאריך ושעה
+                    </div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
                     <ThemeProvider theme={materialTheme}>
                         <KeyboardDatePicker
