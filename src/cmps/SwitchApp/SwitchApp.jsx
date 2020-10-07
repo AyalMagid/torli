@@ -20,13 +20,11 @@ export function SwitchApp(props) {
     if (!checked) {
       props.updateDuration(true)
       props.updatePickedTreatments(true)
-      console.log('1')
     }
     else {
       // props.setIsActive(false)
       props.updateDuration(false)
       props.updatePickedTreatments(false)
-      console.log('2')
     }
     setChecked(event.target.checked)
   };

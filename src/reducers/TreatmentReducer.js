@@ -1,7 +1,8 @@
 const INITIAL_STATE = {
     treatment: null,
     treatments: null,
-    duration:0
+    duration:0,
+    pickedTreatmentsCount:0
 }
 
 export function TreatmentReducer(state = INITIAL_STATE, action) {
@@ -29,6 +30,12 @@ export function TreatmentReducer(state = INITIAL_STATE, action) {
           ...state,
           treatments:action.treatments 
         };   
+        
+        case 'UPDATE_PICKED_TREATMENTS_COUNT' :
+        return {
+          ...state,
+          pickedTreatmentsCount: state.pickedTreatmentsCount+(action.count)
+        };              
         case 'UPDATE_DURATION':
         return {
           ...state,

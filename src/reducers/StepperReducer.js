@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   step:0,
-  steps:['טיפול לבחירה', 'תאריך לבחירה', 'אישור']
+  steps:['בחירת טיפולים ', ' בחירת תור', 'אישור']
 }
 
 export function StepperReducer(state = INITIAL_STATE, action) {

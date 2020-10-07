@@ -9,7 +9,8 @@ export default {
   arrayToString,
   convertDateToIsraelisDisplay,
   getDayByHebrewWord,
-  getEventReadyForDisplay
+  getEventReadyForDisplay,
+  convertNumberToWords
 }
 
 function englishToHebrew(word) {
@@ -167,4 +168,10 @@ function getEventReadyForDisplay(filteredEvents) {
       name: event.name,
     }
   })
+}
+
+
+function convertNumberToWords(counter){
+    const words=['אחד','שני','שלושה','ארבעה','חמשה','ששה','שבעה','שמונה','תשעה','עשרה','אחד עשר']
+    return words[counter-1]
 }

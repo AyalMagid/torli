@@ -17,14 +17,24 @@ export function _HomePage(props) {
     return (
         <div className="home-page-wrapper">
             <main className="home-page">
-                <img className="cover-photo" src={require('../../styles/img/maby1finish.png')} />
+                <img className="cover-photo" src={require('../../styles/img/oo.png')} />
                 {(user) ?
-                    (user.phone === ownerPhone) ? <div className="admin-logo circle" onClick={() => props.history.push('/adminpage')}>
-                        <i class="fas fa-user-tie"></i> </div> :
-                        <div className="user-logo circle" onClick={() => props.history.push('/userpage')}>
-                            <i class="far fa-user"></i>
+                    (user.phone === ownerPhone) ?
+                        <div className="login-container" onClick={() => props.history.push('/adminpage')}>
+                            <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
+                            <div>{user.name}</div>
                         </div>
-                    : ""}
+                        :
+                        <div className="login-container" onClick={() => props.history.push('/userpage')}>
+                            <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
+                            <div>{user.name}</div>
+                        </div>
+                    :
+                    <div className="login-container" onClick={() => props.history.push('/login')}>
+                        <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
+                        <div>התחבר</div>
+                    </div>
+                }
                 <div className="profile-container">
                     <div className="profile-img"></div>
                     <div className="profile-text-container">
@@ -44,7 +54,7 @@ export function _HomePage(props) {
                         </a>
                         <a className="waze-container" href={wazeUrl}>
                             <div className="circle"> <i className="fab fa-waze"></i></div>
-                        נווט אלינו
+                        נווטו אלינו
                         </a>
                     </div>
                     <div className="bottom-icons-container flex space-around">
@@ -58,7 +68,7 @@ export function _HomePage(props) {
                     </div>
                         <a className="phone" href="tel:0538281511">
                             <div className="circle"><i className="fas fa-phone-alt"></i></div>
-                         חייג אלינו
+                         חייגו אלינו
                     </a>
                     </div>
                 </div>

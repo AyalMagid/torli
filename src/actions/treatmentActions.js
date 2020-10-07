@@ -39,6 +39,28 @@ export function _setTreatment(treatment) {
   };
 }
 
+
+export function updateTreatmentsCount(count) {
+  return async dispatch => {
+    try {
+      await 
+      dispatch((_updateTreatmentsCount(count)));
+    } catch (err) {
+      console.log('TreatmentActions: err in setTreatment', err);
+    }
+  };
+}
+
+
+export function _updateTreatmentsCount(count) {
+  return {
+    type: 'UPDATE_PICKED_TREATMENTS_COUNT',
+    count
+  };
+}
+
+
+
 export function removeTreatment(treatmentId) {
   return async dispatch => {
     try {

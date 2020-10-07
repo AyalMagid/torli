@@ -91,7 +91,7 @@ export function _CalendarApp(props) {
             >
                 <div className="calendar-picker-container">
                     <div className="date-picker-title">
-                        בחרי תאריך ושעה
+                        בחרו תאריך ושעה
                     </div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
                     <ThemeProvider theme={materialTheme}>

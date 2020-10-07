@@ -69,14 +69,15 @@ export function Login(props) {
     }
 
     const [open, setOpen] = React.useState(false);
-    const [dialogTitle, setDialogTitle] = React.useState('ססמאת בעלים');
+    const [dialogTitle, setDialogTitle] = React.useState(' הרשאת מנהל');
 
     const handleClickOpen = () => {
         setOpen(true);
     };
     
-    const handleClose = () => {
-          //owner password
+    const handleClose = (close) => {
+         if(close!=='close'){
+        //owner password
           if (password === ownerPassword) {
             setOpen(false);
             StorageService.saveToStorage('tori-user', credentials)
@@ -85,6 +86,11 @@ export function Login(props) {
         else {
             setDialogTitle('ססמא שגויה!')
         }
+    }
+    else{
+        setOpen(false); 
+        setDialogTitle('הרשאת מנהל')
+    }
     };
 
     const { name, phone, email } = credentials
@@ -98,34 +104,38 @@ export function Login(props) {
             transition={pageTransition}
         >
             <main className="main-login-container flex align-center justify-center column">
+               <div className="login-title">
+                    אנא מלאו את השדות הבאים ולחצו 'שמור'.
+                    <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
+               </div>
                 <form className="main-form flex align-center justify-center column">
                     <div className="input-container">
-                        <div className="form-title">שם מלא :</div>
+                        <div className="form-title">* שם מלא : </div>
                         <input autoFocus={true} className="name" name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
                     </div>
                     <div className="input-container">
-                        <div className="form-title">טלפון :</div>
+                        <div className="form-title">* טלפון : </div>
                         <input className="phone" name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
                     </div>
                     <div className="input-container">
-                        <div className="form-title">מייל :</div>
+                        <div className="form-title form-title-email">מייל :</div>
                         <input className="email" name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
                     </div>
                 </form>
                 <button className="save-btn" onClick={setUser} disabled={!name || !((phone.length > 8) && (phone.length < 11))}>שמור</button>
 
                 <div>
-                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                    <Dialog open={open} onClose={()=>handleClose('close')} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                           אכנס ססמא לווידאו בעלים
+                              הכנס סיסמה
           </DialogContentText>
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="name"
-                                label="ססמא"
+                                label="סיסמה"
                                 type="email"
                                 fullWidth
                                 value={password} 
@@ -134,7 +144,7 @@ export function Login(props) {
                             />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} color="primary">
+                            <Button onClick={()=>handleClose('close')} color="primary">
                                 בטל
           </Button>
                             <Button onClick={handleClose} color="primary">

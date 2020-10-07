@@ -17,13 +17,14 @@
 
 .date-picker-title{
     font-size: 1rem;
+    margin-bottom: 10px;
 }
 
 //   I phone 5
 @media screen and (max-height: 570px) {
     .time-slot-lists-container{
         // width: 390px;
-        max-height: 235px;
+        max-height: 181px;
     }
   }
 
@@ -31,14 +32,14 @@
 @media screen and (max-height: 670px) and (min-height: 570px){
     .time-slot-lists-container{
         // width: 390px;
-        max-height: 320px;
+        max-height: 269px;
     }
   }
 //   I phone 6-8 plus 
 @media screen and (max-height: 810px) and (min-height: 730px){
     .time-slot-lists-container{
         // width: 390px;
-        max-height: 365px;
+        max-height: 362px;
     }
   }
 
@@ -46,7 +47,7 @@
 @media screen and (min-height: 810px) {
     .time-slot-lists-container{
         // width: 390px;
-        max-height: 460px;
+        max-height: 446px;
     }
   }
 

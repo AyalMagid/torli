@@ -35,7 +35,7 @@
     text-align: center;
     color: #ffe3ee;
     height: 90%;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     a{
         color: #ffe3ee;
@@ -46,7 +46,7 @@
 
 .cover-photo{
     width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
 }
 
@@ -100,6 +100,7 @@
 
 .profile-container{
     text-align: center;
+    position: absolute;
 .profile-img{
     background-image: url('../../styles/img/logo3.png');
     background-size: cover;
@@ -110,9 +111,6 @@
     border-radius: 50%;
     margin-bottom: 10px;
 }
-    position: absolute;
-    top: 132px;
-    left: 132px;
     .profile-title{
         font-size: 22px;
         font-family: "Bad Script", cursive;
@@ -125,32 +123,20 @@
     }  
 }
 
-.admin-logo{
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    background-color: #ffd0e2;
-    border: 1px solid #fdadcc;
+.admin-logo,.user-logo{
+    font-size: 25px;
+    color:#273650ed;
 }
-.user-logo{
+
+.login-container{
+   text-align: center;
     position: absolute;
-    top: 6px;
-    left: 6px;
-    background-color: #ffd0e2;
-    border: 1px solid #fdadcc;
+    top: 20px;
+    right: 20px;
 }
 
 
-
-@media screen and (min-height: 810px) {
-    .profile-container{
-        left:110px;
-    }
-  }
-
-
-
-
+  //   I phone 5
   @media screen and (max-height: 570px) {
     .profile-container{
         top: 109px;
@@ -167,12 +153,37 @@
     }
 }
 
-
-
-
 //   I phone 6-8 
 @media screen and (max-height: 670px) and (min-height: 570px){
     .profile-container{
-        left: 109px;
+        top: 166px;
+        left: 108px;
     }
   }
+
+//   I phone 6-8 plus
+@media screen and (min-height: 730px) {
+    .profile-container{
+       top: 166px;
+       left: 133px;
+    }
+  }
+//   I phone x
+
+@media screen and (min-height: 810px) {
+    .profile-container{
+        left:110px;
+    }
+  }
+
+
+
+  //   Ipad
+  @media screen and (min-height: 1000px) {
+    .profile-container{
+        top: 166px;
+        left: 133px;
+     }
+  }
+
+

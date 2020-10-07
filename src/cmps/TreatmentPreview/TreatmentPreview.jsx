@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDuration, updateTreatments} from '../../actions/treatmentActions';
+import { updateDuration, updateTreatments,updateTreatmentsCount} from '../../actions/treatmentActions';
 import { SwitchApp } from '../SwitchApp/SwitchApp';
 import UtilService from '../../services/UtilsService'
 import TreatmentService from '../../services/TreatmentService';
@@ -24,8 +24,15 @@ class _TreatmentPreview extends Component {
     }
 
     // mark the treatment
-    updatePickedTreatments = (isMarked) => {
+   updatePickedTreatments = (isMarked) => {
+    
             this.setState({updatedTreatment:{...this.state.updatedTreatment,marked:isMarked}}, ()=>{
+                if(isMarked){
+                    this.props.updateTreatmentsCount(1)
+                }
+                else{
+                  this.props.updateTreatmentsCount(-1)
+                }
             const treatments = TreatmentService.updateTreatments(this.state.treatmentsToUpdate,this.state.updatedTreatment)
             this.setState({treatmentsToUpdate:treatments})
             //     ()=>{
@@ -62,7 +69,8 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateDuration,
-    updateTreatments
+    updateTreatments,
+    updateTreatmentsCount
 }
 
 export const TreatmentPreview = connect(mapStateProps, mapDispatchToProps)(_TreatmentPreview)

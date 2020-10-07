@@ -11,7 +11,7 @@ export function TreatmentList(props) {
                     let id=UtilsService.idGen()
                     return (
                         <div key={id}>
-                            <TreatmentPreview treatment={treatment} getTreatmentsToUpdate={props.getTreatmentsToUpdate} />
+                            <TreatmentPreview  treatment={treatment} getTreatmentsToUpdate={props.getTreatmentsToUpdate} />
                         </div>
                     )
                 })
