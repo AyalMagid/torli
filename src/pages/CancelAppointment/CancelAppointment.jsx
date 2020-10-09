@@ -14,6 +14,7 @@ import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import StoreService from '../../services/StoreService';
 import StorageService from "../../services/StorageService";
+import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './CancelAppointment.scss';
 
 // style motion div
@@ -69,6 +70,10 @@ export function _CancelAppointment(props) {
 
     const [open, setOpen] = React.useState(false);
 
+    const [noAppintmentsTitle, setNoAppintmentsTitle] = React.useState(<LoaderApp />);
+    setTimeout(() => {
+        setNoAppintmentsTitle('לא נמצאו תורים')
+    }, 2000);
     const [phone, setPhone] = React.useState(StorageService.loadFromStorage('tori-user').phone);
 
     const handleOpen = () => {
@@ -158,7 +163,7 @@ export function _CancelAppointment(props) {
                             </div>
                             :
                             <div className="no-apointments">
-                                לא נמצאו תורים
+                             {noAppintmentsTitle}
                             </div>
                         }
                     </div>
