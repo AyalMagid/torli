@@ -2,6 +2,7 @@
     max-height: 340px;
     margin-top: 1.3rem;
     .loaderContainer{
+        overflow-y: hidden;
         height: 400px;
     }
 }
@@ -18,6 +19,12 @@
 .date-picker-title{
     font-size: 1rem;
     margin-bottom: 10px;
+}
+
+.picker-red-title{
+  color: #680505;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 //   I phone 5

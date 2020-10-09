@@ -62,7 +62,8 @@ export function _CalendarApp(props) {
 
     const [selectedDate, handleDateChange] = useState(new Date());
     const [loader, setLoader] = useState(false);
-    const [calendarTitle, seTcalendarTitle] = useState(' בחרו תאריך ושעה');
+    const [calendarTitle, seTcalendarTitle] = useState('בחרו תאריך ושעה, ניתן להחליק ימינה/שמאלה ');
+    const [pickerRedTitle, setPickerRedTitle] = useState('date-picker-title');
 
     const { loadTimeSlots } = props
     useEffect(() => {
@@ -82,19 +83,22 @@ export function _CalendarApp(props) {
         }
     }
     function onSwipeDirection(direction) {
-
         //need to change to normal way
-        if (direction.length === 4) {
-            handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 3)));
-        }
-        else if ((direction.length === 5) && (selectedDate.getTime()) > (new Date().getTime())) {
+        if ((direction === 'Left')&& (selectedDate.getTime()) > (new Date().getTime())) {
             handleChange(new Date(selectedDate.setDate(selectedDate.getDate() - 3)));
         }
+        else if (direction === 'Right') {
+            handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 3)));
+        }
         else {
-            seTcalendarTitle('לא ניתן לבחור תאריך שעבר')
-            setTimeout(() => {
-                seTcalendarTitle(' בחרו תאריך ושעה')
-            }, 3000);
+            if ((direction !== 'Up') && (direction !== 'Down')) {
+                seTcalendarTitle('לא ניתן לבחור תאריך שעבר')
+                setPickerRedTitle('picker-red-title')
+                setTimeout(() => {
+                    seTcalendarTitle('בחרו תאריך ושעה, ניתן להחליק ימינה/שמאלה ');
+                    setPickerRedTitle('date-picker-title')
+                }, 3000);
+            }
         }
     }
     return (
@@ -108,7 +112,7 @@ export function _CalendarApp(props) {
                 style={{ width: "100%" }}
             >
                 <div className="calendar-picker-container">
-                    <div className="date-picker-title">
+                    <div className={`${pickerRedTitle}`}>
                         {calendarTitle}
                     </div>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
