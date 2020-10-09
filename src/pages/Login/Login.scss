@@ -38,21 +38,35 @@
              outline: none;
             }
         }
-        .form-title{
-            font-size: 1rem;
-            margin-bottom: 10px;
-            margin-right: 1rem;
-        }
-        .form-title-email{
-            margin-right: 1.7rem;
+       
+
+        .form-title-container{
+              
+            .validation-text{
+                width: 75%;
+                color: #680505;
+            }
+            .form-title{
+                width: 25%;
+                font-size: 1rem;
+                margin-bottom: 10px;
+                margin-right: 1rem;
+            }
+            .form-title-email{
+                margin-right: 1.7rem;
+            }
+           
         }
       
     }
 }
 
-.save-btn{
+.save-btn-wrapper{
+        width: 100%;
+        height: 43px;
+    .save-btn{
         bottom: 0;
-        position: fixed;
+        position: relative;
         color :white;
         border: none;
         outline: none;
@@ -63,6 +77,12 @@
         cursor: pointer;
 }
 }
+
+.save-btn[disabled]{
+    z-index: -1;
+}
+
+}
 }
 
 // label + .MuiInput-formControl {
@@ -71,4 +91,8 @@
 
 .MuiInputBase-inputMarginDense {
     padding-top: 17px!important;
+}
+
+.visibility{
+    visibility: hidden;
 }

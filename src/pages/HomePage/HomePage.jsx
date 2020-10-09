@@ -72,6 +72,7 @@ export function _HomePage(props) {
                     </a>
                     </div>
                 </div>
+                {/* <img className="footer-img" src={require('../../styles/img/footer2.png')} /> */}
             </main>
         </div>
     );

@@ -10,7 +10,8 @@ export default {
   convertDateToIsraelisDisplay,
   getDayByHebrewWord,
   getEventReadyForDisplay,
-  convertNumberToWords
+  convertNumberToWords,
+  validateEmail
 }
 
 function englishToHebrew(word) {
@@ -174,4 +175,10 @@ function getEventReadyForDisplay(filteredEvents) {
 function convertNumberToWords(counter){
     const words=['אחד','שני','שלושה','ארבעה','חמשה','ששה','שבעה','שמונה','תשעה','עשרה','אחד עשר']
     return words[counter-1]
+}
+
+
+function validateEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }
