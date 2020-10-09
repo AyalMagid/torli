@@ -36,6 +36,12 @@ export function _TreatmentApp(props) {
         if (!treatments) loadTreatments()
     }, [loadTreatments, treatments]);
 
+    const [isClicked, setIsClicked] = useState(false);
+
+    function updateTitleProp(){
+        setIsClicked(true)
+    }
+
     if (!treatments) return <div className="loader"><LoaderApp /></div>
     return (
         <div className="treatment-app">
@@ -46,10 +52,10 @@ export function _TreatmentApp(props) {
                 variants={pageVariants}
                 transition={pageTransition}
             >
-                <TreatmentTitle/>
+                <TreatmentTitle isClicked={isClicked}/>
                 <TreatmentList treatments={treatments} />
             </motion.div>
-            <NavBtns />
+            <NavBtns updateTitleProp={updateTitleProp} />
         </div>
     )
 }

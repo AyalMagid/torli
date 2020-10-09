@@ -10,4 +10,6 @@ function initApp() {
     store.dispatch({type: 'SET_TREATMENTS', treatments:null})
     store.dispatch({type: 'SET_TIMESLOTS',timeSlots:null})
     store.dispatch({type: 'INIT_DURATION'})
+    store.dispatch({type: 'INIT_PICKED_TREATMENTS_COUNT'})
+   
 }

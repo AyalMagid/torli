@@ -51,23 +51,39 @@ export function Login(props) {
     useEffect(() => {
         checkValidation()
     }, [credentials])
+   
+    // hide text validation if text is valid
+    useEffect(() => {
+        if (name) setToggleNameValidation('visibility')
+    }, [name])
+   
+    useEffect(() => {
+        if ((phone.length > 8) && (phone.length < 11)) {
+            setTogglePhoneValidation('visibility')
+        }
+    }, [phone])
+   
+    useEffect(() => {
+        if (UtilsService.validateEmail(email)) {
+            setToggleEmailValidation('visibility')
+        } 
+    }, [email])
 
     function handleChange({ target }) {
         const field = target.name;
         const value = target.value;
         switch (field) {
             case 'name':
-                if(name) setToggleNameValidation('visibility')
+
                 setCredentials({ ...credentials, name: value })
                 break;
             case 'phone':
-                if((phone.length > 8) && (phone.length < 11) ) setTogglePhoneValidation('visibility')
+
                 setCredentials({ ...credentials, phone: value })
                 // checkPhoneValidation()
                 console.log(isValid)
                 break;
             case 'email':
-               if( UtilsService.validateEmail(email)) setToggleEmailValidation('visibility')
                 setCredentials({ ...credentials, email: value })
                 // checkEmailValidation()
                 console.log(isValid)
@@ -94,28 +110,28 @@ export function Login(props) {
         })
     }
 
-    function toggleValidations(){
-        if(!isValid.name){
+    function toggleValidations() {
+        if (!isValid.name) {
             setToggleNameValidation('')
-        } else{
+        } else {
             setToggleNameValidation('visibility')
         }
-        if(!isValid.phone){
+        if (!isValid.phone) {
             setTogglePhoneValidation('')
-        }else{
+        } else {
             setTogglePhoneValidation('visibility')
         }
-        if(!isValid.email){
+        if (!isValid.email) {
             setToggleEmailValidation('')
-        }else{
+        } else {
             setToggleEmailValidation('visibility')
         }
     }
-    
+
 
     function setUser() {
         console.log(isValid)
-       
+
         //validation of owner phone number
         if (credentials.phone !== ownerPhone) {
             StorageService.saveToStorage('tori-user', credentials)
@@ -171,7 +187,7 @@ export function Login(props) {
                     <div className="input-container">
                         <div className="form-title-container flex">
                             <div className="form-title">* שם מלא  </div>
-                         <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
+                            <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
                         </div>
                         <input autoFocus={true} className="name" name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
                     </div>
@@ -198,8 +214,8 @@ export function Login(props) {
                         <input className="email" name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
                     </div>
                 </form>
-               
-               <span className="save-btn-wrapper" onClick={toggleValidations}> <button  className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
+
+                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
 
                 <div>
                     <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">

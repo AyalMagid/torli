@@ -46,6 +46,11 @@ export function TreatmentReducer(state = INITIAL_STATE, action) {
           ...state,
           duration:0
         };           
+        case 'INIT_PICKED_TREATMENTS_COUNT':
+        return {
+          ...state,
+          pickedTreatmentsCount:0
+        };           
       
         default:
             return state;

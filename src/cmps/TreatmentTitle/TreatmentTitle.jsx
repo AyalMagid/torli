@@ -16,6 +16,9 @@ function _TreatmentTitle(props) {
                    `נבחרו ${UtilsService.convertNumberToWords(props.pickedTreatmentsCount)} טיפולים `
 
                     :
+                    (props.isClicked)?
+                     <span className="red-title">לא נבחרו טיפולים!</span>
+                    :
                     "  בחרו  סוג  טיפול  אחד  או  יותר  ולחצו  'הבא'"
             }
         </div>

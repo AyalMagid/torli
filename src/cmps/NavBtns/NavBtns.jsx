@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateActiveStep } from '../../actions/stepperActions';
 import { withRouter, useLocation } from 'react-router-dom';
@@ -8,11 +8,12 @@ function _NavBtns(props) {
     const location = useLocation()
     const [activeBtn, setActiveBtn] = useState('');
 
-    useEffect(() => {toggleBtnsStyle()});
+    useEffect(() => { toggleBtnsStyle() });
 
     function toggleBtnsStyle() {
-        if ((props.activeStep === 2 && !props.treatment) || (props.duration) ){setActiveBtn('active-btn') 
-        } else {setActiveBtn('')} 
+        if ((props.activeStep === 2 && !props.treatment) || (props.duration)) {
+            setActiveBtn('active-btn')
+        } else { setActiveBtn('') }
     }
 
     function isNextBtnDisable() {
@@ -27,45 +28,51 @@ function _NavBtns(props) {
             props.handleOpen()
         }
         props.updateActiveStep(props.activeStep + diff)
-        if (!props.activeStep && diff > 0){
+        if (!props.activeStep && diff > 0) {
             props.history.push('/calendar')
-        }    
+        }
         else if (props.activeStep === 1 && diff > 0) props.history.push('/form')
         else if (props.activeStep === 2 && diff < 0) props.history.push('/calendar')
         else if (props.activeStep === 1 && diff < 0) props.history.push('/treatments')
     }
 
+    function noPickedItemTitle(){
+        if (!props.duration){
+            props.updateTitleProp()
+        }
+    }
+
     return (
 
         <div className={`nav-btns-container`}>
-        {
-          (location.pathname === '/treatments')?
-          <div className={`nav-btn-wrraper`}>
-            <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
-                הבא
-            </button>
-          </div>
-            :
-             (location.pathname !== '/form')?
-            <div className="nav-btn-wrraper"> 
-                <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
-                    חזור
+            {
+                (location.pathname === '/treatments') ?
+                    <div className="nav-btn-wrapper-next" onClick={noPickedItemTitle}>
+                            <button className="nav-btn-next" onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
+                                הבא
+                             </button>
+                    </div>
+                    :
+                    (location.pathname !== '/form') ?
+                        <div className="nav-btn-wrapper">
+                            <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
+                                חזור
                 </button>
-            </div>
-            :
-            <div className="flex btns-wrraper">
-                <div className="nav-btn-wrraper"> 
-                    <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
-                        חזור
+                        </div>
+                        :
+                        <div className="flex btns-wrraper">
+                            <div className="nav-btn-wrapper">
+                                <button className={`nav-btn active-btn`} disabled={props.activeStep === 0} onClick={() => changeStep(-1)} >
+                                    חזור
                     </button>
-                </div>
-                <div className={`nav-btn-wrraper`}>
-                <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
-                    אשר
+                            </div>
+                            <div className={`nav-btn-wrapper`}>
+                                <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
+                                    אשר
                 </button>
-                </div>
-            </div>
-        }
+                            </div>
+                        </div>
+            }
         </div>
 
     )
