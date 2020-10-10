@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion'
+import { EditUser } from '../../cmps/EditUser/EditUser';
 import './AdminPage.scss';
 
 // motion div style
@@ -28,20 +29,16 @@ export function _AdminPage(props) {
 
 
     return (
-       <>
             <motion.div
                 initial="out"
                 exit="in"
                 animate="in"
                 variants={pageVariants}
                 transition={pageTransition}
-                style={{width:"100%"}}
+                style={{width:"100%", height:"100%"}}
             >
-               <main>
-                   admin page
-               </main>
+               <EditUser/>
             </motion.div>
-        </>
     );
 }
 
