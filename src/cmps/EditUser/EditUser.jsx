@@ -161,6 +161,14 @@ export function _EditUser(props) {
     const nameFocus = useRef(null);
     useEffect(() => {
         if (isNameEditing) {
+             //unable phone
+             setIsPhoneEditing(false)
+             setIsPhoneDisabled(true)
+             setPhoneBorderBottom('thin-border-bottom')
+             //unable email
+             setIsEmailEditing(false)
+             setIsEmailDisabled(true)
+             setEmailBorderBottom('thin-border-bottom')
             nameFocus.current.focus();
         }
     }, [isNameEditing]);
@@ -171,6 +179,14 @@ export function _EditUser(props) {
     const phoneFocus = useRef(null);
     useEffect(() => {
         if (isPhoneEditing) {
+            //unable name
+            setIsNameEditing(false)
+            setIsNameDisabled(true)
+            setNameBorderBottom('thin-border-bottom')
+            //unable email
+            setIsEmailEditing(false)
+            setIsEmailDisabled(true)
+            setEmailBorderBottom('thin-border-bottom')
             phoneFocus.current.focus();
         }
     }, [isPhoneEditing]);
@@ -181,6 +197,14 @@ export function _EditUser(props) {
     const emailFocus = useRef(null);
     useEffect(() => {
         if (isEmailEditing) {
+              //unable phone
+              setIsPhoneEditing(false)
+              setIsPhoneDisabled(true)
+              setPhoneBorderBottom('thin-border-bottom')
+              //unable name
+              setIsNameEditing(false)
+              setIsNameDisabled(true)
+              setNameBorderBottom('thin-border-bottom')
             emailFocus.current.focus();
         }
     }, [isEmailEditing]);
