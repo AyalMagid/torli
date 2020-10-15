@@ -8,7 +8,8 @@ export default {
     getAvailbleDailySlots,
     addEventToCalendar,
     removeEventFromCalendar,
-    setAppointment
+    setAppointment,
+    getEventsFromCalendar
 }
 
 // get the first calendar connected to this TOKEN (usually only 1 should be there)
@@ -16,17 +17,22 @@ function getCalendar() {
     return HttpService.get('calendar')
 }
 
-function addEventToCalendar(startTime, endTime, eventName, creatorName, creatorEmail){
-    const event = {eventName,creatorName,creatorEmail,startTime,endTime}
-    return HttpService.post('calendar',event)
+
+async function getEventsFromCalendar(timeRange) {
+    return await HttpService.get(`calendar/${timeRange.start}/${timeRange.end}`)
 }
 
-async function removeEventFromCalendar (eventId){
-    return HttpService.delete('calendar',{eventId})
+function addEventToCalendar(startTime, endTime, eventName, creatorName, creatorEmail) {
+    const event = { eventName, creatorName, creatorEmail, startTime, endTime }
+    return HttpService.post('calendar', event)
 }
 
-async function getAvailbleDailySlots (startTime, endtTime, duration){ 
-    const dailySlots = {startTime, endtTime, duration}
+async function removeEventFromCalendar(eventId) {
+    return HttpService.delete('calendar', { eventId })
+}
+
+async function getAvailbleDailySlots(startTime, endtTime, duration) {
+    const dailySlots = { startTime, endtTime, duration }
     return await HttpService.post('calendar/slots', dailySlots)
 }
 
@@ -50,6 +56,6 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     }
     EventService.saveConfirmedEvent(event)
     console.log(event);
-    EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time , treatments ) 
+    EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 

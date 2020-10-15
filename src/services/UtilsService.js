@@ -1,3 +1,5 @@
+import { func } from "prop-types";
+
 export default {
   englishToHebrew,
   getIsosDate,
@@ -11,7 +13,10 @@ export default {
   getDayByHebrewWord,
   getEventReadyForDisplay,
   convertNumberToWords,
-  validateEmail
+  validateEmail,
+  getWeekIsosDatesForCalendar,
+  checkIfTsInRange,
+  getMonthByIdx
 }
 
 function englishToHebrew(word) {
@@ -61,7 +66,49 @@ function getIsosDate(daysAfterOrBefore, date = new Date()) {
   return dateCopy
 }
 
+function getWeekIsosDatesForCalendar(dayByNum, date) {
+  let weeklyDates =[]
+  switch (dayByNum) {
+    case 1:
+      for (var i = 0; i < 6; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    case 2:
+      for (var i = -1; i < 5; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    case 3:
+      for (var i = -2; i < 4; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    case 4:
+      for (var i = -3; i < 3; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    case 5:
+      for (var i = -4; i < 2; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    case 6:
+      for (var i = -5; i < 1; i++) {
+        weeklyDates.push(getIsosDate(i, date))
+      }
+      break;
+    default:
+      console.log('Err with getting week dates')
+  }
+  return weeklyDates.map(isosDate => {
+    return { start: `${isosDate}T05:00:00Z`, end: `${isosDate}T17:00:00Z` }
+  })
+}
+
 function getDailySlotsForPreview(slotsRanges, duration) {
+  // console.log(slotsRanges, duration);
   const timeslotsByConstraints = slotsRanges.map(sr => getTimeSlotsForPreview(sr, duration))
   const mergedTimeSlotsToRender = [].concat.apply([], timeslotsByConstraints);
   return mergedTimeSlotsToRender
@@ -96,7 +143,7 @@ function getTimeSlotsForPreview(timeslot, duration) {
   return slotsToRender
 }
 
-//get an hour and returns full isos date (including the time)
+//get an hour and returns full isos date (including the time) reducing the diff from the hours
 function changeTimeForDisplay(time, diff) {
   let hours = +time.slice(0, 2) - diff
   let minutes = time.slice(3, 5)
@@ -148,6 +195,7 @@ function arrayToString(pickedTreatments) {
 }
 
 function convertDateToIsraelisDisplay(date) {
+  console.log(date)
   const dateParts = (date).split('-')
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
@@ -160,7 +208,7 @@ function getDayByHebrewWord(idx) {
 function getEventReadyForDisplay(filteredEvents) {
   return filteredEvents.map(event => {
     return {
-      id:event._id,
+      id: event._id,
       treatments: event.treatments,
       startTime: changeTimeForDisplay(event.startTime, -3),
       endTime: changeTimeForDisplay(event.endTime, -3),
@@ -170,13 +218,33 @@ function getEventReadyForDisplay(filteredEvents) {
     }
   })
 }
+//returns an object with boolean if time slot match the range and the amount of time slots
+function checkIfTsInRange(tsToCompare, startTime, endTime, duration) {
 
-
-function convertNumberToWords(counter){
-    const words=['אחד','שני','שלושה','ארבעה','חמשה','ששה','שבעה','שמונה','תשעה','עשרה','אחד עשר']
-    return words[counter-1]
+  //adding 3 hours to match the time differnce
+  const tsToCompareWithAddedHours = changeTimeForDisplay(tsToCompare, -3)
+  const timeRangeBySlots = getDailySlotsForPreview([{ start: startTime, end: endTime }], duration)
+  if (timeRangeBySlots.length) {
+    return { occupied: timeRangeBySlots.includes(tsToCompareWithAddedHours), rowspan: timeRangeBySlots.length }
+  }
+  else {
+    if (startTime.slice(11, 16) === tsToCompare) {
+      return { occupied: true, rowspan: 1 }
+    } else {
+      return { occupied: false, rowspan: 1 }
+    }
+  }
 }
 
+function convertNumberToWords(idx) {
+  const words = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמשה', 'ששה', 'שבעה', 'שמונה', 'תשעה', 'עשרה', 'אחד עשר']
+  return words[idx - 1]
+}
+
+function getMonthByIdx(idx) {
+  const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
+  return months[idx - 1]
+}
 
 function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

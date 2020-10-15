@@ -10,6 +10,7 @@ import { Login } from './pages/Login/Login.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { UserPage } from './pages/UserPage/UserPage.jsx'
 import { AdminPage } from './pages/AdminPage/AdminPage.jsx'
+import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
 import { HashRouter as Router} from 'react-router-dom';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/userpage" component={UserPage} />
             <Route path="/adminpage" component={AdminPage} />
+            <Route path="/calendarAdmin" component={CalendarAdmin} />
             <Route path="/" component={HomePage} />
           </Switch>
       </div>

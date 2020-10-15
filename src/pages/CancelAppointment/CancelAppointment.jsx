@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import StoreService from '../../services/StoreService';
 import StorageService from "../../services/StorageService";
+import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './CancelAppointment.scss';
 
 // style motion div
@@ -38,7 +39,7 @@ const pageTransition = {
 export function _CancelAppointment(props) {
     useEffect(() => {
         getEventsByPhone()
-    },[]);
+    }, []);
 
     // style material ui modal
     const useStyles = makeStyles((theme) => ({
@@ -69,6 +70,10 @@ export function _CancelAppointment(props) {
 
     const [open, setOpen] = React.useState(false);
 
+    const [loader, setLoader] = React.useState(<LoaderApp />);
+    setTimeout(() => {
+        setLoader('')
+    }, 2000);
     const [phone, setPhone] = React.useState(StorageService.loadFromStorage('tori-user').phone);
 
     const handleOpen = () => {
@@ -89,7 +94,7 @@ export function _CancelAppointment(props) {
         StoreService.initApp()
     }
 
-    function getEventsByPhone(){
+    function getEventsByPhone() {
         console.log(phone)
         EventService.getEventByPhone(phone)
             .then(events => {
@@ -110,7 +115,7 @@ export function _CancelAppointment(props) {
                     setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
                 }
             })
-        }
+    }
 
     async function cancelAppointment(eventId) {
         const events = await EventService.getEventByPhone(phone)
@@ -135,54 +140,59 @@ export function _CancelAppointment(props) {
                 variants={pageVariants}
                 transition={pageTransition}
             >
-                <main >
-                    <div className="table-wrapper">
-                        {(eventsToCancel) ?
-                            <div>
-                                <div className="apointment-details">
-                                    <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
-                                    <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
-                                    <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
-                                </div>
-                                {(eventsToCancel.length > 1) &&
-                                    <div className="arrows-container flex space-between">
-                                        {(eventsToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-right"></i>
-                                            : <i className="arrow-disabled fas fa-angle-right"></i>
+                {
+                    (loader) ?
+                        <div className="cancel-apointment-loader">{loader}</div>
+                        :
+                        <main >
+                            <div className="table-wrapper">
+                                {(eventsToCancel) ?
+                                    <div>
+                                        <div className="apointment-details">
+                                            <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
+                                            <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
+                                            <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
+                                        </div>
+                                        {(eventsToCancel.length > 1) &&
+                                            <div className="arrows-container flex space-between">
+                                                {(eventsToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-right"></i>
+                                                    : <i className="arrow-disabled fas fa-angle-right"></i>
+                                                }
+                                                {eventsToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-left"></i>
+                                                    : <i className="arrow-disabled fas fa-angle-left"></i>
+                                                }
+                                            </div>
                                         }
-                                        {eventsToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-left"></i>
-                                            : <i className="arrow-disabled fas fa-angle-left"></i>
-                                        }
+                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> בטל תור <i className="fas fa-trash" ></i></button>
                                     </div>
+                                    :
+                                    <div className="no-apointments">
+                                        לא נמצאו תורים
+                            </div>
                                 }
-                                <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> בטל תור <i className="fas fa-trash" ></i></button>
                             </div>
-                            :
-                            <div className="no-apointments">
-                                לא נמצאו תורים
-                            </div>
-                        }
-                    </div>
 
-                    <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
-                        className={classes.modal}
-                        open={open}
-                        onClose={handleClose}
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                            timeout: 500,
-                        }}
-                    >
-                        <Fade in={open}>
-                            <div className={classes.paper}>
-                                <h2 id="transition-modal-title">התור בוטל</h2>
-                                <p id="transition-modal-description"></p>
-                            </div>
-                        </Fade>
-                    </Modal>
-                </main>
+                            <Modal
+                                aria-labelledby="transition-modal-title"
+                                aria-describedby="transition-modal-description"
+                                className={classes.modal}
+                                open={open}
+                                onClose={handleClose}
+                                closeAfterTransition
+                                BackdropComponent={Backdrop}
+                                BackdropProps={{
+                                    timeout: 500,
+                                }}
+                            >
+                                <Fade in={open}>
+                                    <div className={classes.paper}>
+                                        <h2 id="transition-modal-title">התור בוטל</h2>
+                                        <p id="transition-modal-description"></p>
+                                    </div>
+                                </Fade>
+                            </Modal>
+                        </main>
+                }
             </motion.div>
         </div>
     );

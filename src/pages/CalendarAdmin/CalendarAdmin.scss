@@ -1,0 +1,145 @@
+.calendar-admin-container{
+    width: 100%;
+    height: 100%;
+    background-color: #f8ebed;
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 600px;
+  }
+  .tableFixHead thead th {
+   background-color: #273650;
+   color: white;
+    position: sticky;
+    top: 0;
+  }
+  .td-hours{
+    border: none;
+    border-bottom: 1px solid #a9a9b05b;
+    font-weight: 600;
+    background-color: white;
+    color: #273650; 
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th,
+  td {
+    height: 80px;
+    width: 14%;
+    padding: 10px 0px;
+    border: 1px solid #273650;
+    .occupied-cell-content{
+        width: 100%;
+        height:100% ;
+        overflow-y: scroll;  
+        overflow-x: hidden;
+      }
+  }
+
+  th{
+      height:40px;
+  }
+  
+ .occupied-cell{
+    border: none;
+    border-bottom: 1px solid #a9a9b05b;
+    border-radius: 7px;
+    background-color: white;
+    color: #273650; 
+    word-spacing: 60.5px;
+ }
+
+.small-font{
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.available-cell{
+    border: none;
+    border-bottom: 1px solid #a9a9b05b;
+    border-radius: 7px;
+    background-color:#ffc0cb00;
+}
+
+.even-event-0{
+    background-color:#0066ff2b;
+}
+.even-event-1{
+    background-color:#ffa50045;
+}
+.even-event-2{
+    background-color:#f0d3ff;
+}
+.odd-event-0{
+    background-color:#3629ff4a;
+}
+.odd-event-1{
+    background-color:#ff297c38;
+}
+.odd-event-2{
+    background-color:#00ff7812;
+}
+
+.date-display-container{
+    width: 70%;
+    margin: 0 auto;
+    height: 18px;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    align-items: baseline;
+}
+
+.daily-num{
+    font-size: 12px;
+    position: absolute;
+    left: 2px;
+}
+
+.daily-name{
+    position: absolute;
+    top: 2px;
+    right: 3px;
+}
+.month-name{
+    transform: rotate(-25deg);
+    font-size: 13px;
+}
+
+//   I phone 5
+@media screen and (max-height: 570px) {
+    .tableFixHead {
+    height:469px;
+      }
+  }
+
+//   I phone 6-8 
+@media screen and (max-height: 670px) and (min-height: 570px){
+    .tableFixHead {
+        height:566px;
+    }
+  }
+//   I phone 6-8 plus 
+@media screen and (max-height: 810px) and (min-height: 730px){
+    .tableFixHead {
+        height:636px;
+    }
+  }
+
+//   I phone x
+@media screen and (min-height: 810px) {
+    .tableFixHead {
+        height:713px;
+    }
+  }
+
+  //   Ipad
+@media screen and (min-height: 1000px) {
+    .tableFixHead {
+        height:922px;
+    }
+  }

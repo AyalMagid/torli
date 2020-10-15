@@ -44,3 +44,17 @@ img{
     width: 100px;
     height: 50px;
 }
+
+.app-header-no-margin{
+    width: 100%;
+    .upper-header {
+        justify-content: flex-end;
+        height: 3rem;
+        background-color:#273650;
+        color: #f6f6f6;
+        padding: 0 40px;
+        h2{
+           padding-top: 9px;
+        }
+    }
+}
