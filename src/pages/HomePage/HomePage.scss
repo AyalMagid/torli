@@ -100,6 +100,8 @@
 
 
 .profile-container{
+    left: 50%;
+    transform: translate(-50%, 0);
     text-align: center;
     position: absolute;
 .profile-img{
@@ -147,7 +149,6 @@
   @media screen and (max-height: 570px) {
     .profile-container{
         top: 109px;
-        left: 86px;
     }
     .top-icons-container{
         padding: 0;
@@ -164,7 +165,6 @@
 @media screen and (max-height: 670px) and (min-height: 570px){
     .profile-container{
         top: 166px;
-        left: 108px;
     }
   }
 
@@ -172,14 +172,13 @@
 @media screen and (min-height: 730px) {
     .profile-container{
        top: 166px;
-       left: 133px;
     }
   }
 //   I phone x
 
 @media screen and (min-height: 810px) {
     .profile-container{
-        left:110px;
+     
     }
   }
 
@@ -189,7 +188,6 @@
   @media screen and (min-height: 1000px) {
     .profile-container{
         top: 166px;
-        left: 133px;
      }
   }
 

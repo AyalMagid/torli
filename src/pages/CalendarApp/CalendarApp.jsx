@@ -83,6 +83,7 @@ export function _CalendarApp(props) {
         }
     }
     function onSwipeDirection(direction) {
+        if(props.timeSlots&&!loader){
         //need to change to normal way
         if ((direction === 'Left')&& (selectedDate.getTime()) > (new Date().getTime())) {
             handleChange(new Date(selectedDate.setDate(selectedDate.getDate() - 3)));
@@ -100,6 +101,7 @@ export function _CalendarApp(props) {
                 }, 3000);
             }
         }
+    }
     }
     return (
         <>

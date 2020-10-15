@@ -25,7 +25,8 @@ export function _HomePage(props) {
                             <div>{user.name}</div>
                         </div>
                         :
-                        <div className="login-container" onClick={() => props.history.push('/userpage')}>
+                        //just for trying heroku need to be userpage
+                        <div className="login-container" onClick={() => props.history.push('/calendarAdmin')}>
                             <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
                             <div>{user.name}</div>
                         </div>
