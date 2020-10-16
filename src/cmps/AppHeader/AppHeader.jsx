@@ -13,7 +13,7 @@ function _AppHeader(props) {
                 (location.pathname !== '/') &&
                 <div className={(location.pathname === '/calendarAdmin')?'app-header-no-margin':'app-header'}>
                     {
-                        ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')) &&
+                        ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')&&(location.pathname !== '/calendarAdmin')) &&
                         <header className="flex upper-header align-center">
                             <h2 onClick={() => props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
                         </header>
