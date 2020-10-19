@@ -10,8 +10,8 @@ function _AppHeader(props) {
     return (
         <>
             {
-                (location.pathname !== '/') &&
-                <div className={(location.pathname === '/calendarAdmin')?'app-header-no-margin':'app-header'}>
+               ((location.pathname !== '/') && (!location.pathname.includes('/calendarAdmin'))) &&
+                <div className={(location.pathname === '/signupOrLogin')?'app-header-no-margin':'app-header'}>
                     {
                         ((location.pathname !== '/treatments') && (location.pathname !== '/cancelAppointment')) &&
                         <header className="flex upper-header align-center">
@@ -19,8 +19,8 @@ function _AppHeader(props) {
                         </header>
                     }
                     {((location.pathname === '/treatments') || (location.pathname === '/cancelAppointment')) ? <TabsApp /> : ''}
-                    {(location.pathname === '/cancelAppointment') || (location.pathname === '/login')
-                        || (location.pathname === '/adminpage') || (location.pathname === '/userpage') || (location.pathname === '/calendarAdmin') ? '' : <StepperApp />}
+                    {(location.pathname === '/cancelAppointment') || (location.pathname === '/signup')||(location.pathname === '/login')
+                        || (location.pathname === '/adminpage') || (location.pathname === '/userpage') || (location.pathname === '/signupOrLogin') ? '' : <StepperApp />}
                 </div>
             }
         </>

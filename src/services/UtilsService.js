@@ -195,7 +195,6 @@ function arrayToString(pickedTreatments) {
 }
 
 function convertDateToIsraelisDisplay(date) {
-  console.log(date)
   const dateParts = (date).split('-')
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }

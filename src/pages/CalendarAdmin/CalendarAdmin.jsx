@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion'
 import { Swipeable } from 'react-swipeable'
@@ -12,6 +15,8 @@ import UtilsService from '../../services/UtilsService';
 import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
+import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
+import { Contacts } from '../../pages/Contacts/Contacts.jsx'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,6 +26,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -55,6 +61,8 @@ const materialTheme = createMuiTheme({
             },
         },
 
+
+
         MuiPickersDay: {
             day: {
                 color: 'black',
@@ -75,6 +83,8 @@ const materialTheme = createMuiTheme({
 
 export function _CalendarAdmin(props) {
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
+    const location = useLocation()
+
     const constrains = {
         start: "2020-10-12T05:00:00Z",
         end: "2020-10-12T16:30:00Z"
@@ -125,12 +135,13 @@ export function _CalendarAdmin(props) {
                                                 } else return ''
                                             }
                                             else if ((dailyEvents.length === eventIdx + 1) && (!cellIsRendered)) {
-                                                return <td className="available-cell">{}</td>
+                                                return <td className="available-cell" onClick={() => setAppointment(ts, dailyEvents)}>{<i class="fas fa-plus"></i>}</td>
                                             }
                                             counter++
                                         })
                                     } else {
-                                        return <td className="available-cell">{}</td>
+                                        //all day available no event at this day
+                                        return <td className="available-cell" onClick={() => setAppointment(ts)}>{<i class="fas fa-plus"></i>}</td>
                                     }
                                 })
                             }
@@ -160,10 +171,15 @@ export function _CalendarAdmin(props) {
         // EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
     }
     function getDatesWeeklyRange(date) {
-        const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
-        const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
-        const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
-        return `${lastDay} - ${firstDay}`
+        if (date.getDay() !== 6) {
+            const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
+            const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
+            const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
+            return { lastDay, firstDay }
+        } else {
+            return { lastDay: 'יום שבת', firstDay: '' }
+        }
+
     }
 
     function getWorkingTimeSlots() {
@@ -220,8 +236,32 @@ export function _CalendarAdmin(props) {
 
     const handleClose = (isApproved) => {
         setOpen(false);
-        if(isApproved) cancelAppiontment(eventToRmoveId)
+        if (isApproved) cancelAppiontment(eventToRmoveId)
     };
+
+    function setAppointment(ts, date = '') {
+        //if there is daylyEvent then we need to ask if there is daylyEvent.start...>ts then if there are few then we need to find the closest one to ts
+        //then we calculate the diffrance between does tow
+        //and we can get the date from the event
+        if (date) {
+            console.log(ts);
+            console.log(date);
+        } else {
+            //we need to find a way to get the date for this availably td
+            console.log(ts);
+        }
+        setAppointmentsModalIsOpen(true)
+        props.history.push('/calendarAdmin/contacts')
+    }
+
+    // const [btnTxt, setBtnTxt] = React.useState();
+
+    let weeklyRange = getDatesWeeklyRange(selectedDate)
+    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
+    function closeAppointmentsModal() {
+        setAppointmentsModalIsOpen(false)
+        props.history.push('/calendarAdmin')
+    }
     return (
         <motion.div
             initial="out"
@@ -232,8 +272,66 @@ export function _CalendarAdmin(props) {
             style={{ width: "100%", height: "100%" }}
         >
             <main className="calendar-admin-container">
-
-
+                <div className="header-app flex justifiy-center align-center space-between" >
+                    <div className="weekly-dates-container flex space-between align-center" onClick={() => setIsOpen(true)}>
+                        <i class="calendar-icon fas fa-calendar-week"></i>
+                        <div className="weekly-dates-text">{weeklyRange.firstDay}<br />{weeklyRange.lastDay} </div>
+                    </div>
+                    <div id="text2" onClick={() => props.history.push('/')} >Tori<i className="fas fa-tasks"></i></div>
+                </div>
+                <Swipeable onSwiped={(eventData) => onSwipeDirection(eventData.dir)} >
+                    <header className="days-header-container flex space-between">
+                        <div className="dayes-name-container" >
+                            <div className="month-name">{month}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">ראשון</div>
+                            <div className="daily-num"> {daysForDisplay[0]}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">שני</div>
+                            <div className="daily-num"> {daysForDisplay[1]}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">שלישי</div>
+                            <div className="daily-num"> {daysForDisplay[2]}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">רביעי</div>
+                            <div className="daily-num"> {daysForDisplay[3]}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">חמישי</div>
+                            <div className="daily-num"> {daysForDisplay[4]}</div>
+                        </div>
+                        <div className="dayes-name-container">
+                            <div className="daily-name">שישי</div>
+                            <div className="daily-num"> {daysForDisplay[5]}</div>
+                        </div>
+                    </header>
+                    <div>
+                        {
+                            !loader ?
+                                <div class="table-container">
+                                    <table>
+                                        <tbody>
+                                            {
+                                                (tableCells.length) &&
+                                                tableCells
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <footer className="calendar-footer flex align-center justify-center">
+                                        <div className="footer-hours">20:00</div>
+                                    </footer>
+                                </div>
+                                :
+                                <div className="loader-container flex justify-center align-center space-around">
+                                    <LoaderApp />
+                                </div>
+                        }
+                    </div>
+                </Swipeable>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
                     <ThemeProvider theme={materialTheme}>
                         <DatePicker
@@ -259,62 +357,6 @@ export function _CalendarAdmin(props) {
                         />
                     </ThemeProvider>
                 </MuiPickersUtilsProvider>
-                <div className="date-display-container flex space-around" onClick={() => setIsOpen(true)}>
-                    <div className="date-display">{getDatesWeeklyRange(selectedDate)}</div>
-                    <i class="fas fa-calendar-week"></i>
-                </div>
-                <Swipeable onSwiped={(eventData) => onSwipeDirection(eventData.dir)} >
-                    <div>
-                        {
-                            !loader ?
-                                <div class="tableFixHead">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th >
-                                                    <div className="month-name">  {month}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">ראשון</div>
-                                                    <div className="daily-num"> {daysForDisplay[0]}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">שני</div>
-                                                    <div className="daily-num"> {daysForDisplay[1]}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">שלישי</div>
-                                                    <div className="daily-num"> {daysForDisplay[2]}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">רביעי</div>
-                                                    <div className="daily-num"> {daysForDisplay[3]}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">חמישי</div>
-                                                    <div className="daily-num"> {daysForDisplay[4]}</div>
-                                                </th>
-                                                <th>
-                                                    <div className="daily-name">שישי</div>
-                                                    <div className="daily-num"> {daysForDisplay[5]}</div>
-                                                </th>
-                                                {/* <th>שבת</th> */}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                (tableCells.length) &&
-                                                tableCells
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                :
-                                <LoaderApp />
-                        }
-                    </div>
-                </Swipeable>
-
                 <div>
                     <Dialog
                         open={open}
@@ -327,19 +369,41 @@ export function _CalendarAdmin(props) {
                         <DialogTitle id="alert-dialog-slide-title">מחיקת תור</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                               האם את/ה בטוח/ה שברצונך למחוק תור זה?
+                                האם את/ה בטוח/ה שברצונך למחוק תור זה?
                       </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={()=>handleClose(false)} color="primary">
+                            <Button onClick={() => handleClose(false)} color="primary">
                                 ביטול
                </Button>
-                            <Button onClick={()=>handleClose(true)} color="primary">
+                            <Button onClick={() => handleClose(true)} color="primary">
                                 אישור
                </Button>
                         </DialogActions>
                     </Dialog>
                 </div>
+                {appointmentsModalIsOpen &&
+                    <>
+                        <div className="modal-screen" onClick={closeAppointmentsModal}>
+                        </div>
+                        {/* <div className="modal-wrpper"> */}
+                        <div className="apointments-modal">
+                            <Router>
+                                <Route path="/calendarAdmin/contacts" component={Contacts} />
+                                <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
+                            </Router>
+                            <button className="calendar-admin-modal-btn">
+                              {
+                             (location.pathname === '/calendarAdmin/contacts')?
+                             'בחר לקוח ולחץ כאן להמשך'
+                             :
+                             'בחר טיפולים ולחץ כאן לאישור'
+                              }
+                            </button>
+                        </div>
+                        {/* </div> */}
+                    </>
+                }
             </main>
         </motion.div>
     );
