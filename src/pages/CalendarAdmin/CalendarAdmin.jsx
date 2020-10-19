@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion'
 import { Swipeable } from 'react-swipeable'
@@ -13,6 +16,7 @@ import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
+import { Contacts } from '../../pages/Contacts/Contacts.jsx'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -22,7 +26,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
-import { func } from "prop-types";
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -79,6 +83,8 @@ const materialTheme = createMuiTheme({
 
 export function _CalendarAdmin(props) {
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
+    const location = useLocation()
+
     const constrains = {
         start: "2020-10-12T05:00:00Z",
         end: "2020-10-12T16:30:00Z"
@@ -129,12 +135,13 @@ export function _CalendarAdmin(props) {
                                                 } else return ''
                                             }
                                             else if ((dailyEvents.length === eventIdx + 1) && (!cellIsRendered)) {
-                                                return <td className="available-cell" onClick={()=>setAppointmentsModalIsOpen(true)}>{<i class="fas fa-plus"></i>}</td>
+                                                return <td className="available-cell" onClick={() => setAppointment(ts, dailyEvents)}>{<i class="fas fa-plus"></i>}</td>
                                             }
                                             counter++
                                         })
                                     } else {
-                                        return <td className="available-cell" onClick={()=>setAppointmentsModalIsOpen(true)}>{<i class="fas fa-plus"></i>}</td>
+                                        //all day available no event at this day
+                                        return <td className="available-cell" onClick={() => setAppointment(ts)}>{<i class="fas fa-plus"></i>}</td>
                                     }
                                 })
                             }
@@ -164,10 +171,15 @@ export function _CalendarAdmin(props) {
         // EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
     }
     function getDatesWeeklyRange(date) {
-        const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
-        const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
-        const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
-        return { lastDay, firstDay }
+        if (date.getDay() !== 6) {
+            const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
+            const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
+            const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
+            return { lastDay, firstDay }
+        } else {
+            return { lastDay: 'יום שבת', firstDay: '' }
+        }
+
     }
 
     function getWorkingTimeSlots() {
@@ -226,10 +238,29 @@ export function _CalendarAdmin(props) {
         setOpen(false);
         if (isApproved) cancelAppiontment(eventToRmoveId)
     };
+
+    function setAppointment(ts, date = '') {
+        //if there is daylyEvent then we need to ask if there is daylyEvent.start...>ts then if there are few then we need to find the closest one to ts
+        //then we calculate the diffrance between does tow
+        //and we can get the date from the event
+        if (date) {
+            console.log(ts);
+            console.log(date);
+        } else {
+            //we need to find a way to get the date for this availably td
+            console.log(ts);
+        }
+        setAppointmentsModalIsOpen(true)
+        props.history.push('/calendarAdmin/contacts')
+    }
+
+    // const [btnTxt, setBtnTxt] = React.useState();
+
     let weeklyRange = getDatesWeeklyRange(selectedDate)
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
-     function closeAppointmentsModal(){
+    function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
+        props.history.push('/calendarAdmin')
     }
     return (
         <motion.div
@@ -351,12 +382,26 @@ export function _CalendarAdmin(props) {
                         </DialogActions>
                     </Dialog>
                 </div>
-                {appointmentsModalIsOpen&&
+                {appointmentsModalIsOpen &&
                     <>
-                        <div className="modal-screen" onClick={closeAppointmentsModal}></div>
-                        <div className="apointments-modal">
-                            <TreatmentApp />
+                        <div className="modal-screen" onClick={closeAppointmentsModal}>
                         </div>
+                        {/* <div className="modal-wrpper"> */}
+                        <div className="apointments-modal">
+                            <Router>
+                                <Route path="/calendarAdmin/contacts" component={Contacts} />
+                                <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
+                            </Router>
+                            <button className="calendar-admin-modal-btn">
+                              {
+                             (location.pathname === '/calendarAdmin/contacts')?
+                             'בחר לקוח ולחץ כאן להמשך'
+                             :
+                             'בחר טיפולים ולחץ כאן לאישור'
+                              }
+                            </button>
+                        </div>
+                        {/* </div> */}
                     </>
                 }
             </main>

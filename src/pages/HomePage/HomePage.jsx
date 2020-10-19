@@ -6,7 +6,7 @@ import StorageService from "../../services/StorageService";
 export function _HomePage(props) {
 
     function changeRoute(route) {
-        (user) ? props.history.push(route) : props.history.push('/login')
+        (user) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
 
     const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
@@ -31,9 +31,10 @@ export function _HomePage(props) {
                             <div>{user.name}</div>
                         </div>
                     :
-                    <div className="login-container" onClick={() => props.history.push('/login')}>
+                    <div className="login-container" onClick={() => props.history.push('/signupOrLogin')}>
                         <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
-                        <div>התחבר</div>
+                        <div>הרשם/</div>
+                         <div>התחבר</div>
                     </div>
                 }
                 <div className="profile-container">

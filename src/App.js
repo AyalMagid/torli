@@ -6,10 +6,13 @@ import { TreatmentApp } from './pages/TreatmentApp/TreatmentApp.jsx'
 import { CalendarApp } from './pages/CalendarApp/CalendarApp.jsx'
 import { SubmitForm } from './pages/SubmitForm/SubmitForm.jsx'
 import { CancelAppointment } from './pages/CancelAppointment/CancelAppointment.jsx'
+import { SignupOrLogin } from './pages/SignupOrLogin/SignupOrLogin.jsx'
 import { Login } from './pages/Login/Login.jsx'
+import { Signup } from './pages/Signup/Signup.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { UserPage } from './pages/UserPage/UserPage.jsx'
 import { AdminPage } from './pages/AdminPage/AdminPage.jsx'
+import { Contacts } from './pages/Contacts/Contacts.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
 import { HashRouter as Router} from 'react-router-dom';
 
@@ -24,10 +27,13 @@ function App() {
             <Route path="/cancelAppointment" component={CancelAppointment} />
             <Route path="/form" component={SubmitForm} />
             <Route path="/treatments" component={TreatmentApp} />
+            <Route path="/signupOrLogin" component={SignupOrLogin} />
             <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route path="/userpage" component={UserPage} />
             <Route path="/adminpage" component={AdminPage} />
             <Route path="/calendarAdmin" component={CalendarAdmin} />
+            <Route path="/contacts" component={Contacts} />
             <Route path="/" component={HomePage} />
           </Switch>
       </div>
