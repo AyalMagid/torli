@@ -134,3 +134,23 @@ function _initDuration() {
     type: 'INIT_DURATION'
   };
 }
+
+
+export function updateAvailbleDuration(availableDuration) {
+  console.log(availableDuration);
+  return async dispatch => {
+    try {
+      await 
+      dispatch(_updateAvailbleDuration(availableDuration));
+    } catch (err) {
+      console.log('ERR WITH updateAvailbleDuration', err);
+    }
+  };
+}
+
+function _updateAvailbleDuration(availableDuration) {
+  return {
+    type: 'UPDATE_AVAILBLE_DURATION',
+    availableDuration
+  };
+}

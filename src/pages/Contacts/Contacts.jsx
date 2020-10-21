@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { loadUsers,updateUsers } from '../../actions/userAction.js';
+import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
 import { motion } from 'framer-motion'
 import './Contacts.scss';
-
 
 
 const pageVariants = {
@@ -46,25 +45,27 @@ export function _Contacts(props) {
                 console.log('Err updating name/phone/email')
         }
     }
-   function markClickedUser(clickedUser){
-    let users=props.users.slice()
-    if(clickedUser.isMarked){
-        users=users.map(user=>{
-           user.isMarked=false
-           return user
-        })
-    }else{
-        users=users.map(user=>{
-               if( user._id===clickedUser._id){
-               user.isMarked=true
-               return user
-               }else{
-                user.isMarked=false 
+    function markClickedUser(clickedUser) {
+        let users = props.users.slice()
+        if (clickedUser.isMarked) {
+            users = users.map(user => {
+                user.isMarked = false
+                props.updateUserToSchedule(null)
                 return user
-               }
             })
-    }
-    props.updateUsers(users)
+        } else {
+            users = users.map(user => {
+                if (user._id === clickedUser._id) {
+                    user.isMarked = true
+                    props.updateUserToSchedule(user)
+                    return user
+                } else {
+                    user.isMarked = false
+                    return user
+                }
+            })
+        }
+        props.updateUsers(users)
     }
 
     return (
@@ -74,25 +75,27 @@ export function _Contacts(props) {
                 <i className="fas fa-search"></i>
             </div>
             <div className="users-container-warpper">
-            <div className="users-container">
-                {
-                    (props.users) &&
-                    props.users.map((user, idx) => {
-                        return (
-                              (user.name.includes(searchTerm)||user.phone.includes(searchTerm))&&
-                              <div className={`user-container ${(user.isMarked)?'user-clicked':''} flex align-center justify-center`} onClick={()=>markClickedUser(user)} key={idx}>
-                                     <div className="check-mark-container flex align-center">
-                                         {
-                                        (user.isMarked)&&<i class="fas fa-check"></i>
-                                         }
-                                        </div>
+                <div className="users-container">
+                    {
+                        (props.users) &&
+                        props.users.map((user, idx) => {
+                            return (
+                                (user.name.includes(searchTerm) || user.phone.includes(searchTerm)) &&
+                                (!user.isAdmin)
+                                &&
+                                <div className={`user-container ${(user.isMarked) ? 'user-clicked' : ''} flex align-center justify-center`} onClick={() => markClickedUser(user)} key={idx}>
+                                    <div className="check-mark-container flex align-center">
+                                        {
+                                            (user.isMarked) && <i class="fas fa-check"></i>
+                                        }
+                                    </div>
                                     <div className="user-name user-attr">{user.name}</div>
                                     <div className="user-phone user-attr">{user.phone}</div>
                                 </div>
-                        )
-                    })
-                }
-            </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </main>
     );
@@ -107,7 +110,8 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     loadUsers,
-    updateUsers
+    updateUsers,
+    updateUserToSchedule
 }
 
 export const Contacts = connect(mapStateProps, mapDispatchToProps)(_Contacts)

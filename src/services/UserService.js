@@ -11,7 +11,7 @@ export default {
 }
 
 function _sortUsers(users) {
- return  users.sort((a, b) => a.name.localeCompare(b.name))
+    return users.sort((a, b) => a.name.localeCompare(b.name))
 }
 
 async function getUsers() {
@@ -25,6 +25,9 @@ function getUser(phone) {
 
 async function addUser(user) {
     user.isMarked = false
+    //need to come from backend env
+    if (user.phone === '123456789') user.isAdmin = true
+    else user.isAdmin = false
     StorageService.saveToStorage('tori-user', user)
     return HttpService.post('user', user)
 }

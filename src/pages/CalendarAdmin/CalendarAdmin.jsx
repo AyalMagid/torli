@@ -11,12 +11,17 @@ import heLocale from "date-fns/locale/he";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { createMuiTheme, Hidden } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
+import { updateAvailbleDuration } from '../../actions/treatmentActions.js';
+import TreatmentService from "../../services/TreatmentService";
 import UtilsService from '../../services/UtilsService';
 import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
-import EmailService from '../../services/EmailService';
+import StoreService from '../../services/StoreService';
 import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
+import { setTreatment } from '../../actions/treatmentActions';
 import { Contacts } from '../../pages/Contacts/Contacts.jsx'
+import { SubmitForm } from '../../pages/SubmitForm/SubmitForm.jsx'
+import { ModalButton } from '../../cmps/ModalButton/ModalButton.jsx'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -26,6 +31,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
+import { func } from "prop-types";
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -90,7 +96,10 @@ export function _CalendarAdmin(props) {
         end: "2020-10-12T16:30:00Z"
     }
     const [selectedDate, handleDateChange] = useState(new Date());
+    const [weeklyDates, setWeeklyDates] = useState([]);
+    const [tableModel, setTableModel] = useState([]);
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
+    const [isClicked, setIsClicked] = useState(true);
     const [tableCells, setTableCells] = useState([]);
     const [month, setMonth] = useState(UtilsService.getMonthByIdx(new Date().getMonth() + 1));
     const [eventsToDisplay, setEventsToDisplay] = useState(async () => {
@@ -100,17 +109,17 @@ export function _CalendarAdmin(props) {
         return getDailyDates(selectedDate)
     });
     const [loader, setLoader] = useState(true);
-
+    let table = []
     let eventsIds = []
     useEffect(() => {
         (async () => {
-            console.log(daysForDisplay);
             let weeklyEvents = await eventsToDisplay
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
+                table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
                 return setTableCells(
-                    timeSlots.map(ts => {
-                        return <tr>
+                    timeSlots.map((ts, tsIdx) => {
+                        return <tr key={tsIdx}>
                             <td className="td-hours">{ts}</td>
                             {
                                 weeklyEvents.map((dailyEvents, dailyIdx) => {
@@ -125,7 +134,7 @@ export function _CalendarAdmin(props) {
                                                 cellIsRendered = true
                                                 if (!eventsIds.includes(ev.id)) {
                                                     eventsIds.push(ev.id)
-                                                    return <td className={`occupied-cell ${evenOrOdd}-${(counter)}`} onClick={() => handleClickOpen(ev.id)} rowspan={range.rowspan} >
+                                                    return <td className={`occupied-cell ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
                                                             <div className="event-time">{(ev.start).slice(11, 16)}-{(ev.end).slice(11, 16)}</div>
                                                             <div className="event-desc">{ev.name}</div>
@@ -135,13 +144,13 @@ export function _CalendarAdmin(props) {
                                                 } else return ''
                                             }
                                             else if ((dailyEvents.length === eventIdx + 1) && (!cellIsRendered)) {
-                                                return <td className="available-cell" onClick={() => setAppointment(ts, dailyEvents)}>{<i class="fas fa-plus"></i>}</td>
+                                                return <td className="available-cell" key={eventIdx} onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts)}>{<i className="fas fa-plus"></i>}</td>
                                             }
                                             counter++
                                         })
                                     } else {
                                         //all day available no event at this day
-                                        return <td className="available-cell" onClick={() => setAppointment(ts)}>{<i class="fas fa-plus"></i>}</td>
+                                        return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts)}>{<i className="fas fa-plus"></i>}</td>
                                     }
                                 })
                             }
@@ -152,24 +161,49 @@ export function _CalendarAdmin(props) {
         })()
     }, [eventsToDisplay]);
 
+    useEffect(() => {
+        checkIfClicked()
+    }, [props.users]);
 
+
+    function checkIfClicked() {
+        if (location.pathname === '/calendarAdmin/contacts') {
+            setIsClicked(!(props.users.find(user => user.isMarked)))
+        }
+    }
+
+    function handleModalRoute(duration) {
+        if (location.pathname === '/calendarAdmin/contacts') {
+            props.history.push('/calendarAdmin/treatments')
+            setIsClicked(true)
+        }
+        if (location.pathname === '/calendarAdmin/treatments') {
+            props.history.push('/calendarAdmin/form')
+        }
+        if (location.pathname === '/calendarAdmin/form') {
+            setAppointment(duration)
+            closeAppointmentsModal()
+        }
+    }
 
     function getDailyDates(date) {
         const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
+        setWeeklyDates(days)
         return days.map(day => {
             return day.start.slice(8, 10)
         })
     }
 
-    function cancelAppiontment(evId) {
+    function cancelAppiontment() {
         setEventsToDisplay(async () => {
             return await getWeeklyEvents(selectedDate)
         })
-        CalendarService.removeEventFromCalendar(evId)
+        CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
         // delete from mongo data base
-        EventService.removeEventFromDB(evId)
+        EventService.removeEventFromDB(eventToRmoveId.mongo)
         // EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
     }
+
     function getDatesWeeklyRange(date) {
         if (date.getDay() !== 6) {
             const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
@@ -179,7 +213,6 @@ export function _CalendarAdmin(props) {
         } else {
             return { lastDay: 'יום שבת', firstDay: '' }
         }
-
     }
 
     function getWorkingTimeSlots() {
@@ -227,41 +260,51 @@ export function _CalendarAdmin(props) {
     }
     const [isOpen, setIsOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
-    const [eventToRmoveId, setEventToRmove] = React.useState('');
+    const [eventToRmoveId, setEventToRmove] = React.useState({});
 
-    const handleClickOpen = (evId) => {
-        setEventToRmove(evId)
+    const handleClickOpen = async (ev) => {
+        const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
+       console.log(mongoEvent);
+        setEventToRmove({mongo:mongoEvent._id,calendar:ev.id})
+      console.log(ev.id);
         setOpen(true);
     };
 
     const handleClose = (isApproved) => {
         setOpen(false);
-        if (isApproved) cancelAppiontment(eventToRmoveId)
+        if (isApproved) cancelAppiontment()
     };
 
-    function setAppointment(ts, date = '') {
-        //if there is daylyEvent then we need to ask if there is daylyEvent.start...>ts then if there are few then we need to find the closest one to ts
-        //then we calculate the diffrance between does tow
-        //and we can get the date from the event
-        if (date) {
-            console.log(ts);
-            console.log(date);
-        } else {
-            //we need to find a way to get the date for this availably td
-            console.log(ts);
-        }
+
+    async function setAppointment(duration) {
+        const markedTreatmetns = TreatmentService.getMarkedTreatmentsStr(props.treatments)
+        const { phone, email, name } = props.userToSchedule
+        await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
+        setEventsToDisplay(await getWeeklyEvents())
+    }
+
+    let weeklyRange = getDatesWeeklyRange(selectedDate)
+    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
+
+    function openAppointmentsModal(cellPos, ts) {
+        const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
+        console.log(dateToScheduale.slice(0, 10));
+        props.setTreatment({
+            time: ts,
+            date: dateToScheduale.slice(0, 10)
+        })
+        props.updateAvailbleDuration(CalendarService.getAvailbleDuration(table, cellPos))
         setAppointmentsModalIsOpen(true)
         props.history.push('/calendarAdmin/contacts')
     }
 
-    // const [btnTxt, setBtnTxt] = React.useState();
-
-    let weeklyRange = getDatesWeeklyRange(selectedDate)
-    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
+        StoreService.initApp()
         props.history.push('/calendarAdmin')
     }
+    let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
+
     return (
         <motion.div
             initial="out"
@@ -274,7 +317,7 @@ export function _CalendarAdmin(props) {
             <main className="calendar-admin-container">
                 <div className="header-app flex justifiy-center align-center space-between" >
                     <div className="weekly-dates-container flex space-between align-center" onClick={() => setIsOpen(true)}>
-                        <i class="calendar-icon fas fa-calendar-week"></i>
+                        <i className="calendar-icon fas fa-calendar-week"></i>
                         <div className="weekly-dates-text">{weeklyRange.firstDay}<br />{weeklyRange.lastDay} </div>
                     </div>
                     <div id="text2" onClick={() => props.history.push('/')} >Tori<i className="fas fa-tasks"></i></div>
@@ -312,7 +355,7 @@ export function _CalendarAdmin(props) {
                     <div>
                         {
                             !loader ?
-                                <div class="table-container">
+                                <div className="table-container">
                                     <table>
                                         <tbody>
                                             {
@@ -351,7 +394,7 @@ export function _CalendarAdmin(props) {
                                 disableUnderline: true,
                                 style: { width: '0' }
                             }}
-                            KeyboardButtonProps={{
+                            keyboardbuttonprops={{
                                 'aria-label': 'change date',
                             }}
                         />
@@ -362,7 +405,7 @@ export function _CalendarAdmin(props) {
                         open={open}
                         TransitionComponent={Transition}
                         keepMounted
-                        onClose={handleClose}
+                        onClose={() => handleClose(false)}
                         aria-labelledby="alert-dialog-slide-title"
                         aria-describedby="alert-dialog-slide-description"
                     >
@@ -386,22 +429,19 @@ export function _CalendarAdmin(props) {
                     <>
                         <div className="modal-screen" onClick={closeAppointmentsModal}>
                         </div>
-                        {/* <div className="modal-wrpper"> */}
                         <div className="apointments-modal">
+                            {isCalendarAdminForm &&
+                                <header className="header-in-form-modal">
+                                    לקביעת התור לחצו 'אישור'
+                                </header>
+                            }
                             <Router>
                                 <Route path="/calendarAdmin/contacts" component={Contacts} />
                                 <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
+                                <Route path="/calendarAdmin/form" component={SubmitForm} />
                             </Router>
-                            <button className="calendar-admin-modal-btn">
-                              {
-                             (location.pathname === '/calendarAdmin/contacts')?
-                             'בחר לקוח ולחץ כאן להמשך'
-                             :
-                             'בחר טיפולים ולחץ כאן לאישור'
-                              }
-                            </button>
+                            <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />
                         </div>
-                        {/* </div> */}
                     </>
                 }
             </main>
@@ -411,12 +451,16 @@ export function _CalendarAdmin(props) {
 
 function mapStateProps(state) {
     return {
-
+        users: state.UserReducer.users,
+        userToSchedule: state.UserReducer.userToSchedule,
+        treatments: state.TreatmentReducer.treatments,
+        treatment: state.TreatmentReducer.treatment,
     }
 }
 
 const mapDispatchToProps = {
-
+    updateAvailbleDuration,
+    setTreatment
 }
 
 export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)

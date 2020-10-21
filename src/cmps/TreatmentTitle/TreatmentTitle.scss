@@ -1,5 +1,22 @@
+
+
+.treatment-title{
+    text-align: center;
+    font-size: 1rem;
+}
+
+.treatment-title-in-modal{
+    height: 50px;
+    background-color: #273650;
+    border-radius: 24px 24px 0 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .red-title{
-    color: #680505;
+    color:rgb(248, 204, 211);
     // font-weight: bolder;
     font-size: 17px;
 }

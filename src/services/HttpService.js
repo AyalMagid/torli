@@ -12,7 +12,6 @@ var axios = Axios.create({
 
 export default {
     get(endpoint, data){
-        console.log(endpoint);
         return ajax(endpoint, 'GET', data)
     },
     post(endpoint, data){
@@ -28,10 +27,6 @@ export default {
 
 
 async function ajax(endpoint, method='get', data=null) {
-    // let h = new Headers()
-    // h.append('Authorization','Bearer mFzYTSGauAA4QGdG6rI9MtfvvfEZHo')
-    console.log(`${BASE_URL}${endpoint}`)
-    
     try {
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,

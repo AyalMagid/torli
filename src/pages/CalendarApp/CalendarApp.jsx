@@ -130,7 +130,7 @@ export function _CalendarApp(props) {
                                 id="date-picker-inline"
                                 value={selectedDate}
                                 onChange={handleChange}
-                                KeyboardButtonProps={{
+                                keyboardbuttonprops={{
                                     'aria-label': 'change date',
                                 }}
                             />

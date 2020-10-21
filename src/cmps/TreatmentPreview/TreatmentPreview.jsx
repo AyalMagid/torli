@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDuration, updateTreatments,updateTreatmentsCount} from '../../actions/treatmentActions';
+import { updateDuration,updateDurationForModal, updateTreatments,updateTreatmentsCount} from '../../actions/treatmentActions';
 import { SwitchApp } from '../SwitchApp/SwitchApp';
 import UtilService from '../../services/UtilsService'
 import TreatmentService from '../../services/TreatmentService';
@@ -25,7 +25,6 @@ class _TreatmentPreview extends Component {
 
     // mark the treatment
    updatePickedTreatments = (isMarked) => {
-    
             this.setState({updatedTreatment:{...this.state.updatedTreatment,marked:isMarked}}, ()=>{
                 if(isMarked){
                     this.props.updateTreatmentsCount(1)
@@ -62,7 +61,7 @@ class _TreatmentPreview extends Component {
     
 function mapStateProps(state) {
     return {
-        duration: state.TreatmentReducer.duration,
+        // duration: state.TreatmentReducer.duration,
         treatments: state.TreatmentReducer.treatments
     }
 }
