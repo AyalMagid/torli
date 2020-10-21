@@ -169,22 +169,21 @@
 //     border-radius: 24px;
 // }
 
-.calendar-admin-modal-btn{
-    width: 100%;
-    border-radius: 0 0 24px 24px;
-    height: 50px;
-    font-size: 16px;
-    background-color:  #273650;
-    position: fixed;
-    bottom: 0;
-    border: none;
-    transform: translate(50%,50%);
-    text-align: center;
-    color:white;
-    outline: none;
-}
+
+
 
 .apointments-modal{
+    .header-in-form-modal{
+        height: 50px;
+        width: 100%;
+        background-color: #273650;
+        border-radius: 24px 24px 0 0;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+    }
     position: absolute;
     width: 80%;
     height: 80%;
@@ -194,6 +193,9 @@
     z-index: 2;
     background-color: #ffecf2;
     border-radius: 24px;
+    button[disabled]{
+        color:rgba(255, 255, 255, 0.616);
+    }
 }
 
 .modal-screen{

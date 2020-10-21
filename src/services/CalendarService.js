@@ -9,7 +9,9 @@ export default {
     addEventToCalendar,
     removeEventFromCalendar,
     setAppointment,
-    getEventsFromCalendar
+    getEventsFromCalendar,
+    buildWeeklyModel,
+    getAvailbleDuration
 }
 
 // get the first calendar connected to this TOKEN (usually only 1 should be there)
@@ -59,3 +61,43 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 
+
+/////////////////////calendarAdmin:
+
+function buildWeeklyModel(timeSlots, weeklyEvents) {
+    let tableCellsModel = []
+    for (var i = 0; i < timeSlots.length; i++) {
+        tableCellsModel.push([])
+    }
+    timeSlots.map((ts, tsIdx) => {
+        weeklyEvents.map((dailyEvents, dailyIdx) => {
+            if (dailyEvents.length) {
+                let isCellInUsed = false
+                return dailyEvents.map((ev, eventIdx) => {
+                    const range = UtilsService.checkIfTsInRange(ts, ev.start, ev.end, 30)
+                    if (range.occupied) {
+                        isCellInUsed = true
+                        tableCellsModel[dailyIdx, tsIdx].push(false)
+                    }
+                    else if ((dailyEvents.length === eventIdx + 1) && (!isCellInUsed)) {
+                        tableCellsModel[dailyIdx, tsIdx].push(true)
+                    }
+                })
+            } else {
+                tableCellsModel[dailyIdx, tsIdx].push(true)
+            }
+        })
+    })
+    return tableCellsModel
+}
+
+function getAvailbleDuration(table, cellPos,slotSize=30) {
+    let durationAvalability = 0
+    let i = cellPos.tsIdx
+    while (table[i][cellPos.dailyIdx] && i < table.length-1) {
+        durationAvalability += slotSize
+        i++
+    }
+    if(!durationAvalability) return slotSize
+    return durationAvalability
+}

@@ -57,23 +57,4 @@ export function setTimeSlots(timeSlots) {
    };
 }
 
-// export async function loadTimeSlots(pickedDate = null){
-//   if (!pickedDate) {
-//       var firstDay = getIsosDate (0)
-//       var secondDay = getIsosDate (1)
-//       var thirdDay = getIsosDate (2)
-//   } else {
-//       firstDay = getIsosDate (-1, pickedDate)
-//       secondDay = getIsosDate (0,  pickedDate)
-//       thirdDay = getIsosDate (1, pickedDate ) 
-//   }
-//   const firstDaySlots = await CalendarService.getAvailbleDailySlots(`${firstDay}T05:00:00`, `${firstDay}T17:00:00`, '1H')
-//   const secondDaySlots = await CalendarService.getAvailbleDailySlots(`${secondDay}T05:00:00`, `${secondDay}T17:00:00`, '1H')
-//   const thirdDaySlots = await CalendarService.getAvailbleDailySlots(`${thirdDay}T05:00:00`, `${thirdDay}T17:00:00`, '1H')
-//   const timeSlots = {
-//       first:firstDaySlots,
-//       second:secondDaySlots,
-//       third:thirdDaySlots
-//   }
-//   return timeSlots
-// }
+

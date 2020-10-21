@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-    users:[]
+    users:[],
+    userToSchedule:null
 }
 
 export function UserReducer(state = INITIAL_STATE, action) {
@@ -14,6 +15,16 @@ export function UserReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 users: action.users
+            }          
+        case 'SET_USER_TO_SCHEDULE':
+            return {
+                ...state,
+                userToSchedule: action.userToSchedule
+            }          
+        case 'UPDATE_USER_TO_SCHEDULE':
+            return {
+                ...state,
+                userToSchedule: action.userToSchedule
             }          
         
         default:

@@ -2,6 +2,7 @@ const INITIAL_STATE = {
     treatment: null,
     treatments: null,
     duration:0,
+    availableDuration:0,
     pickedTreatmentsCount:0
 }
 
@@ -40,11 +41,17 @@ export function TreatmentReducer(state = INITIAL_STATE, action) {
         return {
           ...state,
           duration: state.duration+(action.duration)
-        };              
+        };                 
+        case 'UPDATE_AVAILBLE_DURATION':
+        return {
+          ...state,
+          availableDuration: state.availableDuration+(action.availableDuration)
+        };                 
         case 'INIT_DURATION':
         return {
           ...state,
-          duration:0
+          duration:0,
+          availableDuration:0
         };           
         case 'INIT_PICKED_TREATMENTS_COUNT':
         return {

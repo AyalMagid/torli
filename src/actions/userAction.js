@@ -1,4 +1,5 @@
 import UserService from '../services/UserService';
+import StorageService from '../services/StorageService';
 
 export function loadUsers() {
   return async dispatch => {
@@ -32,5 +33,35 @@ export function _updateUsers(users) {
   return {
     type: 'UPDATE_USERS',
     users
+  };
+}
+
+
+export function setUserToSchedule() {
+  return dispatch => {
+    const userToSchedule = StorageService.loadFromStorage('tori-user');
+    dispatch(_setUserToSchedule(userToSchedule));
+  }
+}
+
+export function _setUserToSchedule(userToSchedule) {
+  return {
+    type: 'SET_USER_TO_SCHEDULE',
+    userToSchedule
+  };
+}
+
+
+
+export function updateUserToSchedule(userToSchedule) {
+  return dispatch => {
+    dispatch(_updateUserToSchedule(userToSchedule));
+  }
+}
+
+export function _updateUserToSchedule(userToSchedule) {
+  return {
+    type: 'UPDATE_USER_TO_SCHEDULE',
+    userToSchedule
   };
 }

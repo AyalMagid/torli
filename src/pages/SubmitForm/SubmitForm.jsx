@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import UtilsService from "../../services/UtilsService";
 import CalendarService from '../../services/CalendarService';
@@ -57,20 +58,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function _SubmitForm(props) {
-
+    const location = useLocation()
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [markedTreatmetns, setMarkedTreatmetns] = React.useState('');
-    const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
     const dateIsraeliDisplay = UtilsService.convertDateToIsraelisDisplay(props.treatment.date)
     const endTime = UtilsService.calculateEndTime(props.treatment.time, props.duration)
-
+    const { name, phone, email } = props.userToSchedule
     useEffect(() => {
         setMarkedTreatmetns(TreatmentService.getMarkedTreatmentsStr(props.treatments))
-        const user = StorageService.loadFromStorage('tori-user')
-        if (user) {
-            setCredentials(user)
-        }
     }, [props.treatments])
 
     const handleOpen = () => {
@@ -88,17 +84,15 @@ export function _SubmitForm(props) {
     }
 
     async function setAppointment() {
-        const { name, phone, email } = credentials
         await CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment)
-        StorageService.saveToStorage('tori-user', credentials)
     }
 
+    let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
 
-    const { name, phone, email } = credentials
     return (
         <div className="submit-form flex column  align-center">
-            <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>
-            <div className="user-details">
+          {!isCalendarAdminForm&&  <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>}
+            <div className={`user-details ${isCalendarAdminForm ?'user-details-in-modal':''}`}>
                 <div>שם : {name}</div>
                 <div>טלפון : {phone}</div>
                 <div>אימייל : {email}</div>
@@ -140,7 +134,7 @@ export function _SubmitForm(props) {
                     </Fade>
                 </Modal>
             </motion.div>
-            <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />
+            {!isCalendarAdminForm&& <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />}
         </div>
     );
 }
@@ -150,6 +144,7 @@ function mapStateProps(state) {
         treatments: state.TreatmentReducer.treatments,
         treatment: state.TreatmentReducer.treatment,
         duration: state.TreatmentReducer.duration,
+        userToSchedule: state.UserReducer.userToSchedule,
     }
 }
 
