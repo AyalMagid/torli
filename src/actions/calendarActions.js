@@ -85,3 +85,17 @@ export function _updateSlotToBlock(slotToBlock) {
       slotToBlock
      };
 }
+
+
+export function updateIsDayFullyAvailable(isDayFullyAvailable) {
+   return  dispatch => { dispatch(_updateIsDayFullyAvailable(isDayFullyAvailable))}
+}
+
+
+
+export function _updateIsDayFullyAvailable(isDayFullyAvailable) {
+    return {
+      type: 'UPDATE_IS_DAY_FULLY_AVAILABLE',
+      isDayFullyAvailable
+     };
+}

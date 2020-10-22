@@ -3,7 +3,8 @@ const INITIAL_STATE = {
     timeSlots: null,
     hoursToBlock:null,
     slotToBlock:null,
-    confirmedEventId:null
+    confirmedEventId:null,
+    isDayFullyAvailable:false
 }
 
 export function CalendarReducer(state = INITIAL_STATE, action) {
@@ -28,6 +29,11 @@ export function CalendarReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 slotToBlock: action.slotToBlock
+            }          
+        case 'UPDATE_IS_DAY_FULLY_AVAILABLE':
+            return {
+                ...state,
+                isDayFullyAvailable: action.isDayFullyAvailable
             }          
 
         default:

@@ -129,7 +129,7 @@ function getAvailbleDuration(table, cellPos, slotSize = 30) {
     return durationAvalability
 }
 
-function getHoursToBlock(timeSlots, ts, availableDuration, date, slotSize = 30) {
+function getHoursToBlock(timeSlots, ts, availableDuration, date, isDayFullyAvailable, slotSize = 30) {
     let hoursToBlock = []
     const tsIdx = timeSlots.findIndex(timeSlot => timeSlot === ts)
     const availableSlots = availableDuration / slotSize
@@ -143,7 +143,18 @@ function getHoursToBlock(timeSlots, ts, availableDuration, date, slotSize = 30) 
             }
         )
     }
-    console.log(hoursToBlock);
+    if (isDayFullyAvailable) {
+       //in this case start and end time will come from the store 
+        hoursToBlock.unshift(
+            {
+                date,
+                start: timeSlots[0],
+                end: timeSlots[timeSlots.length-1],
+                isMarked: false
+            }
+        )
+        hoursToBlock.pop()
+    }
     return hoursToBlock
 }
 

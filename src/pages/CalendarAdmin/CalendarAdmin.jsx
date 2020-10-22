@@ -12,7 +12,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 import { createMuiTheme, Hidden } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { updateAvailbleDuration, setTreatment } from '../../actions/treatmentActions.js';
-import { updateHoursToBlock} from '../../actions/calendarActions';
+import { updateHoursToBlock, updateIsDayFullyAvailable } from '../../actions/calendarActions';
 import TreatmentService from "../../services/TreatmentService";
 import UtilsService from '../../services/UtilsService';
 import CalendarService from '../../services/CalendarService';
@@ -22,6 +22,7 @@ import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
 import { Contacts } from '../../pages/Contacts/Contacts.jsx'
 import { AppointmentOrBlock } from '../../pages/AppointmentOrBlock/AppointmentOrBlock.jsx'
 import { BlockHours } from '../../pages/BlockHours/BlockHours.jsx'
+import { BlockConfermation } from '../../pages/BlockConfermation/BlockConfermation.jsx'
 import { SubmitForm } from '../../pages/SubmitForm/SubmitForm.jsx'
 import { ModalButton } from '../../cmps/ModalButton/ModalButton.jsx'
 import Button from '@material-ui/core/Button';
@@ -115,19 +116,19 @@ export function _CalendarAdmin(props) {
     let eventsIds = []
     useEffect(() => {
         (async () => {
-           if(timeSlots) console.log(timeSlots);
+            if (timeSlots) console.log(timeSlots);
             let weeklyEvents = await eventsToDisplay
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
                 table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
-                        if(tsIdx===timeSlots.length-1) return
+                        if (tsIdx === timeSlots.length - 1) return
                         return <tr key={tsIdx}>
                             <td className="td-hours">{ts}</td>
                             {
                                 weeklyEvents.map((dailyEvents, dailyIdx) => {
-                                   
+
                                     let counter = 0
                                     if (dailyEvents.length) {
                                         let cellIsRendered = false
@@ -139,10 +140,17 @@ export function _CalendarAdmin(props) {
                                                 cellIsRendered = true
                                                 if (!eventsIds.includes(ev.id)) {
                                                     eventsIds.push(ev.id)
-                                                    return <td className={`occupied-cell ${(ev.name==='block - block')?'blocked-cell':''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
+                                                    return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
                                                             <div className="event-time">{(ev.start).slice(11, 16)}-{(ev.end).slice(11, 16)}</div>
-                                                            <div className="event-desc">{ev.name}</div>
+                                                            {(ev.name === 'block - block')
+                                                                ?
+                                                                <div>
+                                                                    סגור
+                                                                </div>
+                                                                :
+                                                                <div className="event-desc">{ev.name}</div>
+                                                            }
                                                         </div>
                                                     </td>
 
@@ -155,7 +163,7 @@ export function _CalendarAdmin(props) {
                                         })
                                     } else {
                                         //all day available no event at this day
-                                        return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts)}>{<i className="fas fa-plus"></i>}</td>
+                                        return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts, true)}>{<i className="fas fa-plus"></i>}</td>
                                     }
                                 })
                             }
@@ -168,7 +176,7 @@ export function _CalendarAdmin(props) {
 
     useEffect(() => {
         checkIfClicked()
-    }, [props.users,props.slotsRangeToBlock]);
+    }, [props.users, props.slotsRangeToBlock]);
 
 
     function checkIfClicked() {
@@ -193,6 +201,13 @@ export function _CalendarAdmin(props) {
             closeAppointmentsModal()
         }
         if (location.pathname === '/calendarAdmin/blockHours') {
+            blockSlotRange()
+            closeAppointmentsModal()
+        }
+        if (location.pathname === '/calendarAdmin/blockHours') {
+            props.history.push('/calendarAdmin/blockConfermation')
+        }
+        if (location.pathname === '/calendarAdmin/blockConfermation') {
             blockSlotRange()
             closeAppointmentsModal()
         }
@@ -303,7 +318,8 @@ export function _CalendarAdmin(props) {
     let weeklyRange = getDatesWeeklyRange(selectedDate)
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
 
-    function openAppointmentsModal(cellPos, ts) {
+    function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
+        props.updateIsDayFullyAvailable(isDayFullyAvailable)
         const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
         props.setTreatment({
             time: ts,
@@ -311,7 +327,7 @@ export function _CalendarAdmin(props) {
         })
         const availableDuration = CalendarService.getAvailbleDuration(table, cellPos)
         props.updateAvailbleDuration(availableDuration)
-        props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots,ts,availableDuration,dateToScheduale.slice(0, 10)))
+        props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
         setAppointmentsModalIsOpen(true)
         // props.history.push('/calendarAdmin/contacts')
         props.history.push('/calendarAdmin/blockHours')
@@ -460,6 +476,7 @@ export function _CalendarAdmin(props) {
                                 <Route path="/calendarAdmin/form" component={SubmitForm} />
                                 <Route path="/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
                                 <Route path="/calendarAdmin/blockHours" component={BlockHours} />
+                                <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
                             </Router>
                             <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />
                         </div>
@@ -484,7 +501,8 @@ function mapStateProps(state) {
 const mapDispatchToProps = {
     updateAvailbleDuration,
     setTreatment,
-    updateHoursToBlock
+    updateHoursToBlock,
+    updateIsDayFullyAvailable
 }
 
 export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)
