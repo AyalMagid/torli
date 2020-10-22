@@ -11,7 +11,9 @@ export default {
     setAppointment,
     getEventsFromCalendar,
     buildWeeklyModel,
-    getAvailbleDuration
+    getAvailbleDuration,
+    getHoursToBlock,
+    blockSlotRange
 }
 
 // get the first calendar connected to this TOKEN (usually only 1 should be there)
@@ -24,7 +26,7 @@ async function getEventsFromCalendar(timeRange) {
     return await HttpService.get(`calendar/${timeRange.start}/${timeRange.end}`)
 }
 
-function addEventToCalendar(startTime, endTime, eventName, creatorName, creatorEmail) {
+function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block', creatorEmail) {
     const event = { eventName, creatorName, creatorEmail, startTime, endTime }
     return HttpService.post('calendar', event)
 }
@@ -61,6 +63,31 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 
+async function blockSlotRange(slotToBlock, name = 'block') {
+    let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, 3)
+    let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, 3)
+    const startTime = `${slotToBlock.date}T${time1}:00Z`
+    const endTime = `${slotToBlock.date}T${time2}:00Z`
+    console.log(slotToBlock.start, slotToBlock.end);
+    const confirmedEvent = await addEventToCalendar(startTime, endTime, name)
+
+    console.log('startTime', startTime);
+    console.log('endTime', endTime);
+    const event = {
+        name,
+        email: '',
+        phone: '',
+        eventId: confirmedEvent.id,
+        treatments: '',
+        duration: '',
+        startTime: startTime.slice(11, 20),
+        endTime: endTime.slice(11, 20),
+        date: startTime.slice(0, 10)
+    }
+    EventService.saveConfirmedEvent(event)
+    console.log(slotToBlock);
+}
+
 
 /////////////////////calendarAdmin:
 
@@ -91,13 +118,32 @@ function buildWeeklyModel(timeSlots, weeklyEvents) {
     return tableCellsModel
 }
 
-function getAvailbleDuration(table, cellPos,slotSize=30) {
+function getAvailbleDuration(table, cellPos, slotSize = 30) {
     let durationAvalability = 0
     let i = cellPos.tsIdx
-    while (table[i][cellPos.dailyIdx] && i < table.length-1) {
+    while (table[i][cellPos.dailyIdx] && i < table.length - 1) {
         durationAvalability += slotSize
         i++
     }
-    if(!durationAvalability) return slotSize
+    if (!durationAvalability) return slotSize
     return durationAvalability
 }
+
+function getHoursToBlock(timeSlots, ts, availableDuration, date, slotSize = 30) {
+    let hoursToBlock = []
+    const tsIdx = timeSlots.findIndex(timeSlot => timeSlot === ts)
+    const availableSlots = availableDuration / slotSize
+    for (let i = tsIdx; i < (tsIdx + availableSlots); i++) {
+        hoursToBlock.push(
+            {
+                date,
+                start: ts,
+                end: timeSlots[i + 1],
+                isMarked: false
+            }
+        )
+    }
+    console.log(hoursToBlock);
+    return hoursToBlock
+}
+

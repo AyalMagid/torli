@@ -1,6 +1,8 @@
 const INITIAL_STATE = {
     calendar: null,
     timeSlots: null,
+    hoursToBlock:null,
+    slotToBlock:null,
     confirmedEventId:null
 }
 
@@ -16,6 +18,16 @@ export function CalendarReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 timeSlots: action.timeSlots
+            }          
+        case 'UPDATE_HOURS_TO_BLOCK':
+            return {
+                ...state,
+                slotsRangeToBlock: action.slotsRangeToBlock
+            }          
+        case 'UPDATE_SLOT_TO_BLOCK':
+            return {
+                ...state,
+                slotToBlock: action.slotToBlock
             }          
 
         default:

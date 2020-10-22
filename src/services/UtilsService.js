@@ -1,4 +1,4 @@
-import { func } from "prop-types";
+
 
 export default {
   englishToHebrew,
@@ -150,6 +150,7 @@ function changeTimeForDisplay(time, diff) {
   hours = checkDigitsAndAddZerosIfNeeded(hours)
   return hours + ':' + (minutes)
 }
+
 
 function calculateEndTime(time, duration) {
   let hours = +time.slice(0, 2)

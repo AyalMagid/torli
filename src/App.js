@@ -13,6 +13,8 @@ import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { UserPage } from './pages/UserPage/UserPage.jsx'
 import { AdminPage } from './pages/AdminPage/AdminPage.jsx'
 import { Contacts } from './pages/Contacts/Contacts.jsx'
+import { AppointmentOrBlock } from './pages/AppointmentOrBlock/AppointmentOrBlock.jsx'
+import { BlockHours } from './pages/BlockHours/BlockHours.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
 import { HashRouter as Router} from 'react-router-dom';
 
@@ -33,7 +35,6 @@ function App() {
             <Route path="/userpage" component={UserPage} />
             <Route path="/adminpage" component={AdminPage} />
             <Route path="/calendarAdmin" component={CalendarAdmin} />
-            <Route path="/contacts" component={Contacts} />
             <Route path="/" component={HomePage} />
           </Switch>
       </div>

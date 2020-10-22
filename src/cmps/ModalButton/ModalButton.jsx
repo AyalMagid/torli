@@ -19,6 +19,9 @@ function _ModalButton(props) {
             case '/calendarAdmin/form':
                 isValid = false
                 break;
+            case '/calendarAdmin/blockHours':
+                isValid = props.isClicked
+                break;
             default:
                 console.log('Err updating button modal validation')
         }

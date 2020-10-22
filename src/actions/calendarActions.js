@@ -58,3 +58,30 @@ export function setTimeSlots(timeSlots) {
 }
 
 
+
+export function updateHoursToBlock(slotsRangeToBlock) {
+   return  dispatch => { dispatch(_updateHoursToBlock(slotsRangeToBlock))}
+}
+
+
+
+export function _updateHoursToBlock(slotsRangeToBlock) {
+    return {
+      type: 'UPDATE_HOURS_TO_BLOCK',
+      slotsRangeToBlock
+     };
+}
+
+
+export function updateSlotToBlock(slotToBlock) {
+   return  dispatch => { dispatch(_updateSlotToBlock(slotToBlock))}
+}
+
+
+
+export function _updateSlotToBlock(slotToBlock) {
+    return {
+      type: 'UPDATE_SLOT_TO_BLOCK',
+      slotToBlock
+     };
+}

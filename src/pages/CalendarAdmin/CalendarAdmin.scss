@@ -106,6 +106,9 @@
 .odd-event-2{
     background-color:#00ff7812;
 }
+.blocked-cell{
+  background-color: black;
+}
 .header-app{
     padding: 5px 20px;
 }
@@ -157,20 +160,6 @@
     }
 }
 
-// .modal-wrpper{
-//     background-color: white; 
-//     position: absolute;
-//     width: 80%;
-//     height: 80%;
-//     left: 50%;
-//     top: 50%;
-//     transform: translate(-50%,-50%);
-//     z-index:3;
-//     border-radius: 24px;
-// }
-
-
-
 
 .apointments-modal{
     .header-in-form-modal{
@@ -194,6 +183,8 @@
     background-color: #ffecf2;
     border-radius: 24px;
     button[disabled]{
+        font-size: 16px;
+        font-weight: 400;
         color:rgba(255, 255, 255, 0.616);
     }
 }

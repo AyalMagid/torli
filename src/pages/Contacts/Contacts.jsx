@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
-import StorageService from "../../services/StorageService";
-import UtilsService from "../../services/UtilsService";
-import UserService from "../../services/UserService";
-import { motion } from 'framer-motion'
 import './Contacts.scss';
 
 
