@@ -11,15 +11,18 @@ import heLocale from "date-fns/locale/he";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import { createMuiTheme, Hidden } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
-import { updateAvailbleDuration } from '../../actions/treatmentActions.js';
+import { updateAvailbleDuration, setTreatment } from '../../actions/treatmentActions.js';
+import { updateHoursToBlock, updateIsDayFullyAvailable } from '../../actions/calendarActions';
 import TreatmentService from "../../services/TreatmentService";
 import UtilsService from '../../services/UtilsService';
 import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import StoreService from '../../services/StoreService';
 import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
-import { setTreatment } from '../../actions/treatmentActions';
 import { Contacts } from '../../pages/Contacts/Contacts.jsx'
+import { AppointmentOrBlock } from '../../pages/AppointmentOrBlock/AppointmentOrBlock.jsx'
+import { BlockHours } from '../../pages/BlockHours/BlockHours.jsx'
+import { BlockConfermation } from '../../pages/BlockConfermation/BlockConfermation.jsx'
 import { SubmitForm } from '../../pages/SubmitForm/SubmitForm.jsx'
 import { ModalButton } from '../../cmps/ModalButton/ModalButton.jsx'
 import Button from '@material-ui/core/Button';
@@ -31,11 +34,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
-import { func } from "prop-types";
+
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide timeout={5000} direction="down" ref={ref} {...props} />;
 });
 
 // motion div style
@@ -93,7 +96,7 @@ export function _CalendarAdmin(props) {
 
     const constrains = {
         start: "2020-10-12T05:00:00Z",
-        end: "2020-10-12T16:30:00Z"
+        end: "2020-10-12T17:00:00Z"
     }
     const [selectedDate, handleDateChange] = useState(new Date());
     const [weeklyDates, setWeeklyDates] = useState([]);
@@ -113,16 +116,19 @@ export function _CalendarAdmin(props) {
     let eventsIds = []
     useEffect(() => {
         (async () => {
+            if (timeSlots) console.log(timeSlots);
             let weeklyEvents = await eventsToDisplay
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
                 table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
+                        if (tsIdx === timeSlots.length - 1) return
                         return <tr key={tsIdx}>
                             <td className="td-hours">{ts}</td>
                             {
                                 weeklyEvents.map((dailyEvents, dailyIdx) => {
+
                                     let counter = 0
                                     if (dailyEvents.length) {
                                         let cellIsRendered = false
@@ -134,10 +140,17 @@ export function _CalendarAdmin(props) {
                                                 cellIsRendered = true
                                                 if (!eventsIds.includes(ev.id)) {
                                                     eventsIds.push(ev.id)
-                                                    return <td className={`occupied-cell ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
+                                                    return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
                                                             <div className="event-time">{(ev.start).slice(11, 16)}-{(ev.end).slice(11, 16)}</div>
-                                                            <div className="event-desc">{ev.name}</div>
+                                                            {(ev.name === 'block - block')
+                                                                ?
+                                                                <div>
+                                                                    סגור
+                                                                </div>
+                                                                :
+                                                                <div className="event-desc">{ev.name}</div>
+                                                            }
                                                         </div>
                                                     </td>
 
@@ -150,7 +163,7 @@ export function _CalendarAdmin(props) {
                                         })
                                     } else {
                                         //all day available no event at this day
-                                        return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts)}>{<i className="fas fa-plus"></i>}</td>
+                                        return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts, true)}>{<i className="fas fa-plus"></i>}</td>
                                     }
                                 })
                             }
@@ -163,12 +176,15 @@ export function _CalendarAdmin(props) {
 
     useEffect(() => {
         checkIfClicked()
-    }, [props.users]);
+    }, [props.users, props.slotsRangeToBlock]);
 
 
     function checkIfClicked() {
         if (location.pathname === '/calendarAdmin/contacts') {
             setIsClicked(!(props.users.find(user => user.isMarked)))
+        }
+        if (location.pathname === '/calendarAdmin/blockHours') {
+            setIsClicked(!(props.slotsRangeToBlock.find(sr => sr.isMarked)))
         }
     }
 
@@ -182,6 +198,13 @@ export function _CalendarAdmin(props) {
         }
         if (location.pathname === '/calendarAdmin/form') {
             setAppointment(duration)
+            closeAppointmentsModal()
+        }
+        if (location.pathname === '/calendarAdmin/blockHours') {
+            props.history.push('/calendarAdmin/blockConfermation')
+        }
+        if (location.pathname === '/calendarAdmin/blockConfermation') {
+            blockSlotRange()
             closeAppointmentsModal()
         }
     }
@@ -261,12 +284,15 @@ export function _CalendarAdmin(props) {
     const [isOpen, setIsOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [eventToRmoveId, setEventToRmove] = React.useState({});
+    const [modalSubJect, setModalSubJect] = React.useState({});
 
     const handleClickOpen = async (ev) => {
+        if (ev.name === 'block - block') setModalSubJect(true)
+        else setModalSubJect(false)
         const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
-       console.log(mongoEvent);
-        setEventToRmove({mongo:mongoEvent._id,calendar:ev.id})
-      console.log(ev.id);
+        console.log(mongoEvent);
+        setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
+        console.log(ev.id);
         setOpen(true);
     };
 
@@ -280,22 +306,29 @@ export function _CalendarAdmin(props) {
         const markedTreatmetns = TreatmentService.getMarkedTreatmentsStr(props.treatments)
         const { phone, email, name } = props.userToSchedule
         await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
-        setEventsToDisplay(await getWeeklyEvents())
+        setEventsToDisplay(await getWeeklyEvents(selectedDate))
+    }
+
+    async function blockSlotRange() {
+        await CalendarService.blockSlotRange(props.slotToBlock)
+        setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 
     let weeklyRange = getDatesWeeklyRange(selectedDate)
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
 
-    function openAppointmentsModal(cellPos, ts) {
+    function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
+        props.updateIsDayFullyAvailable(isDayFullyAvailable)
         const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
-        console.log(dateToScheduale.slice(0, 10));
         props.setTreatment({
             time: ts,
             date: dateToScheduale.slice(0, 10)
         })
-        props.updateAvailbleDuration(CalendarService.getAvailbleDuration(table, cellPos))
+        const availableDuration = CalendarService.getAvailbleDuration(table, cellPos)
+        props.updateAvailbleDuration(availableDuration)
+        props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
         setAppointmentsModalIsOpen(true)
-        props.history.push('/calendarAdmin/contacts')
+        props.history.push('/calendarAdmin/appointmentOrBlock')
     }
 
     function closeAppointmentsModal() {
@@ -409,11 +442,15 @@ export function _CalendarAdmin(props) {
                         aria-labelledby="alert-dialog-slide-title"
                         aria-describedby="alert-dialog-slide-description"
                     >
-                        <DialogTitle id="alert-dialog-slide-title">מחיקת תור</DialogTitle>
+                        <DialogTitle id="alert-dialog-slide-title">{modalSubJect ? 'מחיקת סגירה' : 'מחיקת תור'}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                                האם את/ה בטוח/ה שברצונך למחוק תור זה?
-                      </DialogContentText>
+                                {
+                                    modalSubJect ?
+                                        'האם את/ה בטוח/ה שברצונך למחוק סגירה זאת?'
+                                        : ' האם את/ה בטוח/ה שברצונך למחוק תור זה?'
+                                }
+                            </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={() => handleClose(false)} color="primary">
@@ -439,8 +476,11 @@ export function _CalendarAdmin(props) {
                                 <Route path="/calendarAdmin/contacts" component={Contacts} />
                                 <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
                                 <Route path="/calendarAdmin/form" component={SubmitForm} />
+                                <Route path="/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
+                                <Route path="/calendarAdmin/blockHours" component={BlockHours} />
+                                <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
                             </Router>
-                            <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />
+                            {(location.pathname !== '/calendarAdmin/appointmentOrBlock') && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
                         </div>
                     </>
                 }
@@ -455,12 +495,16 @@ function mapStateProps(state) {
         userToSchedule: state.UserReducer.userToSchedule,
         treatments: state.TreatmentReducer.treatments,
         treatment: state.TreatmentReducer.treatment,
+        slotsRangeToBlock: state.CalendarReducer.slotsRangeToBlock,
+        slotToBlock: state.CalendarReducer.slotToBlock
     }
 }
 
 const mapDispatchToProps = {
     updateAvailbleDuration,
-    setTreatment
+    setTreatment,
+    updateHoursToBlock,
+    updateIsDayFullyAvailable
 }
 
 export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)

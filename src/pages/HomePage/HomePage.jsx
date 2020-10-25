@@ -1,19 +1,104 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import './HomePage.scss';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import { updateIsAdShown } from '../../actions/userAction';
+import AdvertiseService from '../../services/AdvertiseService';
 import StorageService from "../../services/StorageService";
+import { motion } from 'framer-motion'
+import './HomePage.scss';
+
+// motion div style
+const pageVariants = {
+    in: {
+        opacity: 1,
+        x: 0,
+        textAlign: 'center'
+    },
+    out: {
+        opacity: 0,
+        x: "50%"
+    }
+}
+
+const pageTransition = {
+    duration: 0.5,
+    type: "spring",
+    stiffness: 50
+}
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" timeout={{ enter: 3000 }} ref={ref} {...props} />;
+});
+
 export function _HomePage(props) {
+    const [isAdModalOpen, setIsAdModalOpen] = React.useState(false);
+
+    function closeAdModal() {
+        setModalInClass('')
+       setTimeout(() => {
+           setIsAdModalOpen(false)
+       }, 1100);
+    }
 
     function changeRoute(route) {
         (user) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
 
     const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
+    const [advertise, setAdvertise] = useState();
+    const [modalInClass, setModalInClass] = useState('');
     const ownerPhone = '123456789'
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
     const facebook = 'bokeresh'
     const instagram = 'restylebar'
+
+    useEffect(() => {
+        (async () => {
+            if (user) {
+                let ad = await AdvertiseService.getAd()
+                console.log(ad[0])
+                ad = ad[0]
+                if (user.phone !== '123456789') {
+                    if (ad && ad.content) {
+                        if (!props.isAdShown) {
+                            setAdvertise(ad.content)
+                            setIsAdModalOpen(true)
+                           setTimeout(() => {
+                               setModalInClass('ad-modal-in')
+                           }, 1000);
+                          
+                            props.updateIsAdShown(true)
+                        }
+                    }
+                } else {
+                    if (ad) return
+                    else {
+                        console.log('else')
+                        AdvertiseService.createAd()
+                    }
+                }
+            }
+        })()
+    }, [user]);
+
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <div className="home-page-wrapper">
             <main className="home-page">
@@ -34,7 +119,7 @@ export function _HomePage(props) {
                     <div className="login-container" onClick={() => props.history.push('/signupOrLogin')}>
                         <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
                         <div>הרשם/</div>
-                         <div>התחבר</div>
+                        <div>התחבר</div>
                     </div>
                 }
                 <div className="profile-container">
@@ -74,7 +159,15 @@ export function _HomePage(props) {
                     </a>
                     </div>
                 </div>
-                {/* <img className="footer-img" src={require('../../styles/img/footer2.png')} /> */}
+                {isAdModalOpen &&
+                    <>
+                        <div className="ad-modal-screen" onClick={closeAdModal}> </div>
+                        <div className={`ad-modal ${modalInClass}`}>
+                            <div> {advertise}</div>
+                        </div>
+                     
+                    </>
+                }
             </main>
         </div>
     );
@@ -82,10 +175,12 @@ export function _HomePage(props) {
 
 function mapStateProps(state) {
     return {
+        isAdShown: state.UserReducer.isAdShown
     }
 }
 
 const mapDispatchToProps = {
+    updateIsAdShown
 }
 
 export const HomePage = withRouter(connect(mapStateProps, mapDispatchToProps)(_HomePage))

@@ -65,3 +65,17 @@ export function _updateUserToSchedule(userToSchedule) {
     userToSchedule
   };
 }
+
+
+export function updateIsAdShown(isAdShown) {
+  return dispatch => {
+    dispatch(_updateIsAdShown(isAdShown));
+  }
+}
+
+export function _updateIsAdShown(isAdShown) {
+  return {
+    type: 'UPDATE_IS_AD_SHOWN',
+    isAdShown
+  };
+}

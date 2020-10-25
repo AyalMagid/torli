@@ -14,10 +14,19 @@ function _ModalButton(props) {
                 isValid = props.isClicked
                 break;
             case '/calendarAdmin/treatments':
-                isValid = (!props.pickedTreatmentsCount)||(!(props.duration<=props.availableDuration))
+                isValid = (!props.pickedTreatmentsCount) || (!(props.duration <= props.availableDuration))
                 break;
             case '/calendarAdmin/form':
                 isValid = false
+                break;
+            case '/calendarAdmin/blockHours':
+                isValid = props.isClicked
+                break;
+            case '/calendarAdmin/blockConfermation':
+                isValid = false
+                break;
+            case '/calendarAdmin/appointmentOrBlock':
+                isValid = true
                 break;
             default:
                 console.log('Err updating button modal validation')
@@ -25,17 +34,25 @@ function _ModalButton(props) {
         return isValid
     }
     return (
-        <button className="calendar-admin-modal-btn" onClick={()=>props.handleModalRoute(props.duration)}
+        <button className="calendar-admin-modal-btn" onClick={() => props.handleModalRoute(props.duration)}
             disabled={checkBtnValidation()}>
             {
                 (location.pathname === '/calendarAdmin/contacts') ?
                     'בחרו לקוח ולחצו כאן להמשך'
                     :
                     (location.pathname === '/calendarAdmin/treatments')
-                    ?
-                    'לחצו כאן להמשך'
-                    :
-                    'אישור'
+                        ?
+                        'לחצו כאן להמשך'
+                        :
+                        (location.pathname === '/calendarAdmin/blockHours')
+                            ?
+                            'בחרו שעה ולחצו להמשך'
+                            :
+                            (location.pathname === '/calendarAdmin/appointmentOrBlock')
+                                ?
+                                ''
+                                :
+                                'אישור'
             }
         </button>
     )

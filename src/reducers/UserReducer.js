@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     users:[],
-    userToSchedule:null
+    userToSchedule:null,
+    isAdShown:false
 }
 
 export function UserReducer(state = INITIAL_STATE, action) {
@@ -25,6 +26,11 @@ export function UserReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 userToSchedule: action.userToSchedule
+            }          
+        case 'UPDATE_IS_AD_SHOWN':
+            return {
+                ...state,
+                isAdShown: action.isAdShown
             }          
         
         default:
