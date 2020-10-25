@@ -5,22 +5,31 @@ import './Advertise.scss';
 
 export function _Advertise(props) {
 
-    const [advertiseContent, setAdvertiseContent] = React.useState('')
+    const [advertiseContent, setAdvertiseContent] = useState('')
+
+    useEffect(() => {
+        (async () => {
+            let ad = await AdvertiseService.getAd()
+            setAdvertiseContent(ad[0].content)
+        })()
+    }, []);
 
     function handleChange({ target }) {
+        console.log(target.value)
         setAdvertiseContent(target.value)
     }
 
-    function setAdvertise() {
-        AdvertiseService.updateAd(advertiseContent)
+    function updateAdContent() {
+        AdvertiseService.updateAd({ advertiseContent })
     }
 
     return (
-        <main>
-            <textarea  cols="30" rows="10" value={advertiseContent} onChange={handleChange} >
+        <main className="main-ad-container">
+            <div className="ad-title">מלאו את פרטי המודעה ולחצו 'אישור'</div>
+            <textarea className="ad-textearia" cols="30" rows="10" value={advertiseContent} onChange={handleChange} >
 
             </textarea>
-        <button onClick={setAdvertise()}>שמור</button>
+            <button className="add-content-btn" onClick={updateAdContent}>אישור</button>
         </main>
 
     );

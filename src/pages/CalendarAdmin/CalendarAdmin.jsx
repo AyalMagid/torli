@@ -38,7 +38,7 @@ import './CalendarAdmin.scss';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide timeout={5000} direction="dwon" ref={ref} {...props} />;
+    return <Slide timeout={5000} direction="down" ref={ref} {...props} />;
 });
 
 // motion div style

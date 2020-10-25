@@ -8,15 +8,16 @@ export default {
 
 // MONGO DB - GOES THREW BACKEND
 
-function getAd() {
-    return HttpService.get(`advertise`)
+ function getAd() {
+    return HttpService.get('advertise')
 }
 
-function updateAd(advertise) {
-    return HttpService.post('advertise', advertise)
+function updateAd(content) {
+    console.log(content);
+    return HttpService.put('advertise', content)
 }
 
-function createAd() {
-    return HttpService.post('advertise/create')
+ function createAd() {
+    return  HttpService.post('advertise')
 }
 
