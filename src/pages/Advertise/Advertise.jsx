@@ -22,13 +22,17 @@ export function _Advertise(props) {
     function updateAdContent() {
         AdvertiseService.updateAd({ advertiseContent })
     }
+    function stopAd() {
+        AdvertiseService.updateAd({})
+    }
 
     return (
         <main className="main-ad-container">
             <div className="ad-title">מלאו את פרטי המודעה ולחצו 'אישור'</div>
-            <textarea className="ad-textearia" cols="30" rows="10" value={advertiseContent} onChange={handleChange} >
-
-            </textarea>
+            <div className="textarea-container flex column align-center">
+                <textarea className="ad-textearia" cols="30" rows="10" value={advertiseContent} onChange={handleChange} ></textarea>
+                <button className="stop-ad-btn" onClick={stopAd}>לחצו להפסקת פרסום המודעה</button>
+            </div>
             <button className="add-content-btn" onClick={updateAdContent}>אישור</button>
         </main>
 

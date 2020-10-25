@@ -21,20 +21,6 @@
 }
 }
 
-.ad-textearia{
-    display: block;
-    margin: 0 auto;
-    resize: none;
-    outline: none;
-    border: none;
-    border-radius: 15px;
-    padding: 20px;
-    font-size: 16px;
-    width: 80%;
-    height: 60%;
-    background-color: white;
-    box-shadow: 0 1px 1px rgba(172, 170, 170, 0.12), 0 1px 1px rgba(179, 176, 176, 0.24);
-}
 
 .ad-title{
     width: 100%;
@@ -43,4 +29,32 @@
     justify-content: center;
     align-items: center;
     font-size: 18px;
+}
+.textarea-container{
+     height: 100%;
+    .ad-textearia{
+        display: block;
+        margin: 0 auto;
+        resize: none;
+        outline: none;
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        font-size: 16px;
+        width: 80%;
+        height: 60%;
+        background-color: white;
+        box-shadow: 0 1px 1px rgba(172, 170, 170, 0.12), 0 1px 1px rgba(179, 176, 176, 0.24);
+    }
+    .stop-ad-btn{
+        margin-top: 47px;
+        width: 40%;
+        border-radius: 24px;
+        border: none;
+        background-color:#273650;
+        font-size: 15px;
+        padding: 4%;
+        color: white;
+        box-shadow: 0 1px 1px rgba(226, 226, 226, 0.12), 0 1px 1px rgba(221, 220, 220, 0.24);
+    }
 }
