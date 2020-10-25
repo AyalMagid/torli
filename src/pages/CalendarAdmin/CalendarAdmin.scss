@@ -107,8 +107,11 @@
     background-color:#00ff7812;
 }
 .blocked-cell{
-  background-color:#7f7a7ac9;
-  color: white;
+    background: linear-gradient(45deg, #273650 1%, #f8ebed 1%, #f8ebed 49%, #4d648b 49%, #56698a 51%, #f8ebed 51%, #f8ebed 99%, #273650 99%);
+    background-size: 6px 6px;
+    background-position: 50px 50px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
 }
 .header-app{
     padding: 5px 20px;

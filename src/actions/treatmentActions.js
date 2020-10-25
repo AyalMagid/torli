@@ -137,7 +137,6 @@ function _initDuration() {
 
 
 export function updateAvailbleDuration(availableDuration) {
-  console.log(availableDuration);
   return async dispatch => {
     try {
       await 

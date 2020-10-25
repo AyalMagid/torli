@@ -144,7 +144,6 @@ function getHoursToBlock(timeSlots, ts, availableDuration, date, isDayFullyAvail
         )
     }
     if (isDayFullyAvailable) {
-       //in this case start and end time will come from the store 
         hoursToBlock.unshift(
             {
                 date,
@@ -153,7 +152,7 @@ function getHoursToBlock(timeSlots, ts, availableDuration, date, isDayFullyAvail
                 isMarked: false
             }
         )
-        hoursToBlock.pop()
+      if(ts===timeSlots[0])  hoursToBlock.pop()
     }
     return hoursToBlock
 }

@@ -38,7 +38,7 @@ import './CalendarAdmin.scss';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide timeout={5000} direction="dwon" ref={ref} {...props} />;
 });
 
 // motion div style
@@ -201,10 +201,6 @@ export function _CalendarAdmin(props) {
             closeAppointmentsModal()
         }
         if (location.pathname === '/calendarAdmin/blockHours') {
-            blockSlotRange()
-            closeAppointmentsModal()
-        }
-        if (location.pathname === '/calendarAdmin/blockHours') {
             props.history.push('/calendarAdmin/blockConfermation')
         }
         if (location.pathname === '/calendarAdmin/blockConfermation') {
@@ -288,8 +284,11 @@ export function _CalendarAdmin(props) {
     const [isOpen, setIsOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [eventToRmoveId, setEventToRmove] = React.useState({});
+    const [modalSubJect, setModalSubJect] = React.useState({});
 
     const handleClickOpen = async (ev) => {
+        if (ev.name === 'block - block') setModalSubJect(true)
+        else setModalSubJect(false)
         const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
         console.log(mongoEvent);
         setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
@@ -329,8 +328,7 @@ export function _CalendarAdmin(props) {
         props.updateAvailbleDuration(availableDuration)
         props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
         setAppointmentsModalIsOpen(true)
-        // props.history.push('/calendarAdmin/contacts')
-        props.history.push('/calendarAdmin/blockHours')
+        props.history.push('/calendarAdmin/appointmentOrBlock')
     }
 
     function closeAppointmentsModal() {
@@ -444,11 +442,15 @@ export function _CalendarAdmin(props) {
                         aria-labelledby="alert-dialog-slide-title"
                         aria-describedby="alert-dialog-slide-description"
                     >
-                        <DialogTitle id="alert-dialog-slide-title">מחיקת תור</DialogTitle>
+                        <DialogTitle id="alert-dialog-slide-title">{modalSubJect ? 'מחיקת סגירה' : 'מחיקת תור'}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                                האם את/ה בטוח/ה שברצונך למחוק תור זה?
-                      </DialogContentText>
+                                {
+                                    modalSubJect ?
+                                        'האם את/ה בטוח/ה שברצונך למחוק סגירה זאת?'
+                                        : ' האם את/ה בטוח/ה שברצונך למחוק תור זה?'
+                                }
+                            </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={() => handleClose(false)} color="primary">
@@ -478,7 +480,7 @@ export function _CalendarAdmin(props) {
                                 <Route path="/calendarAdmin/blockHours" component={BlockHours} />
                                 <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
                             </Router>
-                            <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />
+                            {(location.pathname !== '/calendarAdmin/appointmentOrBlock') && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
                         </div>
                     </>
                 }
