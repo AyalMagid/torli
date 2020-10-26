@@ -3,28 +3,8 @@ import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
 import './Contacts.scss';
 
-
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
-
-
 export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
-    const [isUserClicked, setIsUserClicked] = React.useState(false)
     useEffect(() => {
         props.loadUsers()
     }, [props.loadUsers]);

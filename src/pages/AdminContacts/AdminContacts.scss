@@ -1,0 +1,137 @@
+.admin-contacts{
+    width: 100%;
+
+    .search-input-wrapper{
+        width: 100%;
+        height: 50px;
+        background-color: #273650;
+        border: none;
+        border-bottom: 1px solid #17171f6e;
+        padding-right:6%;
+        padding-left:6%;
+        .logo{
+            color:white;
+            height: 60%;
+        }
+    }
+
+    .contacts-users-container-warpper{
+        height: 100%;
+        width: 100%;
+        margin-top: 12px;
+    }
+    .contacts-main-container{
+        width: 100%;
+        height: 100%;
+    }
+    .contacts-users-container{
+        width: 88%;
+        height: 87vh;
+        margin: 0 auto;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    .user-container{
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        // .check-mark-container{
+        //   width: 10%;
+        //   height: 100%;
+        // }
+        height: 60px;
+        font-size: 16px;
+        background-color: white;
+        // border-bottom: 1px solid #27365085;
+        // box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        margin-top: 8px;
+          .user-attr{
+        color: #273650;
+       }
+       padding: 20px;
+       .user-name{
+         width: 70%;
+         text-align: right;
+       }
+       .user-icons-container{
+             color: #273650;
+            width: 30%;
+            font-size: 20px;
+            text-align: left;
+            .user-whatsapp{
+                width: 50%;
+                }
+            .user-phone{
+                width: 50%;
+                font-size: 16px;
+                }
+       }
+   
+    
+    }
+    .user-clicked{
+        background-color:  #eae9e9;
+      }
+    }
+    .search-input-admin-contacts{
+       width: 68%;
+       height: 70%;
+       outline: none;
+       font-size: 16px;
+       color: white;
+       background-color: unset;
+       border: none;
+       border-bottom: white 1px solid;
+         &::placeholder{
+         color:rgba(255, 255, 255, 0.616);
+       }
+    }
+    
+    .user-container-wrapper{
+      background-color:white;
+    }
+    
+    .fa-check{
+        font-size: 13px;
+    }
+    .fa-search{
+        width: 15%;
+        color: white;
+        font-size: 16px;
+    }
+    
+}
+
+.apointments-modal{
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    background-color: #ffecf2;
+    border-radius: 24px;
+    .header-admin-contacts-modal{
+        position: absolute;
+        height: 50px;
+        width: 100%;
+        background-color: #273650;
+        border-radius: 24px 24px 0 0;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+    }
+
+}
+
+.modal-screen{
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    z-index: 1;
+}

@@ -22,6 +22,9 @@
   
 
     .table-wrapper{
+      .table-container-in-contacts-modal{
+          margin-top: 20%;
+      }
       .apointment-details{
         text-align: right;
         color: #182c4e;
@@ -41,6 +44,9 @@
           font-size: 1rem;
           margin-top: 100px;
       }
+    }
+    .contacts-modal-btn {
+        border-radius: 0 0 24px 24px;
     }
     i{
         color:white;

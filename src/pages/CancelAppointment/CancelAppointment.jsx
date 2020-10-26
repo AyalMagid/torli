@@ -74,7 +74,7 @@ export function _CancelAppointment(props) {
     setTimeout(() => {
         setLoader('')
     }, 2000);
-    const [phone, setPhone] = React.useState(StorageService.loadFromStorage('tori-user').phone);
+    const [phone, setPhone] = React.useState((props.userPhone)? props.userPhone:StorageService.loadFromStorage('tori-user').phone);
 
     const handleOpen = () => {
         setOpen(true);
@@ -83,7 +83,7 @@ export function _CancelAppointment(props) {
     const handleClose = () => {
         setOpen(false);
         init()
-        props.history.push('/treatments')
+        if (!props.userPhone) props.history.push('/treatments')
     };
 
     const [eventsToCancel, setEventsToCancel] = useState(null)
@@ -113,6 +113,8 @@ export function _CancelAppointment(props) {
                 console.log(filteredEvents)
                 if (filteredEvents.length) {
                     setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
+                } else {
+                    setEventsToCancel(null)
                 }
             })
     }
@@ -123,10 +125,11 @@ export function _CancelAppointment(props) {
         console.log(eventToRmove)
         // delete from Calendar
         CalendarService.removeEventFromCalendar(eventToRmove.eventId)
-        // delete from mongo data base
-        EventService.removeEventFromDB(eventToRmove._id)
         EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
-        setEventsToCancel(null)
+        // delete from mongo data base
+        await EventService.removeEventFromDB(eventToRmove._id)
+        getEventsByPhone() 
+        // setEventsToCancel(null)
         handleOpen()
     }
 
@@ -147,7 +150,7 @@ export function _CancelAppointment(props) {
                         <main >
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
-                                    <div>
+                                    <div className={`table-container ${(props.userPhone)?'table-container-in-contacts-modal':''}`}>
                                         <div className="apointment-details">
                                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
@@ -163,12 +166,12 @@ export function _CancelAppointment(props) {
                                                 }
                                             </div>
                                         }
-                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className="trash-btn"> בטל תור <i className="fas fa-trash" ></i></button>
+                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.userPhone)?'contacts-modal-btn':''} trash-btn`} > בטל תור <i className="fas fa-trash" ></i></button>
                                     </div>
                                     :
                                     <div className="no-apointments">
                                         לא נמצאו תורים
-                            </div>
+                                    </div>
                                 }
                             </div>
 
