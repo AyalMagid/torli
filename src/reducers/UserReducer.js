@@ -32,7 +32,7 @@ export function UserReducer(state = INITIAL_STATE, action) {
                 ...state,
                 isAdShown: action.isAdShown
             }          
-        
+
         default:
             return state;
     }

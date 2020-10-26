@@ -3,6 +3,7 @@ import HttpService from './HttpService'
 export default {
     getAd,
     updateAd,
+    toggleAdMode,
     createAd
 }
 
@@ -15,6 +16,11 @@ export default {
 function updateAd(content) {
     console.log(content);
     return HttpService.put('advertise', content)
+}
+
+function toggleAdMode(isAdMoneOn){
+    console.log(isAdMoneOn)
+    return HttpService.put('advertise/mode',isAdMoneOn)
 }
 
  function createAd() {
