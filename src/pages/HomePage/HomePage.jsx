@@ -23,7 +23,6 @@ export function _HomePage(props) {
     const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
     const [advertise, setAdvertise] = useState();
     const [modalInClass, setModalInClass] = useState('');
-    const ownerPhone = '123456789'
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
     const facebook = 'bokeresh'
     const instagram = 'restylebar'
@@ -33,7 +32,7 @@ export function _HomePage(props) {
             if (user) {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (user.phone !== ownerPhone) {
+                if (!user.isAdmin) {
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
@@ -95,7 +94,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {(user&&user.phone !== ownerPhone)
+                    {(user&&!user.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>

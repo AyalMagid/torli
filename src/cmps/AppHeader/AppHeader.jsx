@@ -43,10 +43,7 @@ function _AppHeader(props) {
             case '/cancelAppointment':
                  setHeaderConstrains({...initWithFalse, isTabs:true})
                 break;
-            case '/adminpage':
-                 setHeaderConstrains({...initWithFalse, isHeader:true})
-                break;
-            case '/userpage':
+            case '/editUser':
                 setHeaderConstrains({...initWithFalse, isHeader:true})
                 break;
             default:

@@ -12,8 +12,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { motion } from 'framer-motion'
 import './EditUser.scss';
 
-
-const ownerPhone = '123456789'
 const ownerPassword = '1234'
 
 // motion div style
@@ -135,7 +133,7 @@ export function _EditUser(props) {
         console.log(isValid)
 
         //validation of owner phone number
-        if (credentials.phone !== ownerPhone) {
+        if (!credentials.isAdmin) {
             StorageService.saveToStorage('tori-user', credentials)
             props.history.push('/')
         }
@@ -274,7 +272,7 @@ export function _EditUser(props) {
         >
             <main className="main-edit-container flex align-center justify-center column">
                 <div className="login-title">
-                    לשינוי שדה לחצו על סמל העריכה בסיום לחצו 'שמור'.
+                    לשינוי לחצו על סמל העריכה ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
                 </div>
                 <form className="main-form flex align-center justify-center column">

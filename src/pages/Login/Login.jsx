@@ -30,7 +30,6 @@ const pageTransition = {
     stiffness: 50
 }
 
-const ownerPhone = '123456789'
 const ownerPassword = '1234'
 
 export function Login(props) {
@@ -86,10 +85,9 @@ export function Login(props) {
 
     async function setUser() {
         const user = await UserService.getUser(phone)
-        console.log(user);
         //validation of owner phone number
         if (user) {
-            if (phone !== ownerPhone) {
+            if (!user.isAdmin) {
                 //need to bring from mongo
                 const { name, email, phone } = user
                 StorageService.saveToStorage('tori-user', { name, email, phone })
