@@ -335,6 +335,9 @@ export function _CalendarAdmin(props) {
     }
     let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
 
+    function disableDay(date) {
+        return  (date.getDay() === 6);
+      }
     return (
         <motion.div
             initial="out"
@@ -408,7 +411,8 @@ export function _CalendarAdmin(props) {
                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
                     <ThemeProvider theme={materialTheme}>
                         <DatePicker
-                            // disablePast={true}
+                            disablePast={true}
+                            shouldDisableDate={disableDay}
                             variant="dialog"
                             okLabel="אישור"
                             cancelLabel="ביטול"
