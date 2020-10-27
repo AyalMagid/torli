@@ -228,14 +228,11 @@ export function _CalendarAdmin(props) {
     }
 
     function getDatesWeeklyRange(date) {
-        if (date.getDay() !== 6) {
             const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
             const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
             const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
             return { lastDay, firstDay }
-        } else {
-            return { lastDay: 'יום שבת', firstDay: '' }
-        }
+
     }
 
     function getWorkingTimeSlots() {

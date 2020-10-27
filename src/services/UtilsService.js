@@ -68,6 +68,11 @@ function getIsosDate(daysAfterOrBefore, date = new Date()) {
 
 function getWeekIsosDatesForCalendar(dayByNum, date) {
   let weeklyDates =[]
+  if (date.getDay()===6){
+    date = new Date(date.getTime() + (1000 * 60 * 60 * 24));
+    dayByNum = 1
+    console.log(date)
+  }
   switch (dayByNum) {
     case 1:
       for (var i = 0; i < 6; i++) {
