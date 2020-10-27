@@ -3,16 +3,13 @@ import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
 import { CancelAppointment } from '../CancelAppointment/CancelAppointment';
 import './AdminContacts.scss';
-
 export function _AdminContacts(props) {
     const [searchTerm, setSearchTerm] = useState('')
     const [userPhone, setUserPhone] = useState('')
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = useState(false);
-
     useEffect(() => {
         props.loadUsers()
     }, [props.loadUsers]);
-
     function handleChange({ target }) {
         const field = target.name;
         const value = target.value;
@@ -24,17 +21,13 @@ export function _AdminContacts(props) {
                 console.log('Err updating name/phone/email')
         }
     }
-
-
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
     }
-
     function saveClickedUserPhone(userPhone) {
         setUserPhone(userPhone)
         setAppointmentsModalIsOpen(true)
     }
-
     return (
         <main className="admin-contacts">
                    {appointmentsModalIsOpen &&
@@ -71,7 +64,7 @@ export function _AdminContacts(props) {
                                         <div className="user-que user-attr" onClick={() => saveClickedUserPhone(user.phone)}><i class="far fa-calendar-check"></i></div>
                                         <a className="user-whatsapp user-attr" href={`https://api.whatsapp.com/send?phone=+972${user.phone.slice(1,user.phone.length)}`}>
                                             <div><i class="fa fa-whatsapp"></i></div>
-                                        </a> 
+                                        </a>
                                         <a className="user-phone user-attr"  href={`tel:${user.phone}`}>
                                              <div ><i class="fas fa-phone-alt"></i></div>
                                         </a>
@@ -82,22 +75,17 @@ export function _AdminContacts(props) {
                     }
                 </div>
             </div>
-
         </main>
     );
 }
-
-
 function mapStateProps(state) {
     return {
         users: state.UserReducer.users
     }
 }
-
 const mapDispatchToProps = {
     loadUsers,
     updateUsers,
     updateUserToSchedule
 }
-
 export const AdminContacts = connect(mapStateProps, mapDispatchToProps)(_AdminContacts)

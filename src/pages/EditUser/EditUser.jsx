@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { withRouter } from 'react-router-dom';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import Button from '@material-ui/core/Button';
@@ -8,14 +9,31 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { withRouter } from 'react-router-dom';
+import { motion } from 'framer-motion'
 import './EditUser.scss';
-
-
 
 
 const ownerPhone = '123456789'
 const ownerPassword = '1234'
+
+// motion div style
+const pageVariants = {
+    in: {
+        opacity: 1,
+        x: 0,
+        textAlign: 'center'
+    },
+    out: {
+        opacity: 0,
+        x: "50%"
+    }
+}
+
+const pageTransition = {
+    duration: 0.5,
+    type: "spring",
+    stiffness: 50
+}
 
 export function _EditUser(props) {
     const [credentials, setCredentials] = React.useState(StorageService.loadFromStorage('tori-user'))
@@ -161,14 +179,14 @@ export function _EditUser(props) {
     const nameFocus = useRef(null);
     useEffect(() => {
         if (isNameEditing) {
-             //unable phone
-             setIsPhoneEditing(false)
-             setIsPhoneDisabled(true)
-             setPhoneBorderBottom('thin-border-bottom')
-             //unable email
-             setIsEmailEditing(false)
-             setIsEmailDisabled(true)
-             setEmailBorderBottom('thin-border-bottom')
+            //unable phone
+            setIsPhoneEditing(false)
+            setIsPhoneDisabled(true)
+            setPhoneBorderBottom('thin-border-bottom')
+            //unable email
+            setIsEmailEditing(false)
+            setIsEmailDisabled(true)
+            setEmailBorderBottom('thin-border-bottom')
             nameFocus.current.focus();
         }
     }, [isNameEditing]);
@@ -197,14 +215,14 @@ export function _EditUser(props) {
     const emailFocus = useRef(null);
     useEffect(() => {
         if (isEmailEditing) {
-              //unable phone
-              setIsPhoneEditing(false)
-              setIsPhoneDisabled(true)
-              setPhoneBorderBottom('thin-border-bottom')
-              //unable name
-              setIsNameEditing(false)
-              setIsNameDisabled(true)
-              setNameBorderBottom('thin-border-bottom')
+            //unable phone
+            setIsPhoneEditing(false)
+            setIsPhoneDisabled(true)
+            setPhoneBorderBottom('thin-border-bottom')
+            //unable name
+            setIsNameEditing(false)
+            setIsNameDisabled(true)
+            setNameBorderBottom('thin-border-bottom')
             emailFocus.current.focus();
         }
     }, [isEmailEditing]);
@@ -246,99 +264,108 @@ export function _EditUser(props) {
 
 
     return (
-        <main className="main-edit-container flex align-center justify-center column">
-            <div className="login-title">
-                  לשינוי שדה לחצו על סמל העריכה בסיום לחצו 'שמור'.
+        <motion.div
+            initial="out"
+            exit="in"
+            animate="in"
+            variants={pageVariants}
+            transition={pageTransition}
+            style={{ width: "100%", height: "100%" }}
+        >
+            <main className="main-edit-container flex align-center justify-center column">
+                <div className="login-title">
+                    לשינוי שדה לחצו על סמל העריכה בסיום לחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
-            </div>
-            <form className="main-form flex align-center justify-center column">
-                <div className="input-container">
-                    <div className="form-title-container flex">
-                        <div className="form-title">* שם מלא  </div>
-                        <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
-                    </div>
-                    <div className={`input-edit-container ${nameBorderBottom} flex justify-center align-center`}>
-                        <input className="input-edit-page name" disabled={isNameDisabled} ref={nameFocus} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
-                       {
-                       (isNameEditing)?
-                       <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('name')}></i>
-                       :
-                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('name')}></i>
-                       }
-                    </div>
                 </div>
-                <div className="input-container">
-                    <div className="form-title-container flex">
-                        <div className="form-title">* טלפון  </div>
-                        <div className={`validation-text ${togglePhoneValidation}`}>
+                <form className="main-form flex align-center justify-center column">
+                    <div className="input-container">
+                        <div className="form-title-container flex">
+                            <div className="form-title">* שם מלא  </div>
+                            <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
+                        </div>
+                        <div className={`input-edit-container ${nameBorderBottom} flex justify-center align-center`}>
+                            <input className="input-edit-page name" disabled={isNameDisabled} ref={nameFocus} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
                             {
-                                (phone) ?
-                                    "מספר הטלפון שהוקש שגוי"
+                                (isNameEditing) ?
+                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('name')}></i>
                                     :
-                                    "זהו שדה חובה, יש להכניס טלפון"
+                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('name')}></i>
                             }
                         </div>
                     </div>
-                    <div className={`input-edit-container ${phoneBorderBottom} flex justify-center align-center`}>
-                        <input className="input-edit-page phone" disabled={isPhoneDisabled} ref={phoneFocus} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-                        {
-                       (isPhoneEditing)?
-                       <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('phone')}></i>
-                       :
-                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('phone')}></i>
-                       }
+                    <div className="input-container">
+                        <div className="form-title-container flex">
+                            <div className="form-title">* טלפון  </div>
+                            <div className={`validation-text ${togglePhoneValidation}`}>
+                                {
+                                    (phone) ?
+                                        "מספר הטלפון שהוקש שגוי"
+                                        :
+                                        "זהו שדה חובה, יש להכניס טלפון"
+                                }
+                            </div>
+                        </div>
+                        <div className={`input-edit-container ${phoneBorderBottom} flex justify-center align-center`}>
+                            <input className="input-edit-page phone" disabled={isPhoneDisabled} ref={phoneFocus} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
+                            {
+                                (isPhoneEditing) ?
+                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('phone')}></i>
+                                    :
+                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('phone')}></i>
+                            }
+                        </div>
                     </div>
-                </div>
-                <div className="input-container">
-                    <div className="form-title-container flex">
-                        <div className="form-title form-title-email">מייל </div>
-                        <div className={`validation-text ${toggleEmailValidation}`}>האימייל שהוקש שגוי</div>
+                    <div className="input-container">
+                        <div className="form-title-container flex">
+                            <div className="form-title form-title-email">מייל </div>
+                            <div className={`validation-text ${toggleEmailValidation}`}>האימייל שהוקש שגוי</div>
+                        </div>
+                        <div className={`input-edit-container ${emailBorderBottom} flex justify-center align-center`}>
+                            <input className="input-edit-page email" disabled={isEmailDisabled} ref={emailFocus} name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
+                            {
+                                (isEmailEditing) ?
+                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('email')}></i>
+                                    :
+                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('email')}></i>
+                            }
+                        </div>
                     </div>
-                    <div className={`input-edit-container ${emailBorderBottom} flex justify-center align-center`}>
-                        <input className="input-edit-page email" disabled={isEmailDisabled} ref={emailFocus} name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
-                        {
-                       (isEmailEditing)?
-                       <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('email')}></i>
-                       :
-                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('email')}></i>
-                       }
-                    </div>
-                </div>
-            </form>
+                </form>
 
-            <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
+                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
 
-            <div>
-                <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            הכנס סיסמה
+                <div>
+                    <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                הכנס סיסמה
           </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="סיסמה"
-                            type="email"
-                            fullWidth
-                            value={password}
-                            onChange={handleChange}
-                            name="password"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => handleClose('close')} color="primary">
-                            בטל
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="סיסמה"
+                                type="email"
+                                fullWidth
+                                value={password}
+                                onChange={handleChange}
+                                name="password"
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => handleClose('close')} color="primary">
+                                בטל
           </Button>
-                        <Button onClick={handleClose} color="primary">
-                            אשר
+                            <Button onClick={handleClose} color="primary">
+                                אשר
           </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
+                        </DialogActions>
+                    </Dialog>
+                </div>
 
-        </main>
+            </main>
+        </motion.div>
     );
 }
 

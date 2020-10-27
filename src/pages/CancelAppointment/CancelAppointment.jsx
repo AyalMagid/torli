@@ -83,7 +83,6 @@ export function _CancelAppointment(props) {
     const handleClose = () => {
         setOpen(false);
         init()
-        if (!props.userPhone) props.history.push('/treatments')
     };
 
     const [eventsToCancel, setEventsToCancel] = useState(null)
@@ -150,7 +149,7 @@ export function _CancelAppointment(props) {
                         <main >
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
-                                    <div className={`table-container ${(props.userPhone)?'table-container-in-contacts-modal':''}`}>
+                                    <div className={`cancel-table-container ${(props.userPhone)?'table-container-in-contacts-modal':''}`}>
                                         <div className="apointment-details">
                                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
