@@ -52,6 +52,10 @@ export function _AdminContacts(props) {
                 <i className="fas fa-search"></i>
                 <div onClick={() => props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></div>
             </div>
+            <div className="admin-contacts-modal-title">
+                ניתן להתקשר, לשלוח ווצאפ, לראות תורים שנקבעו
+                <div>  ואף למחוק אותם. ע״י לחיצה על האייקון המתאים.</div>
+            </div>
             <div className="contacts-users-container-warpper">
                 <div className="contacts-users-container">
                     {
@@ -61,9 +65,10 @@ export function _AdminContacts(props) {
                                 (user.name.includes(searchTerm) || user.phone.includes(searchTerm)) &&
                                 (!user.isAdmin)
                                 &&
-                                <div className={`user-container flex align-center justify-center`} onClick={() => saveClickedUserPhone(user.phone)}  key={idx}>
+                                <div className={`user-container flex align-center justify-center`}  key={idx}>
                                     <div className="user-name user-attr">{user.name}</div>
                                     <div className="user-icons-container flex ">
+                                        <div className="user-que user-attr" onClick={() => saveClickedUserPhone(user.phone)}><i class="far fa-calendar-check"></i></div>
                                         <a className="user-whatsapp user-attr" href={`https://api.whatsapp.com/send?phone=+972${user.phone.slice(1,user.phone.length)}`}>
                                             <div><i class="fa fa-whatsapp"></i></div>
                                         </a> 

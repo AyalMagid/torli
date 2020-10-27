@@ -1,5 +1,10 @@
 .admin-contacts{
     width: 100%;
+    .admin-contacts-modal-title{
+        font-size: 15px;
+        text-align: center;
+        margin-top: 16px;
+    }
 
     .search-input-wrapper{
         width: 100%;
@@ -18,7 +23,7 @@
     .contacts-users-container-warpper{
         height: 100%;
         width: 100%;
-        margin-top: 12px;
+        margin-top: 8px;
     }
     .contacts-main-container{
         width: 100%;
@@ -26,7 +31,7 @@
     }
     .contacts-users-container{
         width: 88%;
-        height: 87vh;
+        height: 78vh;
         margin: 0 auto;
         overflow-x: hidden;
         overflow-y: scroll;
@@ -48,21 +53,27 @@
        }
        padding: 20px;
        .user-name{
-         width: 70%;
+         width: 60%;
          text-align: right;
        }
        .user-icons-container{
              color: #273650;
-            width: 30%;
+            width: 40%;
             font-size: 20px;
             text-align: left;
+            align-items: center;
             .user-whatsapp{
-                width: 50%;
+                width: 33%;
+                font-size: 20px;
                 }
             .user-phone{
-                width: 50%;
+                width: 33%;
                 font-size: 16px;
                 }
+            .user-que{
+                width: 34%;
+                font-size: 18px;
+            }
        }
    
     
