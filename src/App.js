@@ -10,7 +10,7 @@ import { SignupOrLogin } from './pages/SignupOrLogin/SignupOrLogin.jsx'
 import { Login } from './pages/Login/Login.jsx'
 import { Signup } from './pages/Signup/Signup.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
-import { UserPage } from './pages/UserPage/UserPage.jsx'
+import { EditUser } from './pages/EditUser/EditUser.jsx'
 import { Advertise } from './pages/Advertise/Advertise.jsx'
 import { AdminContacts } from './pages/AdminContacts/AdminContacts.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
@@ -30,7 +30,7 @@ function App() {
             <Route path="/signupOrLogin" component={SignupOrLogin} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/userpage" component={UserPage} />
+            <Route path="/editUser" component={EditUser} />
             <Route path="/calendarAdmin" component={CalendarAdmin} />
             <Route path="/advertise" component={Advertise} />
             <Route path="/adminContacts" component={AdminContacts} />
