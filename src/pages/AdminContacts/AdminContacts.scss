@@ -4,6 +4,7 @@
         font-size: 15px;
         text-align: center;
         margin-top: 16px;
+        color:#3f567f;
     }
 
     .search-input-wrapper{
@@ -49,18 +50,19 @@
         // box-shadow: 0 1px 3px rgba(0,0,0,0.12);
         margin-top: 8px;
           .user-attr{
-        color: #273650;
+        color: #3f567f;
        }
        padding: 20px;
+       padding-left: 0;
        .user-name{
-         width: 60%;
+         width: 50%;
          text-align: right;
        }
        .user-icons-container{
-             color: #273650;
-            width: 40%;
+             color: #3f567f;
+            width: 50%;
             font-size: 20px;
-            text-align: left;
+            text-align: center;
             align-items: center;
             .user-whatsapp{
                 width: 33%;

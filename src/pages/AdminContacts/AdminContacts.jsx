@@ -54,7 +54,7 @@ export function _AdminContacts(props) {
             </div>
             <div className="admin-contacts-modal-title">
                 ניתן להתקשר, לשלוח ווצאפ, לראות תורים שנקבעו
-                <div>  ואף למחוק אותם. ע״י לחיצה על האייקון המתאים.</div>
+                <div>  ואף למחוק אותם, ע״י לחיצה על האייקון המתאים.</div>
             </div>
             <div className="contacts-users-container-warpper">
                 <div className="contacts-users-container">
