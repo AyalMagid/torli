@@ -12,8 +12,6 @@ import { withRouter } from 'react-router-dom';
 import './EditUser.scss';
 
 
-
-
 const ownerPhone = '123456789'
 const ownerPassword = '1234'
 

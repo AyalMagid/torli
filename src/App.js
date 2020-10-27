@@ -11,7 +11,6 @@ import { Login } from './pages/Login/Login.jsx'
 import { Signup } from './pages/Signup/Signup.jsx'
 import { HomePage } from './pages/HomePage/HomePage.jsx'
 import { UserPage } from './pages/UserPage/UserPage.jsx'
-import { AdminPage } from './pages/AdminPage/AdminPage.jsx'
 import { Advertise } from './pages/Advertise/Advertise.jsx'
 import { AdminContacts } from './pages/AdminContacts/AdminContacts.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
@@ -32,7 +31,6 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/userpage" component={UserPage} />
-            <Route path="/adminpage" component={AdminPage} />
             <Route path="/calendarAdmin" component={CalendarAdmin} />
             <Route path="/advertise" component={Advertise} />
             <Route path="/adminContacts" component={AdminContacts} />

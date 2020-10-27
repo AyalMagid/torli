@@ -62,15 +62,8 @@ export function _HomePage(props) {
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
                 {(user) ?
-                    (user.phone === ownerPhone) ?
-                        <div className="login-container" onClick={() => props.history.push('/adminpage')}>
+                        <div className="login-container" onClick={() => props.history.push('/userpage')}>
                             <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
-                            <div>{user.name}</div>
-                        </div>
-                        :
-                        //just for trying heroku need to be userpage
-                        <div className="login-container" onClick={() => props.history.push('/calendarAdmin')}>
-                            <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
                             <div>{user.name}</div>
                         </div>
                     :
