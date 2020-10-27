@@ -1,3 +1,4 @@
+import { func } from "prop-types";
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
@@ -35,6 +36,10 @@ export function _AdminContacts(props) {
         setAppointmentsModalIsOpen(true)
     }
 
+    function handleClick(ev){
+        ev.stopPropagation()
+    }
+
     return (
         <main className="admin-contacts">
                    {appointmentsModalIsOpen &&
@@ -64,10 +69,10 @@ export function _AdminContacts(props) {
                                 <div className={`user-container flex align-center justify-center`} onClick={() => saveClickedUserPhone(user.phone)}  key={idx}>
                                     <div className="user-name user-attr">{user.name}</div>
                                     <div className="user-icons-container flex ">
-                                        <a className="user-whatsapp user-attr" href={`https://api.whatsapp.com/send?phone=+972${user.phone.slice(1,user.phone.length)}`}>
+                                        <a className="user-whatsapp user-attr" onClick={handleClick} href={`https://api.whatsapp.com/send?phone=+972${user.phone.slice(1,user.phone.length)}`}>
                                             <div><i class="fa fa-whatsapp"></i></div>
-                                        </a> 
-                                        <a className="user-phone user-attr"  href={`tel:${user.phone}`}>
+                                        </a>
+                                        <a className="user-phone user-attr" onClick={handleClick}  href={`tel:${user.phone}`}>
                                              <div ><i class="fas fa-phone-alt"></i></div>
                                         </a>
                                     </div>
