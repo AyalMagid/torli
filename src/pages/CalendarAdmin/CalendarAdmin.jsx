@@ -336,8 +336,10 @@ export function _CalendarAdmin(props) {
     let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
 
     function disableDay(date) {
+        console.log(date)
         return  (date.getDay() === 6);
       }
+
     return (
         <motion.div
             initial="out"

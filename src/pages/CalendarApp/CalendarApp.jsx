@@ -82,6 +82,13 @@ export function _CalendarApp(props) {
             setLoader(false)
         }
     }
+
+    function disableDay(date) {
+        console.log(date)
+        return  (date.getDay() === 6);
+    }
+
+
     function onSwipeDirection(direction) {
         if(props.timeSlots&&!loader){
         //need to change to normal way
@@ -121,7 +128,8 @@ export function _CalendarApp(props) {
                         <ThemeProvider theme={materialTheme}>
                             <KeyboardDatePicker
                                 disableToolbar
-                                // disablePast={true}
+                                disablePast={true}
+                                shouldDisableDate={disableDay}
                                 variant="dialog"
                                 okLabel="אישור"
                                 cancelLabel="ביטול"
