@@ -11,9 +11,9 @@ export function _HomePage(props) {
 
     function closeAdModal() {
         setModalInClass('')
-       setTimeout(() => {
-           setIsAdModalOpen(false)
-       }, 1100);
+        setTimeout(() => {
+            setIsAdModalOpen(false)
+        }, 1100);
     }
 
     function changeRoute(route) {
@@ -38,10 +38,10 @@ export function _HomePage(props) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
                             setIsAdModalOpen(true)
-                           setTimeout(() => {
-                               setModalInClass('ad-modal-in')
-                           }, 1000);
-                          
+                            setTimeout(() => {
+                                setModalInClass('ad-modal-in')
+                            }, 1000);
+
                             props.updateIsAdShown(true)
                         }
                     }
@@ -62,10 +62,10 @@ export function _HomePage(props) {
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
                 {(user) ?
-                        <div className="login-container" onClick={() => props.history.push('/editUser')}>
-                            <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
-                            <div>{user.name}</div>
-                        </div>
+                    <div className="login-container" onClick={() => props.history.push('/editUser')}>
+                        <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
+                        <div>{user.name}</div>
+                    </div>
                     :
                     <div className="login-container" onClick={() => props.history.push('/signupOrLogin')}>
                         <div className="user-logo">  <i className="fas fa-user-tie"></i></div>
@@ -95,20 +95,38 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    <div className="bottom-icons-container flex space-around">
-                        <div className="queue-container" onClick={() => changeRoute('/treatments')}>
-                            <div className="circle"><i class="fas fa-user-clock"></i></div>
+                    {(user&&user.phone !== ownerPhone)
+                        ?
+                        < div className="bottom-icons-container flex space-around">
+                            <div className="queue-container" onClick={() => changeRoute('/treatments')}>
+                                <div className="circle"><i class="fas fa-user-clock"></i></div>
                     קביעת תור
                     </div>
-                        <div className="remove-queue-container" onClick={() => changeRoute('/cancelAppointment')}>
-                            <div className="circle"><i class="fas fa-user-times"></i></div>
+                            <div className="remove-queue-container" onClick={() => changeRoute('/cancelAppointment')}>
+                                <div className="circle"><i class="fas fa-user-times"></i></div>
                     ביטול תור
                     </div>
-                        <a className="phone" href="tel:0538281511">
-                            <div className="circle"><i className="fas fa-phone-alt"></i></div>
+                            <a className="phone" href="tel:0538281511">
+                                <div className="circle"><i className="fas fa-phone-alt"></i></div>
                          חייגו אלינו
                     </a>
-                    </div>
+                        </div>
+                        :
+                        < div className="bottom-icons-container flex space-around">
+                            <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
+                                <div className="circle"><i class="far fa-calendar-alt"></i></div>
+                     יומן
+                       </div>
+                            <div className="remove-queue-container" onClick={() => changeRoute('/adminContacts')}>
+                                <div className="circle"><i class="fas fa-users"></i> </div>
+                    לקוחות
+                      </div>
+                      <div className="remove-queue-container" onClick={() => changeRoute('/advertise')}>
+                                <div className="circle"><i class="far fa-comment-alt"></i></div>
+                    פרסומים   
+                      </div>
+                        </div>
+                    }
                 </div>
                 {isAdModalOpen &&
                     <>
@@ -117,11 +135,11 @@ export function _HomePage(props) {
                             <div> {advertise}</div>
                             <button className="ad-modal-btn" onClick={closeAdModal}> אישור</button>
                         </div>
-                     
+
                     </>
                 }
             </main>
-        </div>
+        </div >
     );
 }
 
