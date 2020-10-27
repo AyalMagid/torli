@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from 'react-router-dom';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
+import UserService from '../../services/UserService';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -81,15 +82,12 @@ export function _EditUser(props) {
 
                 setCredentials({ ...credentials, phone: value })
                 // checkPhoneValidation()
-                console.log(isValid)
                 break;
             case 'email':
                 setCredentials({ ...credentials, email: value })
                 // checkEmailValidation()
-                console.log(isValid)
                 break;
             case 'password':
-                console.log(value)
                 setPassword(value)
                 break;
             default:
@@ -134,7 +132,7 @@ export function _EditUser(props) {
 
         //validation of owner phone number
         if (!credentials.isAdmin) {
-            StorageService.saveToStorage('tori-user', credentials)
+            UserService.updateUser(credentials)
             props.history.push('/')
         }
         else {
@@ -155,7 +153,7 @@ export function _EditUser(props) {
             //owner password
             if (password === ownerPassword) {
                 setOpen(false);
-                StorageService.saveToStorage('tori-user', credentials)
+                UserService.updateUser(credentials)
                 props.history.push('/')
             }
             else {

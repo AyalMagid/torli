@@ -7,7 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Link } from 'react-router-dom'
-import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
 import { motion } from 'framer-motion'
@@ -127,7 +126,8 @@ export function Signup(props) {
             handleClickOpen()
         } else {
             UserService.addUser(credentials)
-            props.history.push('/treatments')
+            if (phone !== '123456789') props.history.push('/treatments')
+            else props.history.push ('/calendarAdmin')
         }
     }
 

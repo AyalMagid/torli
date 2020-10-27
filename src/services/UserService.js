@@ -6,7 +6,7 @@ export default {
     getUser,
     addUser,
     removeUser,
-    // updateUser
+    updateUser
 }
 
 function _sortUsers(users) {
@@ -20,6 +20,12 @@ async function getUsers() {
 
 function getUser(phone) {
     return HttpService.get(`user/${phone}`)
+}
+
+function updateUser(user) {
+    user.oldPhone = StorageService.loadFromStorage('tori-user').phone
+    StorageService.saveToStorage('tori-user', user)
+    return HttpService.put(`user/`,user)
 }
 
 async function addUser(user) {
