@@ -1,4 +1,5 @@
 import UserService from '../services/UserService';
+
 const INITIAL_STATE = {
     users:[],
     userToSchedule:null,

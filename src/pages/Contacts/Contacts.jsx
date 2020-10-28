@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
-import UserService from '../../services/UserService';
 import './Contacts.scss';
 
 export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
     useEffect(() => {
-      props.loadUsers()
+        props.loadUsers()
     }, [props.loadUsers]);
+
+    useEffect(() => {
+        console.log('user effect');
+        if (props.userPhoneInContactSignup) {
+            props.updateUserToSchedule(props.users.find(user => user.phone === props.userPhoneInContactSignup))
+        }
+    }, [props.users]);
 
     function handleChange({ target }) {
         const field = target.name;

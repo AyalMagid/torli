@@ -45,12 +45,11 @@ async function removeUser(_id) {
 
 
 function unshiftCellByPhoneNumber(users, phone) {
-    console.log(users, phone);
     if(!phone) return users
     const idx = users.findIndex(user => user.phone === phone)
-    console.log('idx',idx);
-    const splicedCell = users.splice(idx,1)[0]
-    users.unshift(splicedCell)
-    console.log(users);
+    let splicedCell = users.splice(idx,1)[0]
+    splicedCell.isMarked=true
+    let obj={...splicedCell}
+    users.unshift(obj)
     return users
 }
