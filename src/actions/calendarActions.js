@@ -23,7 +23,9 @@ export function setCalendar(calendar) {
 
 
 export function loadTimeSlots(pickedDate = null){
+  let date
       if (!pickedDate) {
+        date = new Date()
         var firstDay = UtilsService.getIsosDate (0)
         var secondDay = UtilsService.getIsosDate (1)
         var thirdDay = UtilsService.getIsosDate (2)
@@ -32,10 +34,27 @@ export function loadTimeSlots(pickedDate = null){
       // firstDay = UtilsService.getIsosDate (-1, pickedDate)
       // secondDay = UtilsService.getIsosDate (0,  pickedDate)
       // thirdDay = UtilsService.getIsosDate (1, pickedDate )
+      date = pickedDate
         firstDay = UtilsService.getIsosDate (0, pickedDate)
         secondDay = UtilsService.getIsosDate (1, pickedDate)
-        thirdDay = UtilsService.getIsosDate (2, pickedDate ) 
+        thirdDay = UtilsService.getIsosDate (2, pickedDate )
       } 
+      // check for saturday (unwroking day), if it was, sending the correction to skip that day
+        if (!firstDay) {
+          firstDay = UtilsService.getIsosDate (1, date)
+          secondDay = UtilsService.getIsosDate (2, date)
+          thirdDay = UtilsService.getIsosDate (3, date )
+        }
+        if (!secondDay) {
+          firstDay = UtilsService.getIsosDate (0, date)
+          secondDay = UtilsService.getIsosDate (2, date)
+          thirdDay = UtilsService.getIsosDate (3, date )
+        }
+        if (!thirdDay) {
+          firstDay = UtilsService.getIsosDate (0, date)
+          secondDay = UtilsService.getIsosDate (1, date)
+          thirdDay = UtilsService.getIsosDate (3, date )
+         }     
   return async dispatch => {
     try {
       const timeSlots = {

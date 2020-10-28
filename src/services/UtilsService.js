@@ -60,8 +60,11 @@ function englishToHebrew(word) {
 }
 //get a date and how many days before/after and returns only the date part by isos convention
 function getIsosDate(daysAfterOrBefore, date = new Date()) {
-  var dateCopy = new Date(date.getTime())
+  let dateCopy = new Date(date.getTime())
   dateCopy.setDate(dateCopy.getDate() + daysAfterOrBefore)
+  if (dateCopy.getDay() === 6) {
+    return ''
+  }
   dateCopy = dateCopy.toISOString().slice(0, 10)
   return dateCopy
 }

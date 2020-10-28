@@ -91,12 +91,23 @@ export function _CalendarApp(props) {
 
     function onSwipeDirection(direction) {
         if(props.timeSlots&&!loader){
+            const dateCopy = (new Date(selectedDate.setDate(selectedDate.getDate())))
         //need to change to normal way
         if ((direction === 'Left')&& (selectedDate.getTime()) > (new Date().getTime())) {
-            handleChange(new Date(selectedDate.setDate(selectedDate.getDate() - 3)));
+              // checking if there was an unworking day who should be skipped in the range (like saturday), and handle it by jumping one more
+            if ((dateCopy.getDay() - 1 === -1) || (dateCopy.getDay() - 2 === -1) || (dateCopy.getDay() - 3 === -1)){
+                handleChange(new Date(selectedDate.setDate(selectedDate.getDate() - 4)));
+            } else {
+                handleChange(new Date(selectedDate.setDate(selectedDate.getDate() - 3)));
+            }
         }
         else if (direction === 'Right') {
-            handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 3)));
+            // checking if there was an unworking day who should be skipped in the range (like saturday), and handle it by jumping one more
+            if ((dateCopy.getDay() + 1 === 6) || (dateCopy.getDay() + 2 === 6) || (dateCopy.getDay() + 3 === 6)){
+                handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 4)));
+            } else {
+                handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 3)));
+            }
         }
         else {
             if ((direction !== 'Up') && (direction !== 'Down')) {
