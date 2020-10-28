@@ -62,6 +62,7 @@ export function loadTimeSlots(pickedDate = null){
       secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T05:00:00`, `${secondDay}T17:00:00`, '1H'),
       thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T05:00:00`, `${thirdDay}T17:00:00`, '1H')
       }
+      console.log('tssss', timeSlots)
       dispatch(setTimeSlots(timeSlots));
     } catch (err) {
       console.log('Err getting timeslots', err);

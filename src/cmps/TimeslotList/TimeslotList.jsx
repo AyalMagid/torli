@@ -17,7 +17,6 @@ export function TimeslotList(props) {
                     const date = isDateFullyBooked ? props.timeSlots[day].slice(0, 10) : (props.timeSlots[day])[0].start.slice(0, 10)
                     // running on each day
                     const slotsForPreview = isDateFullyBooked ? [] : UtilsService.getDailySlotsForPreview(props.timeSlots[day], props.duration)
-                   console.log("let see",props.timeSlots[day] );
                     return (
                         <div key={UtilsService.idGen()}>
                             <div className="date-container">

@@ -84,7 +84,6 @@ export function _CalendarApp(props) {
     }
 
     function disableDay(date) {
-        console.log(date)
         return  (date.getDay() === 6);
     }
 
