@@ -1,7 +1,9 @@
+import UserService from '../services/UserService';
 const INITIAL_STATE = {
     users:[],
     userToSchedule:null,
-    isAdShown:false
+    isAdShown:false,
+    userPhoneInContactSignup:''
 }
 
 export function UserReducer(state = INITIAL_STATE, action) {
@@ -10,7 +12,7 @@ export function UserReducer(state = INITIAL_STATE, action) {
         case 'SET_USERS':
             return {
                 ...state,
-                users: action.users
+                users: UserService.unshiftCellByPhoneNumber(action.users, state.userPhoneInContactSignup)
             }          
         case 'UPDATE_USERS':
             return {
@@ -31,6 +33,11 @@ export function UserReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 isAdShown: action.isAdShown
+            }          
+        case 'UPDATE_NUMBER_IN_CONTACT_SIGNUP':
+            return {
+                ...state,
+                userPhoneInContactSignup: action.userPhoneInContactSignup
             }          
 
         default:

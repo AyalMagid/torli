@@ -13,6 +13,7 @@ import { createMuiTheme, Hidden } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { updateAvailbleDuration, setTreatment } from '../../actions/treatmentActions.js';
 import { updateHoursToBlock, updateIsDayFullyAvailable } from '../../actions/calendarActions';
+import {updateUserPhoneInContactSignup} from '../../actions/userAction.js';
 import TreatmentService from "../../services/TreatmentService";
 import UtilsService from '../../services/UtilsService';
 import CalendarService from '../../services/CalendarService';
@@ -34,6 +35,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
+import { Signup } from "../Signup/Signup";
 
 
 
@@ -330,6 +332,7 @@ export function _CalendarAdmin(props) {
 
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
+        props.updateUserPhoneInContactSignup('')
         StoreService.initApp()
         props.history.push('/calendarAdmin')
     }
@@ -476,14 +479,15 @@ export function _CalendarAdmin(props) {
                                 </header>
                             }
                             <Router>
-                                <Route path="/calendarAdmin/contacts" component={Contacts} />
+                                <Route path="/calendarAdmin/contacts" exact component={Contacts} />
+                                <Route path="/calendarAdmin/contacts/signup" component={Signup} />
                                 <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
                                 <Route path="/calendarAdmin/form" component={SubmitForm} />
                                 <Route path="/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
                                 <Route path="/calendarAdmin/blockHours" component={BlockHours} />
                                 <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
                             </Router>
-                            {(location.pathname !== '/calendarAdmin/appointmentOrBlock') && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
+                            {((location.pathname !== '/calendarAdmin/appointmentOrBlock')&&(location.pathname !== '/calendarAdmin/contacts/signup')) && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
                         </div>
                     </>
                 }
@@ -507,7 +511,8 @@ const mapDispatchToProps = {
     updateAvailbleDuration,
     setTreatment,
     updateHoursToBlock,
-    updateIsDayFullyAvailable
+    updateIsDayFullyAvailable,
+    updateUserPhoneInContactSignup
 }
 
 export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)

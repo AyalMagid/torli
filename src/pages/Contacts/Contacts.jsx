@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
-import { Signup } from "../Signup/Signup.jsx";
+import UserService from '../../services/UserService';
 import './Contacts.scss';
 
 export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
     useEffect(() => {
-        props.loadUsers()
+      props.loadUsers()
     }, [props.loadUsers]);
-
 
     function handleChange({ target }) {
         const field = target.name;
@@ -44,12 +43,9 @@ export function _Contacts(props) {
         }
         props.updateUsers(users)
     }
-    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
-    function closeAppointmentsModal() {
-        setAppointmentsModalIsOpen(false)
-    }
-    function openAppointmentsModal() {
-        setAppointmentsModalIsOpen(true)
+
+    function transferTosignup() {
+        props.history.push('/calendarAdmin/contacts/signup')
     }
 
     return (
@@ -60,8 +56,8 @@ export function _Contacts(props) {
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">
-                    <div className={`user-container } flex align-center justify-center`} onClick={ openAppointmentsModal} >
-                        <div className="add-new-user flex justify-center align-center space-around"><i class="fas fa-plus-circle"></i><div>הוספת לקוח חדש</div></div>
+                    <div className={`create-user user-container  flex align-center`} onClick={transferTosignup} >
+                        <div className="add-new-user flex justify-center align-center space-around"><i class="fas fa-plus-circle"></i><div>לקוח חדש</div></div>
                     </div>
                     {
                         (props.users) &&
@@ -84,15 +80,6 @@ export function _Contacts(props) {
                     }
                 </div>
             </div>
-            {appointmentsModalIsOpen &&
-                    <>
-                        <div className="modal-screen-in-contacts" onClick={closeAppointmentsModal}>
-                        </div>
-                        <div className="modal-in-contacts">
-                        <Signup closeAppointmentsModal={closeAppointmentsModal}/>
-                        </div>
-                    </>
-                }
         </main>
     );
 }
@@ -100,7 +87,8 @@ export function _Contacts(props) {
 
 function mapStateProps(state) {
     return {
-        users: state.UserReducer.users
+        users: state.UserReducer.users,
+        userPhoneInContactSignup: state.UserReducer.userPhoneInContactSignup
     }
 }
 

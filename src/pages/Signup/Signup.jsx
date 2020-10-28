@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
+import {updateUserPhoneInContactSignup} from '../../actions/userAction.js';
+import { useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -35,7 +38,8 @@ const pageTransition = {
 }
 
 
-export function Signup(props) {
+export function _Signup(props) {
+    const location = useLocation()
     const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
     const { name, phone, email } = credentials
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
@@ -119,15 +123,26 @@ export function Signup(props) {
         }
     }
 
+    function transferToContact(){
+        props.history.push('/calendarAdmin/contacts')
+    }
 
+    const isContactsPath = (location.pathname === '/calendarAdmin/contacts/signup')
+    
     async function setUser() {
         const user = await UserService.getUser(phone)
         if (user) {
             handleClickOpen()
         } else {
-            UserService.addUser(credentials)
-            if (phone !== '123456789') props.history.push('/treatments')
-            else props.history.push ('/calendarAdmin')
+            console.log(location.pathname)
+          await  UserService.addUser(credentials, isContactsPath)
+            if (!isContactsPath) {
+                if (phone !== '123456789') props.history.push('/treatments')
+                else props.history.push('/calendarAdmin')
+            } else {
+               await props.updateUserPhoneInContactSignup(credentials.phone)
+                transferToContact()
+            }
         }
     }
 
@@ -152,11 +167,13 @@ export function Signup(props) {
             transition={pageTransition}
         >
             <main className="main-login-container flex align-center justify-center column">
-                <div className="login-title">
+            {isContactsPath&& <header className="header-in-signup-modal"> </header>}
+              {isContactsPath&&<div className="transfer-to-contact" onClick={transferToContact}><i class="fas fa-arrow-right"></i></div>}
+                <div className={`login-title ${isContactsPath? 'login-title-display-none' : ''}`}>
                     אנא מלאו את השדות הבאים ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
                 </div>
-                <form className="main-form flex align-center justify-center column">
+                <form className={`main-form flex align-center justify-center column ${isContactsPath?'main-form-in-contact-path' :''}`}>
                     <div className="input-container">
                         <div className="form-title-container flex">
                             <div className="form-title">* שם מלא  </div>
@@ -188,7 +205,7 @@ export function Signup(props) {
                     </div>
                 </form>
 
-                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
+                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className={`save-btn ${isContactsPath?'save-btn-in-contact-path' :''}`} onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
                 <div>
                     <Dialog
                         open={open}
@@ -201,18 +218,20 @@ export function Signup(props) {
                         {/* <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle> */}
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                            <div>
+                                <div>
                                     <div>
-                                       המספר שהוקש כבר קיים במערכת.
+                                        המספר שהוקש כבר קיים במערכת.
                                     </div>
-                                    <div className="flex">
-                                        <div>להתחברות לחץ</div>
-                                        <Link className="login-link flex align-center justify-center" to="/login">
-                                             כאן
+                                    {(!isContactsPath) &&
+                                        <div className="flex">
+                                            <div>להתחברות לחץ</div>
+                                            <Link className="login-link flex align-center justify-center" to="/login">
+                                                כאן
                                        </Link>
-                                    </div>
+                                        </div>
+                                    }
                                 </div>
-                   </DialogContentText>
+                            </DialogContentText>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
@@ -225,3 +244,18 @@ export function Signup(props) {
         </motion.div>
     );
 }
+
+
+
+
+function mapStateProps(state) {
+    return {
+       
+    }
+}
+
+const mapDispatchToProps = {
+    updateUserPhoneInContactSignup
+}
+
+export const Signup = connect(mapStateProps, mapDispatchToProps)(_Signup)
