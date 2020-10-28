@@ -255,9 +255,10 @@ export function _EditUser(props) {
     };
 
 
-
-
-
+  function signOut(){
+    StorageService.removeFromStorage('tori-user')
+    props.history.push('/')
+  } 
 
     return (
         <motion.div
@@ -269,6 +270,7 @@ export function _EditUser(props) {
             style={{ width: "100%", height: "100%" }}
         >
             <main className="main-edit-container flex align-center justify-center column">
+              <div className="sign-out" onClick={signOut}> <i class="fas fa-sign-out-alt"></i> התנתק</div>
                 <div className="login-title">
                     לשינוי לחצו על סמל העריכה ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>

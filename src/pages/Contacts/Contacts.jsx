@@ -52,6 +52,9 @@ export function _Contacts(props) {
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">
+                    <div className={`user-container } flex align-center justify-center`} >
+                        <div className="add-new-user flex justify-center align-center space-around"><i class="fas fa-plus-circle"></i><div>הוספת לקוח חדש</div></div>
+                    </div>
                     {
                         (props.users) &&
                         props.users.map((user, idx) => {
