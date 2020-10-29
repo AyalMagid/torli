@@ -131,7 +131,7 @@ export function _EditUser(props) {
         console.log(isValid)
 
         //validation of owner phone number
-        if (!credentials.isAdmin) {
+        if  (!UserService.isAdmin(credentials)){
             UserService.updateUser(credentials)
             props.history.push('/')
         }

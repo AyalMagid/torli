@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateIsAdShown } from '../../actions/userAction';
 import AdvertiseService from '../../services/AdvertiseService';
+import UserService from '../../services/UserService';
 import StorageService from "../../services/StorageService";
 import './HomePage.scss';
 
@@ -32,7 +33,7 @@ export function _HomePage(props) {
             if (user) {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (!user.isAdmin) {
+                if (!UserService.isAdmin(user)){
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule,updateUserPhoneInContactSignup } from '../../actions/userAction.js';
+import UserService from '../services/UserService';
 import './Contacts.scss';
 
 export function _Contacts(props) {
@@ -64,7 +65,7 @@ export function _Contacts(props) {
                         props.users.map((user, idx) => {
                             return (
                                 (user.name.includes(searchTerm) || user.phone.includes(searchTerm)) &&
-                                (!user.isAdmin)
+                                (!UserService.isAdmin(user))
                                 &&
                                 <div className={`user-container ${(user.isMarked) ? 'user-clicked' : ''} flex align-center justify-center`} onClick={() => markClickedUser(user)} key={idx}>
                                     <div className="check-mark-container flex align-center">

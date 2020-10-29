@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import StorageService from "../../services/StorageService";
-import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
 import { motion } from 'framer-motion'
 import Button from '@material-ui/core/Button';
@@ -87,10 +86,10 @@ export function Login(props) {
         const user = await UserService.getUser(phone)
         //validation of owner phone number
         if (user) {
-            if (!user.isAdmin) {
+            if (!UserService.isAdmin(user)) {
                 //need to bring from mongo
-                const { name, email, phone, isAdmin } = user
-                StorageService.saveToStorage('tori-user', { name, email, phone, isAdmin})
+                const { name, email, phone} = user
+                StorageService.saveToStorage('tori-user', { name, email, phone})
                 props.history.push('/treatments')
             }
             else {
