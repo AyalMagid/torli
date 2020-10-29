@@ -13,7 +13,7 @@ export function UserReducer(state = INITIAL_STATE, action) {
         case 'SET_USERS':
             return {
                 ...state,
-                users: (state.userPhoneInContactSignup) ? UserService.unshiftCellByPhoneNumber(action.users, state.userPhoneInContactSignup) : action.users
+                   users: (state.userPhoneInContactSignup) ? UserService.unshiftCellByPhoneNumber(action.users, state.userPhoneInContactSignup) : action.users
             }
         case 'UPDATE_USERS':
             return {
