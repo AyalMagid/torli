@@ -10,16 +10,6 @@ export function _Contacts(props) {
         props.loadUsers()
     }, [props.loadUsers]);
 
-    // useEffect(() => {
-    //     (async () => {
-    //     console.log('user effect');
-    //     if (props.userPhoneInContactSignup) {
-    //         props.updateUserToSchedule(props.users.find(user => user.phone === props.userPhoneInContactSignup))
-    //         props.updateUserPhoneInContactSignup('')
-    //     }
-    // })()
-    // }, [props.users]);
-
     function handleChange({ target }) {
         const field = target.name;
         const value = target.value;
@@ -66,8 +56,8 @@ export function _Contacts(props) {
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">
-                    <div className={`create-user user-container  flex align-center`} onClick={transferTosignup} >
-                        <div className="add-new-user flex justify-center align-center space-around"><i class="fas fa-plus-circle"></i><div>לקוח חדש</div></div>
+                    <div className="create-user flex align-center" onClick={transferTosignup} >
+                        <div className="add-new-user flex justify-center align-center"><i class="fas fa-plus-circle"></i><div>לקוח חדש</div></div>
                     </div>
                     {
                         (props.users) &&
