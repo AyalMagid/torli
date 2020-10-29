@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
+import { loadUsers, updateUsers, updateUserToSchedule,updateUserPhoneInContactSignup } from '../../actions/userAction.js';
 import './Contacts.scss';
 
 export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
+   
     useEffect(() => {
         props.loadUsers()
     }, [props.loadUsers]);
 
-    useEffect(() => {
-        console.log('user effect');
-        if (props.userPhoneInContactSignup) {
-            props.updateUserToSchedule(props.users.find(user => user.phone === props.userPhoneInContactSignup))
-        }
-    }, [props.users]);
+    // useEffect(() => {
+    //     (async () => {
+    //     console.log('user effect');
+    //     if (props.userPhoneInContactSignup) {
+    //         props.updateUserToSchedule(props.users.find(user => user.phone === props.userPhoneInContactSignup))
+    //         props.updateUserPhoneInContactSignup('')
+    //     }
+    // })()
+    // }, [props.users]);
 
     function handleChange({ target }) {
         const field = target.name;
@@ -101,7 +105,8 @@ function mapStateProps(state) {
 const mapDispatchToProps = {
     loadUsers,
     updateUsers,
-    updateUserToSchedule
+    updateUserToSchedule,
+    updateUserPhoneInContactSignup
 }
 
 export const Contacts = connect(mapStateProps, mapDispatchToProps)(_Contacts)

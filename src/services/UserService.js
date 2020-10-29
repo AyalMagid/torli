@@ -48,8 +48,9 @@ function unshiftCellByPhoneNumber(users, phone) {
     if(!phone) return users
     const idx = users.findIndex(user => user.phone === phone)
     let splicedCell = users.splice(idx,1)[0]
+    console.log(splicedCell);
     splicedCell.isMarked=true
-    let obj={...splicedCell}
-    users.unshift(obj)
+    let copySplicedCell={...splicedCell}
+    users.unshift(copySplicedCell)
     return users
 }

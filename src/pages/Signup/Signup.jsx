@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import {updateUserPhoneInContactSignup} from '../../actions/userAction.js';
+import {updateUserPhoneInContactSignup,updateUserToSchedule} from '../../actions/userAction.js';
 import { useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -141,6 +141,7 @@ export function _Signup(props) {
                 else props.history.push('/calendarAdmin')
             } else {
                await props.updateUserPhoneInContactSignup(credentials.phone)
+               props.updateUserToSchedule(credentials)
                 transferToContact()
             }
         }
@@ -255,7 +256,8 @@ function mapStateProps(state) {
 }
 
 const mapDispatchToProps = {
-    updateUserPhoneInContactSignup
+    updateUserPhoneInContactSignup,
+    updateUserToSchedule
 }
 
 export const Signup = connect(mapStateProps, mapDispatchToProps)(_Signup)
