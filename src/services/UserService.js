@@ -56,9 +56,10 @@ function unshiftCellByPhoneNumber(users, phone) {
     return users
 }
 
-async function isAdmin(userFromStorage) {
-    console.log(userFromStorage);
-    const userFromMongo = await getUser(userFromStorage.phone)
+async function isAdmin(userFromStorage,phoneToSearch="") {
+    let userFromMongo
+    if(phoneToSearch)   userFromMongo = await getUser(phoneToSearch)
+    else  userFromMongo = await getUser(userFromStorage.phone)
     console.log(userFromMongo);
     return userFromMongo.isAdmin
 }

@@ -38,6 +38,7 @@ export function _EditUser(props) {
     const [credentials, setCredentials] = React.useState(StorageService.loadFromStorage('tori-user'))
     const { name, phone, email } = credentials
     const [password, setPassword] = useState('');
+    const [oldPhone, setOldPhone] = useState('');
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
     const [toggleEmailValidation, setToggleEmailValidation] = useState('visibility');
@@ -48,6 +49,10 @@ export function _EditUser(props) {
             email: true
         }
     );
+
+    useEffect(() => {
+        setOldPhone(credentials.phone)
+    }, [])
 
     useEffect(() => {
         checkValidation()
@@ -79,7 +84,6 @@ export function _EditUser(props) {
                 setCredentials({ ...credentials, name: value })
                 break;
             case 'phone':
-
                 setCredentials({ ...credentials, phone: value })
                 // checkPhoneValidation()
                 break;
@@ -127,18 +131,15 @@ export function _EditUser(props) {
     }
 
 
-    function setUser() {
-        console.log(isValid)
-
+    async function setUser() {
         //validation of owner phone number
-        if  (!UserService.isAdmin(credentials)){
+        if (! await UserService.isAdmin(credentials,oldPhone)) {
             UserService.updateUser(credentials)
             props.history.push('/')
         }
         else {
             handleClickOpen()
         }
-
     }
 
     const [open, setOpen] = React.useState(false);
@@ -255,10 +256,10 @@ export function _EditUser(props) {
     };
 
 
-  function signOut(){
-    StorageService.removeFromStorage('tori-user')
-    props.history.push('/')
-  } 
+    function signOut() {
+        StorageService.removeFromStorage('tori-user')
+        props.history.push('/')
+    }
 
     return (
         <motion.div
@@ -270,10 +271,10 @@ export function _EditUser(props) {
             style={{ width: "100%", height: "100%" }}
         >
             <main className="main-edit-container flex align-center justify-center column">
-              <div className="sign-out flex align-center justify-center space-between" onClick={signOut}> 
-              <i class="fas fa-sign-out-alt"></i> 
-             <div>התנתק</div> 
-              </div>
+                <div className="sign-out flex align-center justify-center space-between" onClick={signOut}>
+                    <i class="fas fa-sign-out-alt"></i>
+                    <div>התנתק</div>
+                </div>
                 <div className="login-title">
                     לשינוי לחצו על סמל העריכה ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
