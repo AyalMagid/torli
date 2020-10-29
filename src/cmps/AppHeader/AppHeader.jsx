@@ -31,6 +31,7 @@ function _AppHeader(props) {
                 break;
             case '/login':
                 setHeaderConstrains({...initWithFalse, isHeader:true})
+                break;
             case '/treatments':
                 setHeaderConstrains({...initWithFalse, isStepper:true, isTabs:true})
                 break;

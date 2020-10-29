@@ -42,7 +42,6 @@ export function _HomePage(props) {
                             setTimeout(() => {
                                 setModalInClass('ad-modal-in')
                             }, 1000);
-
                             props.updateIsAdShown(true)
                         }
                     }
@@ -114,7 +113,7 @@ export function _HomePage(props) {
                     </a>
                         </div>
                         :
-                        user
+                        isAdmin
                             ?
                             < div className="bottom-icons-container flex space-around">
                                 <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
