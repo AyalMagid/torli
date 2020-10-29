@@ -8,6 +8,7 @@ import { TreatmentTitle } from '../../cmps/TreatmentTitle/TreatmentTitle';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { motion } from 'framer-motion'
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
+import UserService from "../../services/UserService";
 import { _setUserToSchedule } from '../../actions/userAction.js';
 import StorageService from '../../services/StorageService';
 import './TreatmentApp.scss';
@@ -40,8 +41,10 @@ export function _TreatmentApp(props) {
         if (!treatments) loadTreatments()
     }, [loadTreatments, treatments]);
 
-    useEffect(() => {
-        if (!userToSchedule && !user.isAdmin) setUserToSchedule()
+    useEffect( () => {
+        (async () => {
+        if (!userToSchedule && (! await UserService.isAdmin(user))) setUserToSchedule()
+    })()
     }, [setUserToSchedule, userToSchedule]);
 
     const [isClicked, setIsClicked] = useState(false);

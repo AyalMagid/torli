@@ -1,11 +1,15 @@
 export default {
     saveToStorage,
-    loadFromStorage
+    loadFromStorage,
+    removeFromStorage
 }
 
 function saveToStorage(key, value) {
     var str = JSON.stringify(value);
     localStorage.setItem(key, str);
+}
+function removeFromStorage(key) {
+    localStorage.removeItem(key);
 }
 
 function loadFromStorage(key) {

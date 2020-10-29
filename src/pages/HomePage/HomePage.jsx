@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateIsAdShown } from '../../actions/userAction';
 import AdvertiseService from '../../services/AdvertiseService';
+import UserService from '../../services/UserService';
 import StorageService from "../../services/StorageService";
 import './HomePage.scss';
 
@@ -21,6 +22,7 @@ export function _HomePage(props) {
     }
 
     const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
+    const [isAdmin, setIsAdmin] = useState(false);
     const [advertise, setAdvertise] = useState();
     const [modalInClass, setModalInClass] = useState('');
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
@@ -32,7 +34,7 @@ export function _HomePage(props) {
             if (user) {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (!user.isAdmin) {
+                if (! await UserService.isAdmin(user)){
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
@@ -45,6 +47,7 @@ export function _HomePage(props) {
                         }
                     }
                 } else {
+                    setIsAdmin(true)
                     if (ad) return
                     else {
                         console.log('else')
@@ -94,7 +97,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {(user&&!user.isAdmin)
+                    {(user && !isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -111,20 +114,37 @@ export function _HomePage(props) {
                     </a>
                         </div>
                         :
-                        < div className="bottom-icons-container flex space-around">
-                            <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
-                                <div className="circle"><i class="far fa-calendar-alt"></i></div>
+                        user
+                            ?
+                            < div className="bottom-icons-container flex space-around">
+                                <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
+                                    <div className="circle"><i class="far fa-calendar-alt"></i></div>
                      יומן
                        </div>
-                            <div className="remove-queue-container" onClick={() => changeRoute('/adminContacts')}>
-                                <div className="circle"><i class="fas fa-users"></i> </div>
+                                <div className="remove-queue-container" onClick={() => changeRoute('/adminContacts')}>
+                                    <div className="circle"><i class="fas fa-users"></i> </div>
                     לקוחות
                       </div>
-                      <div className="remove-queue-container" onClick={() => changeRoute('/advertise')}>
-                                <div className="circle"><i class="far fa-comment-alt"></i></div>
-                    פרסומים   
+                                <div className="remove-queue-container" onClick={() => changeRoute('/advertise')}>
+                                    <div className="circle"><i class="far fa-comment-alt"></i></div>
+                    פרסומים
                       </div>
-                        </div>
+                            </div>
+                            :
+                            < div className="bottom-icons-container flex space-around">
+                                <div className="queue-container" onClick={() => changeRoute('/treatments')}>
+                                    <div className="circle"><i class="fas fa-user-clock"></i></div>
+                        קביעת תור
+                         </div>
+                                <div className="remove-queue-container" onClick={() => changeRoute('/cancelAppointment')}>
+                                    <div className="circle"><i class="fas fa-user-times"></i></div>
+                       ביטול תור
+                         </div>
+                                <a className="phone" href="tel:0538281511">
+                                    <div className="circle"><i className="fas fa-phone-alt"></i></div>
+                        חייגו אלינו
+                          </a>
+                            </div>
                     }
                 </div>
                 {isAdModalOpen &&

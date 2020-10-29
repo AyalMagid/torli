@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
+import { loadUsers, updateUsers, updateUserToSchedule,updateUserPhoneInContactSignup } from '../../actions/userAction.js';
 import './Contacts.scss';
 
 export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
+   
     useEffect(() => {
         props.loadUsers()
     }, [props.loadUsers]);
-
 
     function handleChange({ target }) {
         const field = target.name;
@@ -44,6 +44,10 @@ export function _Contacts(props) {
         props.updateUsers(users)
     }
 
+    function transferTosignup() {
+        props.history.push('/calendarAdmin/contacts/signup')
+    }
+
     return (
         <main className="contacts-main-container">
             <div className="search-input-container flex align-center">
@@ -52,6 +56,9 @@ export function _Contacts(props) {
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">
+                    <div className="create-user flex align-center" onClick={transferTosignup} >
+                        <div className="add-new-user flex justify-center align-center"><i class="fas fa-plus-circle"></i><div>לקוח חדש</div></div>
+                    </div>
                     {
                         (props.users) &&
                         props.users.map((user, idx) => {
@@ -80,14 +87,16 @@ export function _Contacts(props) {
 
 function mapStateProps(state) {
     return {
-        users: state.UserReducer.users
+        users: state.UserReducer.users,
+        userPhoneInContactSignup: state.UserReducer.userPhoneInContactSignup
     }
 }
 
 const mapDispatchToProps = {
     loadUsers,
     updateUsers,
-    updateUserToSchedule
+    updateUserToSchedule,
+    updateUserPhoneInContactSignup
 }
 
 export const Contacts = connect(mapStateProps, mapDispatchToProps)(_Contacts)

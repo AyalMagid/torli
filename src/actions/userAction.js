@@ -80,3 +80,18 @@ export function _updateIsAdShown(isAdShown) {
   };
 }
 
+
+
+export function updateUserPhoneInContactSignup(userPhoneInContactSignup) {
+  return dispatch => {
+    dispatch(_updateUserPhoneInContactSignup(userPhoneInContactSignup));
+  }
+}
+
+export function _updateUserPhoneInContactSignup(userPhoneInContactSignup) {
+  return {
+    type: 'UPDATE_NUMBER_IN_CONTACT_SIGNUP',
+    userPhoneInContactSignup
+  };
+}
+
