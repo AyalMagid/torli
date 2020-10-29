@@ -32,10 +32,10 @@ function updateUser(user) {
 
 async function addUser(user, isCreateadByAdmin) {
     user.isMarked = false
+    if (!isCreateadByAdmin) StorageService.saveToStorage('tori-user', user)
     //need to come from backend env
     if (user.phone === '123456789') user.isAdmin = true
     else user.isAdmin = false
-    if (!isCreateadByAdmin) StorageService.saveToStorage('tori-user', user)
     return await HttpService.post('user', user)
 }
 
@@ -56,7 +56,9 @@ function unshiftCellByPhoneNumber(users, phone) {
     return users
 }
 
-async function isAdmin(user) {
-    const user = await getUser(user.phone)
-    return(user.isAdmin)
+async function isAdmin(userFromStorage) {
+    console.log(userFromStorage);
+    const userFromMongo = await getUser(userFromStorage.phone)
+    console.log(userFromMongo);
+    return userFromMongo.isAdmin
 }

@@ -86,7 +86,8 @@ export function Login(props) {
         const user = await UserService.getUser(phone)
         //validation of owner phone number
         if (user) {
-            if (!UserService.isAdmin(user)) {
+            console.log(await UserService.isAdmin(user));
+            if (!await UserService.isAdmin(user)) {
                 //need to bring from mongo
                 const { name, email, phone} = user
                 StorageService.saveToStorage('tori-user', { name, email, phone})
@@ -113,8 +114,8 @@ export function Login(props) {
             //owner password
             if (password === ownerPassword) {
                 setOpen(false);
-                const { name, email, phone, isAdmin } = user
-                StorageService.saveToStorage('tori-user', { name, email, phone, isAdmin})
+                const { name, email, phone} = user
+                StorageService.saveToStorage('tori-user', { name, email, phone})
                 props.history.push('/calendarAdmin')
             }
             else {

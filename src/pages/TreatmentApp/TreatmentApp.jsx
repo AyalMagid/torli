@@ -42,7 +42,7 @@ export function _TreatmentApp(props) {
     }, [loadTreatments, treatments]);
 
     useEffect(() => {
-        if (!userToSchedule && !(!UserService.isAdmin(user))) setUserToSchedule()
+        if (!userToSchedule && (!UserService.isAdmin(user))) setUserToSchedule()
     }, [setUserToSchedule, userToSchedule]);
 
     const [isClicked, setIsClicked] = useState(false);

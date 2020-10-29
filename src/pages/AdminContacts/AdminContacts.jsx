@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { loadUsers, updateUsers, updateUserToSchedule } from '../../actions/userAction.js';
 import { CancelAppointment } from '../CancelAppointment/CancelAppointment';
-import UserService from '../services/UserService';
 import './AdminContacts.scss';
 export function _AdminContacts(props) {
     const [searchTerm, setSearchTerm] = useState('')
@@ -57,7 +56,7 @@ export function _AdminContacts(props) {
                         props.users.map((user, idx) => {
                             return (
                                 (user.name.includes(searchTerm) || user.phone.includes(searchTerm)) &&
-                                (!UserService.isAdmin(user))
+                                (!user.isAdmin)
                                 &&
                                 <div className={`user-container flex align-center justify-center`}  key={idx}>
                                     <div className="user-name user-attr">{user.name}</div>
