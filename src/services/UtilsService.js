@@ -19,6 +19,11 @@ export default {
   getMonthByIdx
 }
 
+var gUtcDiff = 2
+
+// for half an hour slots = 2. 15 min slots will be 4 etc...
+var gDividedHour = 2 
+
 function englishToHebrew(word) {
   let convertedWord
   switch (word) {
@@ -111,12 +116,11 @@ function getWeekIsosDatesForCalendar(dayByNum, date) {
       console.log('Err with getting week dates')
   }
   return weeklyDates.map(isosDate => {
-    return { start: `${isosDate}T05:00:00Z`, end: `${isosDate}T17:00:00Z` }
+    return { start: `${isosDate}T06:00:00Z`, end: `${isosDate}T18:00:00Z` }
   })
 }
 
 function getDailySlotsForPreview(slotsRanges, duration) {
-  // console.log(slotsRanges, duration);
   const timeslotsByConstraints = slotsRanges.map(sr => getTimeSlotsForPreview(sr, duration))
   const mergedTimeSlotsToRender = [].concat.apply([], timeslotsByConstraints);
   return mergedTimeSlotsToRender
@@ -129,20 +133,20 @@ function getTimeSlotsForPreview(timeslot, duration) {
   let day = timeslot.start.slice(8, 10)
   let hours = +timeslot.start.slice(11, 13)
   let min = timeslot.start.slice(14, 16)
-  const startTime = new Date(year, month - 1, day, hours + 3, min, 0, 0);
+  const startTime = new Date(year, month - 1, day, hours +  gUtcDiff, min, 0, 0);
   year = timeslot.end.slice(0, 4)
   month = timeslot.end.slice(5, 7)
   day = timeslot.end.slice(8, 10)
   hours = +timeslot.end.slice(11, 13)
   min = timeslot.end.slice(14, 16)
-  const endTime = new Date(year, month - 1, day, hours + 3, min, 0, 0);
+  const endTime = new Date(year, month - 1, day, hours + gUtcDiff, min, 0, 0);
   let nextTimeSlot = startTime//maby need copy
   hours = nextTimeSlot.getHours()
   min = nextTimeSlot.getMinutes()
   let slotToRender = checkDigitsAndAddZerosIfNeeded(hours) + ':' + checkDigitsAndAddZerosIfNeeded(min);
-  if ((nextTimeSlot.getTime() + (duration * 60 * 1000)) < endTime.getTime()) { slotsToRender.push(slotToRender) }
+  if ((nextTimeSlot.getTime() + (duration * 60 * 1000)) <= endTime.getTime()) { slotsToRender.push(slotToRender) }
   while ((nextTimeSlot.getTime() + (duration * 60 * 1000)) < endTime.getTime()) {
-    nextTimeSlot = new Date(nextTimeSlot.getTime() + ((60 * 60 * 1000) / 2));//adding half an hour
+    nextTimeSlot = new Date(nextTimeSlot.getTime() + ((60 * 60 * 1000) / gDividedHour));//adding half an hour
     hours = nextTimeSlot.getHours()
     min = nextTimeSlot.getMinutes()
     slotToRender = checkDigitsAndAddZerosIfNeeded(hours) + ':' + checkDigitsAndAddZerosIfNeeded(min);
@@ -218,8 +222,8 @@ function getEventReadyForDisplay(filteredEvents) {
     return {
       id: event._id,
       treatments: event.treatments,
-      startTime: changeTimeForDisplay(event.startTime, -3),
-      endTime: changeTimeForDisplay(event.endTime, -3),
+      startTime: changeTimeForDisplay(event.startTime, gUtcDiff*-1),
+      endTime: changeTimeForDisplay(event.endTime, gUtcDiff*-1),
       date: convertDateToIsraelisDisplay(event.date),
       email: event.email,
       name: event.name,
@@ -230,7 +234,7 @@ function getEventReadyForDisplay(filteredEvents) {
 function checkIfTsInRange(tsToCompare, startTime, endTime, duration) {
 
   //adding 3 hours to match the time differnce
-  const tsToCompareWithAddedHours = changeTimeForDisplay(tsToCompare, -3)
+  const tsToCompareWithAddedHours = changeTimeForDisplay(tsToCompare, gUtcDiff*-1)
   const timeRangeBySlots = getDailySlotsForPreview([{ start: startTime, end: endTime }], duration)
   if (timeRangeBySlots.length) {
     return { occupied: timeRangeBySlots.includes(tsToCompareWithAddedHours), rowspan: timeRangeBySlots.length }

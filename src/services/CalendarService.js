@@ -16,6 +16,8 @@ export default {
     blockSlotRange
 }
 
+var gUtcDiff = 2
+
 // get the first calendar connected to this TOKEN (usually only 1 should be there)
 function getCalendar() {
     return HttpService.get('calendar')
@@ -42,11 +44,12 @@ async function getAvailbleDailySlots(startTime, endtTime, duration) {
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
 async function setAppointment(treatments, duration, phone, email, name, treatment) {
-    let time = UtilsService.changeTimeForDisplay(treatment.time, 3)
+    let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     const startTime = `${treatment.date}T${time}:00Z`
     time = UtilsService.calculateEndTime(time, duration)
     const endTime = `${treatment.date}T${time}:00Z`
     const confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
+    console.log(confirmedEvent)
     const event = {
         name,
         email,
@@ -64,15 +67,11 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
 }
 
 async function blockSlotRange(slotToBlock, name = 'block') {
-    let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, 3)
-    let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, 3)
+    let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, gUtcDiff)
+    let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, gUtcDiff)
     const startTime = `${slotToBlock.date}T${time1}:00Z`
     const endTime = `${slotToBlock.date}T${time2}:00Z`
-    console.log(slotToBlock.start, slotToBlock.end);
     const confirmedEvent = await addEventToCalendar(startTime, endTime, name)
-
-    console.log('startTime', startTime);
-    console.log('endTime', endTime);
     const event = {
         name,
         email: '',
@@ -85,7 +84,6 @@ async function blockSlotRange(slotToBlock, name = 'block') {
         date: startTime.slice(0, 10)
     }
     EventService.saveConfirmedEvent(event)
-    console.log(slotToBlock);
 }
 
 

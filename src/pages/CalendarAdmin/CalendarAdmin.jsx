@@ -95,8 +95,8 @@ export function _CalendarAdmin(props) {
     const location = useLocation()
 
     const constrains = {
-        start: "2020-10-12T05:00:00Z",
-        end: "2020-10-12T17:00:00Z"
+        start: "2020-10-12T06:00:00Z",
+        end: "2020-10-12T18:00:00Z"
     }
     const [selectedDate, handleDateChange] = useState(new Date());
     const [weeklyDates, setWeeklyDates] = useState([]);
@@ -336,7 +336,7 @@ export function _CalendarAdmin(props) {
     let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
 
     function disableDay(date) {
-        console.log(date)
+
         return  (date.getDay() === 6);
       }
 

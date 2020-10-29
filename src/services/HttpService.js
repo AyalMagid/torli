@@ -10,6 +10,7 @@ var axios = Axios.create({
     withCredentials: true
 });
 
+
 export default {
     get(endpoint, data){
         return ajax(endpoint, 'GET', data)

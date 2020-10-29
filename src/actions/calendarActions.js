@@ -58,10 +58,10 @@ export function loadTimeSlots(pickedDate = null){
   return async dispatch => {
     try {
       const timeSlots = {
-        // 30M means the min block time range later to scheduale a meeting in
-      firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T05:00:00`, `${firstDay}T17:00:00`, '30M'),
-      secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T05:00:00`, `${secondDay}T17:00:00`, '30M'),
-      thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T05:00:00`, `${thirdDay}T17:00:00`, '30M')
+        // 30M means the min block time range later to scheduale a meeting
+      firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H'),
+      secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H'),
+      thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H')
       }
       console.log('tssss', timeSlots)
       dispatch(setTimeSlots(timeSlots));
