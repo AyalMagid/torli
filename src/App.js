@@ -25,9 +25,7 @@ export function _App(props) {
   useEffect(() => {
     (async () => {
     let user = await StorageService.loadFromStorage('tori-user')
-    console.log(user);
     if (user) {
-      console.log('here');
      await props.updateUser(await UserService.getUser(user.phone))
     }
   })()
