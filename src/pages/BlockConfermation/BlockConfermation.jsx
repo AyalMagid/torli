@@ -7,11 +7,11 @@ export function _BlockConfermation(props) {
   return (
     <>
       <header className="header-in-block-confermation-modal">
-        לקביעת הסגירה לחצו 'אישור'
+        לסגירת חלון הזמנים שנבחר לחצו 'אישור'
     </header>
       <main className="main-confermation-container flex align-center justify-center">
         <div className="block-confermation-details">
-          <div className="table-cell1">נבחרה סגירה</div>
+          <div className="table-cell1">חלון הזמנים שנבחר הוא -</div>
           <div className="table-cell2">בתאריך : {UtilsService.convertDateToIsraelisDisplay(props.slotToBlock.date)}</div>
           <div className="table-cell3">בין השעות : {props.slotToBlock.end} - {props.slotToBlock.start}</div>
         </div>
