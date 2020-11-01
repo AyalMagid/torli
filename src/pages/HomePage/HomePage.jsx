@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { updateIsAdShown} from '../../actions/userAction';
 import AdvertiseService from '../../services/AdvertiseService';
 import './HomePage.scss';
@@ -143,7 +142,7 @@ export function _HomePage(props) {
                     <>
                         <div className="ad-modal-screen" onClick={closeAdModal}> </div>
                         <div className={`ad-modal ${modalInClass}`}>
-                            <div> {advertise}</div>
+                            <div className="advertise-content"> {advertise}</div>
                             <button className="ad-modal-btn" onClick={closeAdModal}> אישור</button>
                         </div>
 
@@ -165,4 +164,4 @@ const mapDispatchToProps = {
     updateIsAdShown,
 }
 
-export const HomePage = withRouter(connect(mapStateProps, mapDispatchToProps)(_HomePage))
+export const HomePage = connect(mapStateProps, mapDispatchToProps)(_HomePage)
