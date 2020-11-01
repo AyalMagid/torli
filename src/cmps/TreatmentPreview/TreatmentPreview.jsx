@@ -1,17 +1,14 @@
 import React , { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDuration,updateDurationForModal, updateTreatments,updateTreatmentsCount} from '../../actions/treatmentActions';
+import { updateDuration,updateTreatments,updateTreatmentsCount} from '../../actions/treatmentActions';
 import { SwitchApp } from '../SwitchApp/SwitchApp';
 import UtilService from '../../services/UtilsService'
 import TreatmentService from '../../services/TreatmentService';
 import './TreatmentPreview.scss';
 
-
 class _TreatmentPreview extends Component {
-
     state = {
         updatedTreatment: this.props.treatment,
-        // treatmentsToUpdate: [...this.props.treatments]
         treatmentsToUpdate: this.props.treatments
     }
 
@@ -34,9 +31,6 @@ class _TreatmentPreview extends Component {
                 }
             const treatments = TreatmentService.updateTreatments(this.state.treatmentsToUpdate,this.state.updatedTreatment)
             this.setState({treatmentsToUpdate:treatments})
-            //     ()=>{
-            //     this.props.updateTreatments(this.state.treatmentsToUpdate)
-            // }) 
         })
     }
 
@@ -61,7 +55,6 @@ class _TreatmentPreview extends Component {
     
 function mapStateProps(state) {
     return {
-        // duration: state.TreatmentReducer.duration,
         treatments: state.TreatmentReducer.treatments
     }
 }

@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import './ModalButton.scss';
-
 
 function _ModalButton(props) {
     const location = useLocation()

@@ -9,7 +9,6 @@ import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { motion } from 'framer-motion'
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import UserService from "../../services/UserService";
-import { _setUserToSchedule } from '../../actions/userAction.js';
 import StorageService from '../../services/StorageService';
 import './TreatmentApp.scss';
 import '../../styles/style.scss';
