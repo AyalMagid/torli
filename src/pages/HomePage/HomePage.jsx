@@ -42,7 +42,6 @@ export function _HomePage(props) {
                         }
                     }
                 } else {
-                    setIsAdmin(true)
                     if (ad) return
                     else {
                         AdvertiseService.createAd()

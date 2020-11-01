@@ -134,7 +134,7 @@ export function _EditUser(props) {
 
     async function setUser() {
         //validation of owner phone number
-        if (! await UserService.isAdmin(credentials,oldPhone)) {
+        if (!props.logedinUser.isAdmin) {
             UserService.updateUser(credentials)
             props.history.push('/')
         }
@@ -377,7 +377,7 @@ export function _EditUser(props) {
 
 function mapStateProps(state) {
     return {
-       
+        logedinUser: state.UserReducer.logedinUser
     }
 }
 
