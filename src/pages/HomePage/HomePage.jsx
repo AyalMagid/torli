@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateIsAdShown } from '../../actions/userAction';
+import { updateIsAdShown,updateLogedinUser } from '../../actions/userAction';
 import AdvertiseService from '../../services/AdvertiseService';
-import UserService from '../../services/UserService';
-import StorageService from "../../services/StorageService";
 import './HomePage.scss';
 
 export function _HomePage(props) {
@@ -18,11 +16,9 @@ export function _HomePage(props) {
     }
 
     function changeRoute(route) {
-        (user) ? props.history.push(route) : props.history.push('/signupOrLogin')
+        (props.logedinUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
 
-    const [user, setUser] = useState(StorageService.loadFromStorage('tori-user'));
-    const [isAdmin, setIsAdmin] = useState(false);
     const [advertise, setAdvertise] = useState();
     const [modalInClass, setModalInClass] = useState('');
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
@@ -31,10 +27,9 @@ export function _HomePage(props) {
 
     useEffect(() => {
         (async () => {
-            if (user) {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (props.user&&(!props.user.isAdmin)) {
+                if (props.logedinUser&&(!props.logedinUser.isAdmin)) {
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
@@ -53,20 +48,18 @@ export function _HomePage(props) {
                         AdvertiseService.createAd()
                     }
                 }
-           
-            }
         })()
-    }, [user]);
+    }, [props.logedinUser]);
 
 
     return (
         <div className="home-page-wrapper">
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
-                {(user) ?
+                {(props.logedinUser) ?
                     <div className="login-container" onClick={() => props.history.push('/editUser')}>
                         <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
-                        <div>{user.name}</div>
+                        <div>{props.logedinUser.name}</div>
                     </div>
                     :
                     <div className="login-container" onClick={() => props.history.push('/signupOrLogin')}>
@@ -97,7 +90,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {((props.user && user) && !props.user.isAdmin)
+                    {((props.logedinUser ) && !props.logedinUser.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -114,7 +107,7 @@ export function _HomePage(props) {
                     </a>
                         </div>
                         :
-                        user
+                        props.logedinUser
                             ?
                             < div className="bottom-icons-container flex space-around">
                                 <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
@@ -165,12 +158,13 @@ export function _HomePage(props) {
 function mapStateProps(state) {
     return {
         isAdShown: state.UserReducer.isAdShown,
-        user: state.UserReducer.user
+        logedinUser: state.UserReducer.logedinUser
     }
 }
 
 const mapDispatchToProps = {
     updateIsAdShown,
+    updateLogedinUser
 }
 
 export const HomePage = withRouter(connect(mapStateProps, mapDispatchToProps)(_HomePage))

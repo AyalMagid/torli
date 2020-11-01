@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from '../../services/UserService';
+import { updateLogedinUser } from '../../actions/userAction.js';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -258,6 +259,7 @@ export function _EditUser(props) {
 
     function signOut() {
         StorageService.removeFromStorage('tori-user')
+        props.updateLogedinUser(null)
         props.history.push('/')
     }
 
@@ -372,4 +374,15 @@ export function _EditUser(props) {
 }
 
 
-export const EditUser = withRouter(_EditUser)
+
+function mapStateProps(state) {
+    return {
+       
+    }
+}
+
+const mapDispatchToProps = {
+    updateLogedinUser
+}
+
+export const EditUser = connect(mapStateProps, mapDispatchToProps)(_EditUser)
