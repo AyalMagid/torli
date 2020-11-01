@@ -57,10 +57,8 @@ export function Login(props) {
         switch (field) {
             case 'phone':
                 setPhone(value)
-                console.log(phoneIsValid)
                 break;
             case 'password':
-                console.log(value)
                 setPassword(value)
                 break;
             default:
@@ -86,7 +84,6 @@ export function Login(props) {
         const user = await UserService.getUser(phone)
         //validation of owner phone number
         if (user) {
-            console.log(await UserService.isAdmin(user));
             if (!await UserService.isAdmin(user)) {
                 //need to bring from mongo
                 const { name, email, phone} = user

@@ -26,7 +26,6 @@ export function TreatmentReducer(state = INITIAL_STATE, action) {
           treatments: state.treatments.filter(treatment => treatment._id !== action.treatmentId)
         };     
         case 'UPDATE_TREATMENTS':
-          console.log('re',action.treatments)
         return {
           ...state,
           treatments:action.treatments 

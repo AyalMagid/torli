@@ -50,7 +50,6 @@ export function _HomePage(props) {
                     setIsAdmin(true)
                     if (ad) return
                     else {
-                        console.log('else')
                         AdvertiseService.createAd()
                     }
                 }

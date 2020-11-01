@@ -46,10 +46,8 @@ async function removeUser(_id) {
 
 
 function unshiftCellByPhoneNumber(users, phone) {
-    console.log('here');
     const idx = users.findIndex(user => user.phone === phone)
     let splicedCell = users.splice(idx, 1)[0]
-    console.log(splicedCell);
     splicedCell.isMarked = true
     let copySplicedCell = { ...splicedCell }
     users.unshift(copySplicedCell)
@@ -60,6 +58,5 @@ async function isAdmin(userFromStorage,phoneToSearch="") {
     let userFromMongo
     if(phoneToSearch)   userFromMongo = await getUser(phoneToSearch)
     else  userFromMongo = await getUser(userFromStorage.phone)
-    console.log(userFromMongo);
     return userFromMongo.isAdmin
 }

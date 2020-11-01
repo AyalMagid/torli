@@ -23,6 +23,5 @@ function getMongoEventByEventCalendarId(evId) {
 }
 
 function removeEventFromDB (_id) {
-    console.log(_id)
     return HttpService.delete(`event/${_id}`)
 }

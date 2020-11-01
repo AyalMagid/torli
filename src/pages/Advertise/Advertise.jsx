@@ -19,7 +19,6 @@ export function _Advertise(props) {
 
 
     function handleChange({ target }) {
-        console.log(target.value)
         setAdvertiseContent(target.value)
     }
 
@@ -28,7 +27,6 @@ export function _Advertise(props) {
     }
     
     function toggleAdMode() {
-        console.log(isAdModeOn)
         AdvertiseService.toggleAdMode({isAdModeOn:!isAdModeOn})
         setIsAdModeOn(!isAdModeOn)
     }

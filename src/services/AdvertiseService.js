@@ -14,12 +14,10 @@ export default {
 }
 
 function updateAd(content) {
-    console.log(content);
     return HttpService.put('advertise', content)
 }
 
 function toggleAdMode(isAdMoneOn){
-    console.log(isAdMoneOn)
     return HttpService.put('advertise/mode',isAdMoneOn)
 }
 

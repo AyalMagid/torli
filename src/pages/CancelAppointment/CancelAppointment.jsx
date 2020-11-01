@@ -94,22 +94,17 @@ export function _CancelAppointment(props) {
     }
 
     function getEventsByPhone() {
-        console.log(phone)
         EventService.getEventByPhone(phone)
             .then(events => {
                 if (!events[0]) return
-                console.log(events)
                 const filteredEvents = events.filter(event => {
                     let year = event.date.slice(0, 4)
                     let month = event.date.slice(5, 7)
                     let day = event.date.slice(8, 10)
                     let hours = +event.startTime.slice(0, 2) + 3
-                    console.log(hours)
                     const date = new Date(year, month - 1, day, hours, 0).getTime()
-                    console.log(date, Date.now())
                     return (date > Date.now())
                 })
-                console.log(filteredEvents)
                 if (filteredEvents.length) {
                     setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
                 } else {
@@ -121,7 +116,6 @@ export function _CancelAppointment(props) {
     async function cancelAppointment(eventId) {
         const events = await EventService.getEventByPhone(phone)
         let eventToRmove = events.find(event => event._id === eventId)
-        console.log(eventToRmove)
         // delete from Calendar
         CalendarService.removeEventFromCalendar(eventToRmove.eventId)
         EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
