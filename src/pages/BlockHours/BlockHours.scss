@@ -2,6 +2,7 @@
     padding: 34px;
     height: 85%;
 }
+
 .header-in-block-hours-modal{
     height: 50px;
     width: 100%;
@@ -12,6 +13,11 @@
     justify-content: center;
     align-items: center;
     font-size: 16px;
+}
+
+// the back arrow gets 10% the text the other 80%
+.space-for-flex{
+  width:12%;
 }
 .hours-main-container{
     width: 100%;
@@ -87,3 +93,4 @@
     color: white;
     font-size: 16px;
 }
+

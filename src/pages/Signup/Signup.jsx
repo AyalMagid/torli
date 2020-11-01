@@ -123,7 +123,7 @@ export function _Signup(props) {
         }
     }
 
-    function transferToContact(){
+    function navToContacts(){
         props.history.push('/calendarAdmin/contacts')
     }
 
@@ -142,7 +142,7 @@ export function _Signup(props) {
             } else {
                await props.updateUserPhoneInContactSignup(credentials.phone)
                props.updateUserToSchedule(credentials)
-                transferToContact()
+                navToContacts()
             }
         }
     }
@@ -168,8 +168,9 @@ export function _Signup(props) {
             transition={pageTransition}
         >
             <main className="main-login-container flex align-center justify-center column">
-            {isContactsPath&& <header className="header-in-signup-modal"> </header>}
-              {isContactsPath&&<div className="transfer-to-contact" onClick={transferToContact}><i class="fas fa-arrow-right"></i></div>}
+            {isContactsPath&& <header className="header-in-signup-modal">
+                    {isContactsPath&&<div className="back-arrow" onClick={navToContacts}><i class="fas fa-arrow-right"></i></div>}
+                 </header>}
                 <div className={`login-title ${isContactsPath? 'login-title-display-none' : ''}`}>
                     אנא מלאו את השדות הבאים ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>

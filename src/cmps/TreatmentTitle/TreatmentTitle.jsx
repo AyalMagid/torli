@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation,withRouter } from 'react-router-dom';
 import UtilsService from '../../services/UtilsService';
 import './TreatmentTitle.scss';
 
@@ -12,7 +12,14 @@ function _TreatmentTitle(props) {
     return (
         <div className={`treatment-title ${isCalendarAdmin?'treatment-title-in-modal':''} 
          ${isCalendarAdmin&&isDurationValid?'red-title':''}`}>
+                {
+                    isCalendarAdmin?
+                    <div className="back-arrow" onClick={()=> props.history.push('/calendarAdmin/contacts')}><i  class="fas fa-arrow-right"></i></div>
+                    :
+                    ''
+                }
             {
+                <div className="treatment-title-text">{
                (isDurationValid&&isCalendarAdmin) ?
                   'משך זמן הטיפולים ארוך מידי ! '
                 :
@@ -30,10 +37,12 @@ function _TreatmentTitle(props) {
                     isCalendarAdmin
                     ?
                     "בחרו סוג טיפול אחד או יותר"
-                    :
+                    : 
                     "  בחרו  סוג  טיפול  אחד  או  יותר  ולחצו  'הבא'"
-            
+                    }
+                </div>
                 }
+                <div className={'space-for-flex'}></div>
         </div>
     )
 }
@@ -49,4 +58,4 @@ function mapStateProps(state) {
 const mapDispatchToProps = {
 }
 
-export const TreatmentTitle = connect(mapStateProps, mapDispatchToProps)(_TreatmentTitle)
+export const TreatmentTitle = withRouter(connect(mapStateProps, mapDispatchToProps)(_TreatmentTitle))

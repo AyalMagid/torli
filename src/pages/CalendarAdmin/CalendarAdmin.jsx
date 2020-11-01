@@ -332,6 +332,8 @@ export function _CalendarAdmin(props) {
 
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
+        // chagne semantics, because it represents the opposite - making sure btn will be disable after modal closed and reopen
+        setIsClicked(true)
         props.updateUserPhoneInContactSignup('')
         StoreService.initApp()
         props.history.push('/calendarAdmin')
