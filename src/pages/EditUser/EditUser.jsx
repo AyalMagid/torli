@@ -36,10 +36,9 @@ const pageTransition = {
 }
 
 export function _EditUser(props) {
-    const [credentials, setCredentials] = React.useState(StorageService.loadFromStorage('tori-user'))
+    const [credentials, setCredentials] = React.useState(props.logedinUser)
     const { name, phone, email } = credentials
     const [password, setPassword] = useState('');
-    const [oldPhone, setOldPhone] = useState('');
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
     const [toggleEmailValidation, setToggleEmailValidation] = useState('visibility');
@@ -50,10 +49,6 @@ export function _EditUser(props) {
             email: true
         }
     );
-
-    useEffect(() => {
-        setOldPhone(credentials.phone)
-    }, [])
 
     useEffect(() => {
         checkValidation()

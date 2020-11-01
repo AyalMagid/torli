@@ -8,7 +8,7 @@ export default {
     removeUser,
     updateUser,
     unshiftCellByPhoneNumber,
-    isAdmin
+    // isAdmin
 }
 
 function _sortUsers(users) {
@@ -54,9 +54,9 @@ function unshiftCellByPhoneNumber(users, phone) {
     return users
 }
 
-async function isAdmin(userFromStorage,phoneToSearch="") {
-    let userFromMongo
-    if(phoneToSearch)   userFromMongo = await getUser(phoneToSearch)
-    else  userFromMongo = await getUser(userFromStorage.phone)
-    return userFromMongo.isAdmin
-}
+// async function isAdmin(userFromStorage,phoneToSearch="") {
+//     let userFromMongo
+//     if(phoneToSearch)   userFromMongo = await getUser(phoneToSearch)
+//     else  userFromMongo = await getUser(userFromStorage.phone)
+//     return userFromMongo.isAdmin
+// }

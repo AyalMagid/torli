@@ -83,14 +83,14 @@ const ownerPassword = '1234'
 
 
     async function setUser() {
-        const user = await UserService.getUser(phone)
+        const userFromDb = await UserService.getUser(phone)
         //validation of owner phone number
-        if (user) {
-            if (!await UserService.isAdmin(user)) {
+        if (userFromDb) {
+            if (!userFromDb.isAdmin) {
                 //need to bring from mongo
-                const { name, email, phone} = user
+                const { name, email, phone} = userFromDb
                 StorageService.saveToStorage('tori-user',{name, email, phone})
-                props.updateLogedinUser(user)
+                props.updateLogedinUser(userFromDb)
                 props.history.push('/treatments')
             }
             else {
@@ -109,14 +109,14 @@ const ownerPassword = '1234'
     };
 
     const handleClose = async (close) => {
-        const user = await UserService.getUser(phone)
+        const userFromDb = await UserService.getUser(phone)
         if (close !== 'close') {
             //owner password
             if (password === ownerPassword) {
                 setOpen(false);
-                const { name, email, phone} = user
+                const { name, email, phone} = userFromDb
                 StorageService.saveToStorage('tori-user',{name, email, phone})
-                props.updateLogedinUser(user) 
+                props.updateLogedinUser(userFromDb) 
                 props.history.push('/calendarAdmin')
             }
             else {
@@ -245,7 +245,7 @@ const ownerPassword = '1234'
 
 function mapStateProps(state) {
     return {
-       
+        logedinUser: state.UserReducer.logedinUser
     }
 }
 
