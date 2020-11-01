@@ -104,11 +104,7 @@ export function _HomePage(props) {
                     </a>
                         </div>
                         :
-<<<<<<< HEAD
-                        isAdmin
-=======
                         props.logedinUser
->>>>>>> 39d9ae7a01ef9865f2166f6cbc602abaaf766e9f
                             ?
                             < div className="bottom-icons-container flex space-around">
                                 <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
