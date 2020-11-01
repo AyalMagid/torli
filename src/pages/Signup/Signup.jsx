@@ -11,7 +11,7 @@ import Slide from '@material-ui/core/Slide';
 import { Link } from 'react-router-dom'
 import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
-import { updateUser } from '../../actions/userAction.js';
+import { updateLogedinUser } from '../../actions/userAction.js';
 import { motion } from 'framer-motion'
 import './Signup.scss';
 
@@ -134,7 +134,7 @@ export function _Signup(props) {
         if (user) {
             handleClickOpen()
         } else {
-            props.updateUser(credentials)
+            props.updateLogedinUser(credentials)
           await  UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
                 if (phone !== '123456789') props.history.push('/treatments')
@@ -258,7 +258,7 @@ function mapStateProps(state) {
 const mapDispatchToProps = {
     updateUserPhoneInContactSignup,
     updateUserToSchedule,
-    updateUser
+    updateLogedinUser
 }
 
 export const Signup = connect(mapStateProps, mapDispatchToProps)(_Signup)

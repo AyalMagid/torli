@@ -16,7 +16,7 @@ import { Advertise } from './pages/Advertise/Advertise.jsx'
 import { AdminContacts } from './pages/AdminContacts/AdminContacts.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
 import { HashRouter as Router } from 'react-router-dom';
-import { updateUser } from './actions/userAction.js';
+import { updateLogedinUser } from './actions/userAction.js';
 import StorageService from './services/StorageService';
 import UserService from './services/UserService';
 
@@ -25,8 +25,8 @@ export function _App(props) {
   useEffect(() => {
     (async () => {
     let user = await StorageService.loadFromStorage('tori-user')
-    if (user&&!props.user) {
-     await props.updateUser(await UserService.getUser(user.phone))
+    if (user&&!props.logedinUser) {
+     await props.updateLogedinUser(await UserService.getUser(user.phone))
     }
   })()
   }, []);
@@ -57,12 +57,12 @@ export function _App(props) {
 
 function mapStateProps(state) {
   return {
-    user: state.UserReducer.user
+    logedinUser: state.UserReducer.logedinUser
   }
 }
 
 const mapDispatchToProps = {
-  updateUser
+  updateLogedinUser
 }
 
 export const App = connect(mapStateProps, mapDispatchToProps)(_App)
