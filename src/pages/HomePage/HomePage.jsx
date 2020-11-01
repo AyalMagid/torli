@@ -96,7 +96,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {(user && !isAdmin)
+                    {(user && !props.user.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -163,7 +163,8 @@ export function _HomePage(props) {
 
 function mapStateProps(state) {
     return {
-        isAdShown: state.UserReducer.isAdShown
+        isAdShown: state.UserReducer.isAdShown,
+        user:state.UserReducer.user
     }
 }
 
