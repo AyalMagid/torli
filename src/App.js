@@ -23,10 +23,14 @@ import UserService from './services/UserService';
 export function _App(props) {
 
   useEffect(() => {
-    let user = StorageService.loadFromStorage('tori-user')
+    (async () => {
+    let user = await StorageService.loadFromStorage('tori-user')
+    console.log(user);
     if (user) {
-      props.updateUser(UserService.getUser(user.phone))
+      console.log('here');
+     await props.updateUser(await UserService.getUser(user.phone))
     }
+  })()
   }, []);
 
   return (

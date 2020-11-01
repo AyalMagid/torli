@@ -96,7 +96,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {(user && !props.user.isAdmin)
+                    {((props.user&&user )&& !props.user.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
