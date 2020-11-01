@@ -14,7 +14,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { motion } from 'framer-motion'
 import TreatmentService from "../../services/TreatmentService";
-import StorageService from "../../services/StorageService";
 import './SubmitForm.scss';
 
 // style for motion div

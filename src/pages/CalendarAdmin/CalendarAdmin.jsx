@@ -118,7 +118,6 @@ export function _CalendarAdmin(props) {
     let eventsIds = []
     useEffect(() => {
         (async () => {
-            if (timeSlots) console.log(timeSlots);
             let weeklyEvents = await eventsToDisplay
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
@@ -289,9 +288,7 @@ export function _CalendarAdmin(props) {
         if (ev.name === 'block - block') setModalSubJect(true)
         else setModalSubJect(false)
         const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
-        console.log(mongoEvent);
         setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
-        console.log(ev.id);
         setOpen(true);
     };
 

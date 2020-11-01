@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.scss';
+import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { AppHeader } from './cmps/AppHeader/AppHeader';
 import { TreatmentApp } from './pages/TreatmentApp/TreatmentApp.jsx'
@@ -14,31 +15,54 @@ import { EditUser } from './pages/EditUser/EditUser.jsx'
 import { Advertise } from './pages/Advertise/Advertise.jsx'
 import { AdminContacts } from './pages/AdminContacts/AdminContacts.jsx'
 import { CalendarAdmin } from './pages/CalendarAdmin/CalendarAdmin.jsx'
-import { HashRouter as Router} from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
+import { updateLogedinUser } from './actions/userAction.js';
+import StorageService from './services/StorageService';
+import UserService from './services/UserService';
 
-function App() {
+export function _App(props) {
+
+  useEffect(() => {
+    (async () => {
+    let user = await StorageService.loadFromStorage('tori-user')
+    if (user&&!props.logedinUser) {
+     await props.updateLogedinUser(await UserService.getUser(user.phone))
+    }
+  })()
+  }, []);
 
   return (
     <Router>
       <div className="App">
-        <AppHeader/>
-          <Switch >
-            <Route path="/calendar" component={CalendarApp} />
-            <Route path="/cancelAppointment" component={CancelAppointment} />
-            <Route path="/form" component={SubmitForm} />
-            <Route path="/treatments" component={TreatmentApp} />
-            <Route path="/signupOrLogin" component={SignupOrLogin} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/editUser" component={EditUser} />
-            <Route path="/calendarAdmin" component={CalendarAdmin} />
-            <Route path="/advertise" component={Advertise} />
-            <Route path="/adminContacts" component={AdminContacts} />
-            <Route path="/" component={HomePage} />
-          </Switch>
+        <AppHeader />
+        <Switch >
+          <Route path="/calendar" component={CalendarApp} />
+          <Route path="/cancelAppointment" component={CancelAppointment} />
+          <Route path="/form" component={SubmitForm} />
+          <Route path="/treatments" component={TreatmentApp} />
+          <Route path="/signupOrLogin" component={SignupOrLogin} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/editUser" component={EditUser} />
+          <Route path="/calendarAdmin" component={CalendarAdmin} />
+          <Route path="/advertise" component={Advertise} />
+          <Route path="/adminContacts" component={AdminContacts} />
+          <Route path="/" component={HomePage} />
+        </Switch>
       </div>
-      </Router>
+    </Router>
   );
 }
 
-export default App;
+
+function mapStateProps(state) {
+  return {
+    logedinUser: state.UserReducer.logedinUser
+  }
+}
+
+const mapDispatchToProps = {
+  updateLogedinUser
+}
+
+export const App = connect(mapStateProps, mapDispatchToProps)(_App)

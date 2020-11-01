@@ -8,9 +8,6 @@ import { TreatmentTitle } from '../../cmps/TreatmentTitle/TreatmentTitle';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { motion } from 'framer-motion'
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
-import UserService from "../../services/UserService";
-import { _setUserToSchedule } from '../../actions/userAction.js';
-import StorageService from '../../services/StorageService';
 import './TreatmentApp.scss';
 import '../../styles/style.scss';
 
@@ -36,14 +33,13 @@ const pageTransition = {
 export function _TreatmentApp(props) {
     const location = useLocation()
     const { loadTreatments, treatments, setUserToSchedule, userToSchedule } = props
-    const user = StorageService.loadFromStorage('tori-user');
     useEffect(() => {
         if (!treatments) loadTreatments()
     }, [loadTreatments, treatments]);
 
     useEffect( () => {
         (async () => {
-        if (!userToSchedule && (! await UserService.isAdmin(user))) setUserToSchedule()
+        if (!userToSchedule && !props.logedinUser.isAdmin) setUserToSchedule()
     })()
     }, [setUserToSchedule, userToSchedule]);
 
@@ -89,6 +85,7 @@ function mapStateProps(state) {
     return {
         treatments: state.TreatmentReducer.treatments,
         userToSchedule: state.UserReducer.userToSchedule,
+        logedinUser: state.UserReducer.logedinUser
     }
 }
 

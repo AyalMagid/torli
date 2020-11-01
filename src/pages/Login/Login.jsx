@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UserService from "../../services/UserService";
 import { motion } from 'framer-motion'
@@ -10,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { updateLogedinUser } from '../../actions/userAction.js';
 import './Login.scss';
 
 const pageVariants = {
@@ -31,7 +33,7 @@ const pageTransition = {
 
 const ownerPassword = '1234'
 
-export function Login(props) {
+  function _Login(props) {
     const [phone, setPhone] = React.useState('')
     const [password, setPassword] = useState('');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
@@ -57,10 +59,8 @@ export function Login(props) {
         switch (field) {
             case 'phone':
                 setPhone(value)
-                console.log(phoneIsValid)
                 break;
             case 'password':
-                console.log(value)
                 setPassword(value)
                 break;
             default:
@@ -83,14 +83,14 @@ export function Login(props) {
 
 
     async function setUser() {
-        const user = await UserService.getUser(phone)
+        const userFromDb = await UserService.getUser(phone)
         //validation of owner phone number
-        if (user) {
-            console.log(await UserService.isAdmin(user));
-            if (!await UserService.isAdmin(user)) {
+        if (userFromDb) {
+            if (!userFromDb.isAdmin) {
                 //need to bring from mongo
-                const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user', { name, email, phone})
+                const { name, email, phone} = userFromDb
+                StorageService.saveToStorage('tori-user',{name, email, phone})
+                props.updateLogedinUser(userFromDb)
                 props.history.push('/treatments')
             }
             else {
@@ -109,13 +109,14 @@ export function Login(props) {
     };
 
     const handleClose = async (close) => {
-        const user = await UserService.getUser(phone)
+        const userFromDb = await UserService.getUser(phone)
         if (close !== 'close') {
             //owner password
             if (password === ownerPassword) {
                 setOpen(false);
-                const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user', { name, email, phone})
+                const { name, email, phone} = userFromDb
+                StorageService.saveToStorage('tori-user',{name, email, phone})
+                props.updateLogedinUser(userFromDb) 
                 props.history.push('/calendarAdmin')
             }
             else {
@@ -239,3 +240,17 @@ export function Login(props) {
         </motion.div>
     );
 }
+
+
+
+function mapStateProps(state) {
+    return {
+        logedinUser: state.UserReducer.logedinUser
+    }
+}
+
+const mapDispatchToProps = {
+    updateLogedinUser
+}
+
+export const Login = connect(mapStateProps, mapDispatchToProps)(_Login)

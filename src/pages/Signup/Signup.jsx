@@ -7,11 +7,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Link } from 'react-router-dom'
 import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
+import { updateLogedinUser } from '../../actions/userAction.js';
 import { motion } from 'framer-motion'
 import './Signup.scss';
 
@@ -134,7 +134,7 @@ export function _Signup(props) {
         if (user) {
             handleClickOpen()
         } else {
-            console.log(location.pathname)
+          if(!isContactsPath)  props.updateLogedinUser(credentials)
           await  UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
                 if (phone !== '123456789') props.history.push('/treatments')
@@ -258,7 +258,8 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateUserPhoneInContactSignup,
-    updateUserToSchedule
+    updateUserToSchedule,
+    updateLogedinUser
 }
 
 export const Signup = connect(mapStateProps, mapDispatchToProps)(_Signup)

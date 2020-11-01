@@ -49,7 +49,6 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     time = UtilsService.calculateEndTime(time, duration)
     const endTime = `${treatment.date}T${time}:00Z`
     const confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
-    console.log(confirmedEvent)
     const event = {
         name,
         email,
@@ -62,7 +61,6 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
         date: startTime.slice(0, 10)
     }
     EventService.saveConfirmedEvent(event)
-    console.log(event);
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 

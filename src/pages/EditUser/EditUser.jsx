@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from '../../services/UserService';
+import { updateLogedinUser } from '../../actions/userAction.js';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -35,10 +36,9 @@ const pageTransition = {
 }
 
 export function _EditUser(props) {
-    const [credentials, setCredentials] = React.useState(StorageService.loadFromStorage('tori-user'))
+    const [credentials, setCredentials] = React.useState(props.logedinUser)
     const { name, phone, email } = credentials
     const [password, setPassword] = useState('');
-    const [oldPhone, setOldPhone] = useState('');
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
     const [toggleEmailValidation, setToggleEmailValidation] = useState('visibility');
@@ -49,10 +49,6 @@ export function _EditUser(props) {
             email: true
         }
     );
-
-    useEffect(() => {
-        setOldPhone(credentials.phone)
-    }, [])
 
     useEffect(() => {
         checkValidation()
@@ -133,7 +129,7 @@ export function _EditUser(props) {
 
     async function setUser() {
         //validation of owner phone number
-        if (! await UserService.isAdmin(credentials,oldPhone)) {
+        if (!props.logedinUser.isAdmin) {
             UserService.updateUser(credentials)
             props.history.push('/')
         }
@@ -258,6 +254,7 @@ export function _EditUser(props) {
 
     function signOut() {
         StorageService.removeFromStorage('tori-user')
+        props.updateLogedinUser(null)
         props.history.push('/')
     }
 
@@ -372,4 +369,15 @@ export function _EditUser(props) {
 }
 
 
-export const EditUser = withRouter(_EditUser)
+
+function mapStateProps(state) {
+    return {
+        logedinUser: state.UserReducer.logedinUser
+    }
+}
+
+const mapDispatchToProps = {
+    updateLogedinUser
+}
+
+export const EditUser = connect(mapStateProps, mapDispatchToProps)(_EditUser)

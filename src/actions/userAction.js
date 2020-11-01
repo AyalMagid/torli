@@ -37,6 +37,24 @@ export function _updateUsers(users) {
 }
 
 
+export function updateLogedinUser(logedinUser) {
+  return async dispatch => {
+    try {
+      dispatch(_updateLogedinUser(logedinUser));
+    } catch (err) {
+      console.log('userActions: err in updateUser', err);
+    };
+  }
+}
+
+export function _updateLogedinUser(logedinUser) {
+  return {
+    type: 'UPDATE_LOGEDIN_USER',
+    logedinUser
+  };
+}
+
+
 export function setUserToSchedule() {
   return dispatch => {
     const userToSchedule = StorageService.loadFromStorage('tori-user');

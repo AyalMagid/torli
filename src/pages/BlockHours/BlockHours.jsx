@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React  from "react";
 import { connect } from 'react-redux';
 import { updateHoursToBlock, updateSlotToBlock } from '../../actions/calendarActions';
 import './BlockHours.scss';

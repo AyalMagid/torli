@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from 'framer-motion'
 import './SignupOrLogin.scss';
 import { Link } from 'react-router-dom'
-
-
 
 const pageVariants = {
     in: {
@@ -22,13 +20,7 @@ const pageTransition = {
     stiffness: 50
 }
 
-
 export function SignupOrLogin(props) {
-
-
-
-
-
     return (
         <motion.div
             className="motion-div"

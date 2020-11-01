@@ -6,7 +6,6 @@ import './TimeslotList.scss';
 export function TimeslotList(props) {
 
     useEffect(() => {
-        //  console.log(props.date.toISOString())
         }, []);
 
     return (
