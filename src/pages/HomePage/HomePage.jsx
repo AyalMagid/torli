@@ -34,7 +34,7 @@ export function _HomePage(props) {
             if (user) {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (! await UserService.isAdmin(user)){
+                if (props.user&&(!props.user.isAdmin)) {
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
@@ -53,6 +53,7 @@ export function _HomePage(props) {
                         AdvertiseService.createAd()
                     }
                 }
+           
             }
         })()
     }, [user]);
@@ -96,7 +97,7 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                    {((props.user&&user )&& !props.user.isAdmin)
+                    {((props.user && user) && !props.user.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -164,7 +165,7 @@ export function _HomePage(props) {
 function mapStateProps(state) {
     return {
         isAdShown: state.UserReducer.isAdShown,
-        user:state.UserReducer.user
+        user: state.UserReducer.user
     }
 }
 

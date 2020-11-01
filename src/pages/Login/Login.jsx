@@ -33,7 +33,7 @@ const pageTransition = {
 
 const ownerPassword = '1234'
 
-export function _login(props) {
+  function _Login(props) {
     const [phone, setPhone] = React.useState('')
     const [password, setPassword] = useState('');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');

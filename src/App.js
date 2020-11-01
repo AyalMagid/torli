@@ -25,7 +25,7 @@ export function _App(props) {
   useEffect(() => {
     (async () => {
     let user = await StorageService.loadFromStorage('tori-user')
-    if (user) {
+    if (user&&!props.user) {
      await props.updateUser(await UserService.getUser(user.phone))
     }
   })()
@@ -57,7 +57,7 @@ export function _App(props) {
 
 function mapStateProps(state) {
   return {
-
+    user: state.UserReducer.user
   }
 }
 
