@@ -2,6 +2,7 @@ import UserService from '../services/UserService';
 
 const INITIAL_STATE = {
     users: [],
+    user:null,
     userToSchedule: null,
     isAdShown: false,
     userPhoneInContactSignup: ''
@@ -19,6 +20,11 @@ export function UserReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 users: action.users
+            }
+        case 'UPDATE_USER':
+            return {
+                ...state,
+                user: action.user
             }
         case 'SET_USER_TO_SCHEDULE':
             return {
