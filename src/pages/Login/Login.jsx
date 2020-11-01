@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UserService from "../../services/UserService";
 import { motion } from 'framer-motion'
@@ -10,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { updateUser } from '../../actions/userAction.js';
 import './Login.scss';
 
 const pageVariants = {
@@ -31,7 +33,7 @@ const pageTransition = {
 
 const ownerPassword = '1234'
 
-export function Login(props) {
+export function _login(props) {
     const [phone, setPhone] = React.useState('')
     const [password, setPassword] = useState('');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
@@ -87,7 +89,8 @@ export function Login(props) {
             if (!await UserService.isAdmin(user)) {
                 //need to bring from mongo
                 const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user', { name, email, phone})
+                StorageService.saveToStorage('tori-user',name, email, phone)
+                props.updateUser(user)
                 props.history.push('/treatments')
             }
             else {
@@ -112,7 +115,8 @@ export function Login(props) {
             if (password === ownerPassword) {
                 setOpen(false);
                 const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user', { name, email, phone})
+                StorageService.saveToStorage('tori-user',name, email, phone)
+                props.updateUser(user) 
                 props.history.push('/calendarAdmin')
             }
             else {
@@ -236,3 +240,17 @@ export function Login(props) {
         </motion.div>
     );
 }
+
+
+
+function mapStateProps(state) {
+    return {
+       
+    }
+}
+
+const mapDispatchToProps = {
+  updateUser
+}
+
+export const Login = connect(mapStateProps, mapDispatchToProps)(_Login)
