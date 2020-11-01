@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateIsAdShown,updateLogedinUser } from '../../actions/userAction';
+import { updateIsAdShown} from '../../actions/userAction';
 import AdvertiseService from '../../services/AdvertiseService';
 import './HomePage.scss';
 
@@ -163,7 +163,6 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateIsAdShown,
-    updateLogedinUser
 }
 
 export const HomePage = withRouter(connect(mapStateProps, mapDispatchToProps)(_HomePage))

@@ -134,7 +134,7 @@ export function _Signup(props) {
         if (user) {
             handleClickOpen()
         } else {
-            props.updateLogedinUser(credentials)
+          if(!isContactsPath)  props.updateLogedinUser(credentials)
           await  UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
                 if (phone !== '123456789') props.history.push('/treatments')
