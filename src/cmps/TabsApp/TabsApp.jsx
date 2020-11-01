@@ -3,6 +3,7 @@ import { withRouter, useLocation } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import StoreService from '../../services/StoreService';
 import './TabsApp.scss';
 
 export function _TabsApp(props) {
@@ -12,7 +13,7 @@ export function _TabsApp(props) {
 
   // tabs style
   const style = {
-    width:'25%',
+    width:'28%',
     boxShadow:'none',
     color:'white'
   }
@@ -26,13 +27,18 @@ export function _TabsApp(props) {
     }
   };
 
+  function navToHomePage() {
+    StoreService.initApp()
+    props.history.push('/')
+}
+
   return (
 
     <AppBar position="static" style={{boxShadow:'none'}} >
       <Tabs value={value} onChange={handleChange} className="tabs flex space-between">
-        <Tab label="זימון" style={style}/>
-        <Tab label="ניהול תורים" style={style}/>
-        <h2 onClick={()=>props.history.push('/')} id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
+        <Tab label="זימון תור" style={style}/>
+        <Tab label="התורים שלי" style={style}/>
+        <h2 onClick={navToHomePage} id="text" className="logo"> Tori<i  className="fas fa-tasks"></i></h2>
       </Tabs>
     </AppBar>
   );
