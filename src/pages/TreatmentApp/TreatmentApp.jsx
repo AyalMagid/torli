@@ -39,7 +39,7 @@ export function _TreatmentApp(props) {
 
     useEffect( () => {
         (async () => {
-        if (!userToSchedule && !props.logedinUser.isAdmin) setUserToSchedule()
+        if (!userToSchedule && !props.loggedInUser.isAdmin) setUserToSchedule()
     })()
     }, [setUserToSchedule, userToSchedule]);
 
@@ -85,7 +85,7 @@ function mapStateProps(state) {
     return {
         treatments: state.TreatmentReducer.treatments,
         userToSchedule: state.UserReducer.userToSchedule,
-        logedinUser: state.UserReducer.logedinUser
+        loggedInUser: state.UserReducer.loggedInUser
     }
 }
 

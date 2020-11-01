@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { updateLogedinUser } from '../../actions/userAction.js';
+import { updateLoggedInUser } from '../../actions/userAction.js';
 import './Login.scss';
 
 const pageVariants = {
@@ -90,7 +90,7 @@ const ownerPassword = '1234'
                 //need to bring from mongo
                 const { name, email, phone} = userFromDb
                 StorageService.saveToStorage('tori-user',{name, email, phone})
-                props.updateLogedinUser(userFromDb)
+                props.updateLoggedInUser(userFromDb)
                 props.history.push('/treatments')
             }
             else {
@@ -116,7 +116,7 @@ const ownerPassword = '1234'
                 setOpen(false);
                 const { name, email, phone} = userFromDb
                 StorageService.saveToStorage('tori-user',{name, email, phone})
-                props.updateLogedinUser(userFromDb) 
+                props.updateLoggedInUser(userFromDb) 
                 props.history.push('/calendarAdmin')
             }
             else {
@@ -245,12 +245,12 @@ const ownerPassword = '1234'
 
 function mapStateProps(state) {
     return {
-        logedinUser: state.UserReducer.logedinUser
+        loggedInUser: state.UserReducer.loggedInUser
     }
 }
 
 const mapDispatchToProps = {
-    updateLogedinUser
+    updateLoggedInUser
 }
 
 export const Login = connect(mapStateProps, mapDispatchToProps)(_Login)

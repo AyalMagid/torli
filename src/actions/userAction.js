@@ -37,20 +37,20 @@ export function _updateUsers(users) {
 }
 
 
-export function updateLogedinUser(logedinUser) {
+export function updateLoggedInUser(loggedInUser) {
   return async dispatch => {
     try {
-      dispatch(_updateLogedinUser(logedinUser));
+      dispatch(_updateLoggedInUser(loggedInUser));
     } catch (err) {
       console.log('userActions: err in updateUser', err);
     };
   }
 }
 
-export function _updateLogedinUser(logedinUser) {
+export function _updateLoggedInUser(loggedInUser) {
   return {
     type: 'UPDATE_LOGEDIN_USER',
-    logedinUser
+    loggedInUser
   };
 }
 

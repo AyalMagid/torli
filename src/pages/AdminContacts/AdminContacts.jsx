@@ -81,7 +81,7 @@ export function _AdminContacts(props) {
 function mapStateProps(state) {
     return {
         users: state.UserReducer.users,
-        logedinUser: state.UserReducer.logedinUser
+        loggedInUser: state.UserReducer.loggedInUser
     }
 }
 const mapDispatchToProps = {
