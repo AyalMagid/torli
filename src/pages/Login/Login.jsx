@@ -89,7 +89,7 @@ const ownerPassword = '1234'
             if (!await UserService.isAdmin(user)) {
                 //need to bring from mongo
                 const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user',name, email, phone)
+                StorageService.saveToStorage('tori-user',{name, email, phone})
                 props.updateUser(user)
                 props.history.push('/treatments')
             }
@@ -115,7 +115,7 @@ const ownerPassword = '1234'
             if (password === ownerPassword) {
                 setOpen(false);
                 const { name, email, phone} = user
-                StorageService.saveToStorage('tori-user',name, email, phone)
+                StorageService.saveToStorage('tori-user',{name, email, phone})
                 props.updateUser(user) 
                 props.history.push('/calendarAdmin')
             }
