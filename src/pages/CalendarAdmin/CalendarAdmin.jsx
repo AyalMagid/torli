@@ -453,8 +453,8 @@ export function _CalendarAdmin(props) {
                             <DialogContentText id="alert-dialog-slide-description">
                                 {
                                     modalSubJect ?
-                                        'האם את/ה בטוח/ה שברצונך למחוק סגירה זאת?'
-                                        : ' האם את/ה בטוח/ה שברצונך למחוק תור זה?'
+                                        'להסרת החסימה לחצו אישור'
+                                        : ' למחיקת התור לחצו אישור'
                                 }
                             </DialogContentText>
                         </DialogContent>
