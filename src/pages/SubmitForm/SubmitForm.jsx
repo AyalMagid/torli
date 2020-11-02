@@ -10,7 +10,6 @@ import { updateActiveStep } from '../../actions/stepperActions';
 import { withRouter } from 'react-router-dom';
 import { updateIsModalOpen } from '../../actions/modalAction.js';
 import { Modal } from '../../cmps/Modal/Modal';
-import { makeStyles } from '@material-ui/core/styles';
 import { motion } from 'framer-motion'
 import TreatmentService from "../../services/TreatmentService";
 import './SubmitForm.scss';
@@ -32,28 +31,6 @@ const pageTransition = {
     type: "spring",
     stiffness: 50
 }
-// style for modal + input material ui
-
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-        color: 'form-title'
-    },
-    input: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        }
-    }
-}));
 
 export function _SubmitForm(props) {
     const location = useLocation()
@@ -66,6 +43,7 @@ export function _SubmitForm(props) {
     }, [props.treatments])
 
     const handleOpen = () => {
+        //open modal useing store
         props.updateIsModalOpen(true)
     };
 

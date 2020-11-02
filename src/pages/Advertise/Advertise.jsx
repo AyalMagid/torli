@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import AdvertiseService from '../../services/AdvertiseService';
+import {Modal} from '../../cmps/Modal/Modal';
+import {updateIsModalOpen} from '../../actions/modalAction.js';
 import './Advertise.scss';
 
 export function _Advertise(props) {
@@ -24,6 +26,8 @@ export function _Advertise(props) {
 
     function updateAdContent() {
         AdvertiseService.updateAd({ advertiseContent })
+        //open modal useing store
+        props.updateIsModalOpen(true)
     }
     
     function toggleAdMode() {
@@ -53,6 +57,7 @@ export function _Advertise(props) {
                     </div>
                 </div>
             <button className="ad-content-btn" onClick={updateAdContent}>שמור טקסט</button>
+            <Modal modalContent={'הטקסט נשמר'} />
         </main>
 
     );
@@ -64,6 +69,7 @@ function mapStateProps(state) {
 }
 
 const mapDispatchToProps = {
+    updateIsModalOpen
 }
 
 export const Advertise = connect(mapStateProps, mapDispatchToProps)(_Advertise)

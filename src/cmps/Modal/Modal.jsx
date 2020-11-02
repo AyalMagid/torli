@@ -21,7 +21,7 @@ export default function _Modal(props) {
 
     const handleClose = () => {
         props.updateIsModalOpen(false)
-        StoreService.initApp()
+        if(location.pathname === '/form'||location.pathname === '/cancelAppointment') StoreService.initApp()
         if(location.pathname === '/form')  props.history.push('/treatments')
     }
 

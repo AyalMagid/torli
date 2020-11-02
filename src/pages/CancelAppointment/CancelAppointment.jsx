@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import {updateIsModalOpen} from '../../actions/modalAction.js';
 import {Modal} from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
@@ -38,32 +37,6 @@ export function _CancelAppointment(props) {
     useEffect(() => {
         getEventsByPhone()
     }, []);
-
-    // style material ui modal
-    const useStyles = makeStyles((theme) => ({
-
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
-            color: 'form-title'
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '25ch',
-                color: '#172b4d'
-            }
-        },
-    }));
-
-
 
     const [loader, setLoader] = React.useState(<LoaderApp />);
     setTimeout(() => {
@@ -104,7 +77,7 @@ export function _CancelAppointment(props) {
         // delete from mongo data base
         await EventService.removeEventFromDB(eventToRmove._id)
         getEventsByPhone() 
-        //close modal useing store
+        //open modal useing store
         props.updateIsModalOpen(true)
     }
 
