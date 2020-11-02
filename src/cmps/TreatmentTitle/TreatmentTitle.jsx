@@ -42,7 +42,7 @@ function _TreatmentTitle(props) {
                     }
                 </div>
                 }
-                <div className={'space-for-flex'}></div>
+                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
         </div>
     )
 }

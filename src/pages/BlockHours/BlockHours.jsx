@@ -33,7 +33,7 @@ export function _BlockHours(props) {
                 <header className="header-in-block-hours-modal flex align-center">
                      <div className="back-arrow" ><i  class="fas fa-arrow-right"></i></div>
                     <div>בחרו חלון זמנים ולחצו אישור להמשך</div>
-                    <div className="space-for-flex"></div>
+                    <div className="modal-header-cls-btn"></div>
                 </header>
             <div className="hours-container-warpper">
                 <div className="hours-container">
