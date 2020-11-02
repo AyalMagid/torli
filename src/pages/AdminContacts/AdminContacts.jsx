@@ -5,7 +5,7 @@ import { CancelAppointment } from '../CancelAppointment/CancelAppointment';
 import './AdminContacts.scss';
 export function _AdminContacts(props) {
     const [searchTerm, setSearchTerm] = useState('')
-    const [userPhone, setUserPhone] = useState('')
+    const [clickedUser, setClickedUser] = useState('')
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = useState(false);
     useEffect(() => {
         props.loadUsers()
@@ -24,8 +24,8 @@ export function _AdminContacts(props) {
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
     }
-    function saveClickedUserPhone(userPhone) {
-        setUserPhone(userPhone)
+    function saveClickedUser(user) {
+        setClickedUser(user)
         setAppointmentsModalIsOpen(true)
     }
     return (
@@ -35,8 +35,14 @@ export function _AdminContacts(props) {
                         <div className="modal-screen" onClick={closeAppointmentsModal}>
                         </div>
                         <div className="apointments-modal">
-                             <header className="header-admin-contacts-modal"></header>
-                            <CancelAppointment userPhone={userPhone}/>
+                             <header className="header-admin-contacts-modal">
+                                <div className="space-div-for-flex"></div>
+                                <div className="admin-contacts-title-in-modal">
+                                 התורים של {clickedUser.name}
+                                </div>
+                                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                             </header>
+                            <CancelAppointment clickedUser={clickedUser}/>
                         </div>
                     </>
                 }
@@ -61,7 +67,7 @@ export function _AdminContacts(props) {
                                 <div className={`user-container flex align-center justify-center`}  key={idx}>
                                     <div className="user-name user-attr">{user.name}</div>
                                     <div className="user-icons-container flex ">
-                                        <div className="user-que user-attr" onClick={() => saveClickedUserPhone(user.phone)}><i class="far fa-calendar-check"></i></div>
+                                        <div className="user-que user-attr" onClick={() => saveClickedUser(user)}><i class="far fa-calendar-check"></i></div>
                                         <a className="user-whatsapp user-attr" href={`https://api.whatsapp.com/send?phone=+972${user.phone.slice(1,user.phone.length)}`}>
                                             <div><i class="fa fa-whatsapp"></i></div>
                                         </a>
