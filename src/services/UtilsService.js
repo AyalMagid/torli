@@ -248,7 +248,7 @@ function checkIfTsInRange(tsToCompare, startTime, endTime, duration) {
 }
 
 function convertNumberToWords(idx) {
-  const words = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמשה', 'ששה', 'שבעה', 'שמונה', 'תשעה', 'עשרה', 'אחד עשר']
+  const words = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמשה', 'ששה', 'שבעה', 'שמונה', 'תשעה', 'עשרה', 'אחד עשר','שתיים עשר','שלושה עשר','ארבע עשר','חמישה עשר','ששה עשר']
   return words[idx - 1]
 }
 

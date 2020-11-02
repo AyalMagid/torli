@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+// import Modal from '@material-ui/core/Modal';
+// import Backdrop from '@material-ui/core/Backdrop';
+// import Fade from '@material-ui/core/Fade';
+import {updateIsModalOpen} from '../../actions/modalAction.js';
+import {Modal} from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
 import { setTimeSlots } from '../../actions/calendarActions.js';
 import { updateActiveStep } from '../../actions/stepperActions';
@@ -82,16 +84,16 @@ export function _CancelAppointment(props) {
 
     const handleClose = () => {
         setOpen(false);
-        init()
+        // init()
     };
 
     const [eventsToCancel, setEventsToCancel] = useState(null)
 
     const [pageCount, setPageCount] = useState(0)
 
-    function init() {
-        StoreService.initApp()
-    }
+    // function init() {
+    //     StoreService.initApp()
+    // }
 
     function getEventsByPhone() {
         EventService.getEventByPhone(phone)
@@ -123,7 +125,8 @@ export function _CancelAppointment(props) {
         await EventService.removeEventFromDB(eventToRmove._id)
         getEventsByPhone() 
         // setEventsToCancel(null)
-        handleOpen()
+        // handleOpen()
+            props.updateIsModalOpen(true)
     }
 
     return (
@@ -168,7 +171,9 @@ export function _CancelAppointment(props) {
                                 }
                             </div>
 
-                            <Modal
+                            <Modal modalTitle={'התור בוטל'} />
+
+                            {/* <Modal
                                 aria-labelledby="transition-modal-title"
                                 aria-describedby="transition-modal-description"
                                 className={classes.modal}
@@ -186,7 +191,7 @@ export function _CancelAppointment(props) {
                                         <p id="transition-modal-description"></p>
                                     </div>
                                 </Fade>
-                            </Modal>
+                            </Modal> */}
                         </main>
                 }
             </motion.div>
@@ -201,7 +206,8 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateActiveStep,
-    setTimeSlots
+    setTimeSlots,
+    updateIsModalOpen
 }
 
 export const CancelAppointment = withRouter(connect(mapStateProps, mapDispatchToProps)(_CancelAppointment))
