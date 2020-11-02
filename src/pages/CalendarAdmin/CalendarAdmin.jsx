@@ -116,6 +116,12 @@ export function _CalendarAdmin(props) {
     const [loader, setLoader] = useState(true);
     let table = []
     let eventsIds = []
+
+    function timeToDisplay (time){
+        if (time.slice(0,1)==='0') {time = time.slice(1,5)}
+        return time
+    }
+
     useEffect(() => {
         (async () => {
             let weeklyEvents = await eventsToDisplay
@@ -143,7 +149,7 @@ export function _CalendarAdmin(props) {
                                                     eventsIds.push(ev.id)
                                                     return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
-                                                            <div className="event-time">{(ev.start).slice(11, 16)}-{(ev.end).slice(11, 16)}</div>
+                                                            <div className="event-time">{timeToDisplay((ev.start).slice(11, 16))}-{timeToDisplay((ev.end).slice(11, 16))}</div>
                                                             {(ev.name === 'block - block')
                                                                 ?
                                                                 <div>
