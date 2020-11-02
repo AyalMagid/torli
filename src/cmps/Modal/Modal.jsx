@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { updateIsModalOpen } from '../../actions/modalAction.js';
 import StoreService from '../../services/StoreService';
 import Button from '@material-ui/core/Button';
@@ -15,11 +17,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function _Modal(props) {
+    const location = useLocation()
 
     const handleClose = () => {
         props.updateIsModalOpen(false)
         StoreService.initApp()
-    };
+        if(location.pathname === '/form')  props.history.push('/treatments')
+    }
 
     return (
         <div>
@@ -38,9 +42,9 @@ export default function _Modal(props) {
                     </DialogContentText>}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    {/* <Button onClick={handleClose} color="primary">
                         ביטול
-              </Button>
+              </Button> */}
                     <Button onClick={handleClose} color="primary">
                         אישור
              </Button>
@@ -62,4 +66,4 @@ const mapDispatchToProps = {
     updateIsModalOpen
 }
 
-export const Modal = connect(mapStateProps, mapDispatchToProps)(_Modal)
+export const Modal = withRouter(connect(mapStateProps, mapDispatchToProps)(_Modal))
