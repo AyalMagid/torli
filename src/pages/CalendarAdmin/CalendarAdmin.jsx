@@ -478,7 +478,7 @@ export function _CalendarAdmin(props) {
                                      <div> 
                                         לקביעת התור לחצו 'אישור'
                                     </div> 
-                                    <div className={'modal-header-cls-btn'}></div>
+                                    <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
                                 </header>
                             }
                             <Router>

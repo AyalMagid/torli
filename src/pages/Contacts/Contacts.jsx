@@ -50,7 +50,7 @@ export function _Contacts(props) {
 
     return (
         <main className="contacts-main-container">
-            <div className="search-input-container flex align-center">
+            <div className="modal-header-cls-btn flex align-center">
                 <input className="search-input" placeholder="חפש לפי שם או טלפון" name="term" value={searchTerm} onChange={handleChange} />
                 <i className="fas fa-search"></i>
             </div>
