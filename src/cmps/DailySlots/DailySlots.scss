@@ -37,6 +37,9 @@
         background-color: pink;
     }
 }
+#idForScrollBar::-webkit-scrollbar {
+    width: 0px;
+  }
 
 //   I phone 6-8 or smaller
 @media screen and (max-height: 670px) {
