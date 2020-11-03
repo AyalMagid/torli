@@ -11,26 +11,11 @@ import { withRouter } from 'react-router-dom';
 import { updateIsModalOpen } from '../../actions/modalAction.js';
 import { Modal } from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import TreatmentService from "../../services/TreatmentService";
 import './SubmitForm.scss';
 
-// style for motion div
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
 
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
 
 export function _SubmitForm(props) {
     const location = useLocation()
@@ -70,8 +55,8 @@ export function _SubmitForm(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={pageVariants}
-                transition={pageTransition}
+                variants={MotionService.getMotionStyle('pageVariants')}
+                transition={MotionService.getMotionStyle('pageTransition')}
                 style={{ textAlign: 'center', width: '100%' }}
             >
                 <div className="appointment-details">

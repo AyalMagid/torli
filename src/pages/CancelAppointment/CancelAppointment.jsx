@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import {updateIsModalOpen} from '../../actions/modalAction.js';
 import {Modal} from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import { setTimeSlots } from '../../actions/calendarActions.js';
 import { updateActiveStep } from '../../actions/stepperActions';
 import UtilsService from "../../services/UtilsService";
@@ -13,25 +14,6 @@ import EmailService from '../../services/EmailService';
 import StorageService from "../../services/StorageService";
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './CancelAppointment.scss';
-
-// style motion div
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
-
 
 export function _CancelAppointment(props) {
     useEffect(() => {
@@ -88,8 +70,8 @@ export function _CancelAppointment(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={pageVariants}
-                transition={pageTransition}
+                variants={MotionService.getMotionStyle('pageVariants')}
+                transition={MotionService.getMotionStyle('pageTransition')}
             >
                 {
                     (loader) ?

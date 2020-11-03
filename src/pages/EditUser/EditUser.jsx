@@ -12,28 +12,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import './EditUser.scss';
 
 const ownerPassword = '1234'
-
-// motion div style
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0,
-        textAlign: 'center'
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
 
 export function _EditUser(props) {
     const [credentials, setCredentials] = React.useState(props.logedinUser)
@@ -263,8 +245,8 @@ export function _EditUser(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={pageVariants}
-            transition={pageTransition}
+            variants={MotionService.getMotionStyle('pageVariants')}
+            transition={MotionService.getMotionStyle('pageTransition')}
             style={{ width: "100%", height: "100%" }}
         >
             <main className="main-edit-container flex align-center justify-center column">

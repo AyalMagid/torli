@@ -13,30 +13,13 @@ import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
 import { updateLogedinUser } from '../../actions/userAction.js';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import './Signup.scss';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
-
 
 export function _Signup(props) {
     const location = useLocation()
@@ -164,8 +147,8 @@ export function _Signup(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={pageVariants}
-            transition={pageTransition}
+            variants={MotionService.getMotionStyle('pageVariants')}
+            transition={MotionService.getMotionStyle('pageTransition')}
         >
             <main className="main-login-container flex align-center justify-center column">
             {isContactsPath&& <header className="header-in-signup-modal"> </header>}
