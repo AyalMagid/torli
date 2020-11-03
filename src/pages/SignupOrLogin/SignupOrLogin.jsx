@@ -16,13 +16,15 @@ export function SignupOrLogin(props) {
         >
             <main className="signup-or-login-container flex align-center justify-center column">
                 <div className="square top-square">
-                    <Link className="signUp-link flex align-center justify-center " to="/signup">
+                    <Link className="signUp-link flex align-center justify-center column" to="/signup">
                        <div>הרשמ/י</div> 
+                       <i class="fas fa-user-plus"></i>
             </Link>
                 </div>
                 <div className="square bottom-square">
-                    <Link className="login-link flex align-center justify-center" to="/login">
+                    <Link className="login-link flex align-center justify-center column" to="/login">
                        <div>התחבר/י</div> 
+                       <i class="fas fa-sign-in-alt"></i>
             </Link>
                 </div>
             </main>

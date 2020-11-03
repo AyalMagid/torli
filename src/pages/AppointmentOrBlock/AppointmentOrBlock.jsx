@@ -13,11 +13,13 @@ export function _AppointmentOrBlock(props) {
                 <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
             </header>
                 <div className="routes-btn-container flex column space-around">
-                    <div className="contacts-route-btn flex justify-center align-center" onClick={() => props.history.push('/calendarAdmin/contacts')}>
-                        <div>קביעת תור ללקוח</div>
+                    <div className="contacts-route-btn flex justify-center align-center column" onClick={() => props.history.push('/calendarAdmin/contacts')}>
+                        <div className="app-or-block-title">קביעת תור ללקוח</div>
+                        <i className="app-icon fas fa-user-clock"></i>
                     </div >
-                    <div className="block-route-btn flex justify-center align-center" onClick={() => props.history.push('/calendarAdmin/blockHours')}>
-                        <div>סגירת חלונות זמנים</div>
+                    <div className="block-route-btn flex justify-center align-center column" onClick={() => props.history.push('/calendarAdmin/blockHours')}>
+                        <div className="app-or-block-title">סגירת חלונות זמנים</div>
+                        <i class="claendar-icon far fa-calendar-times"></i>
                     </div>
                 </div>
             <footer className="footer-in-apointment-or-block-modal"></footer>
