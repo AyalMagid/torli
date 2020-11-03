@@ -325,6 +325,33 @@ export function _CalendarAdmin(props) {
       }
 
     return (
+        <>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
+        <ThemeProvider theme={materialTheme}>
+            <DatePicker
+                disablePast={true}
+                shouldDisableDate={disableDay}
+                variant="dialog"
+                okLabel="אישור"
+                cancelLabel="ביטול"
+                open={isOpen}
+                onOpen={() => setIsOpen(true)}
+                onClose={() => setIsOpen(false)}
+                format="MM/dd/yyyy"
+                id="date-picker-inline"
+                disableToolbar
+                value={selectedDate}
+                onChange={handleChange}
+                InputProps={{
+                    disableUnderline: true,
+                    style: { width: '0', height: '0px' }
+                }}
+                keyboardbuttonprops={{
+                    'aria-label': 'change date',
+                }}
+            />
+        </ThemeProvider>
+    </MuiPickersUtilsProvider>
         <motion.div
             initial="out"
             exit="in"
@@ -394,32 +421,9 @@ export function _CalendarAdmin(props) {
                         }
                     </div>
                 </Swipeable>
-                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
-                    <ThemeProvider theme={materialTheme}>
-                        <DatePicker
-                            disablePast={true}
-                            shouldDisableDate={disableDay}
-                            variant="dialog"
-                            okLabel="אישור"
-                            cancelLabel="ביטול"
-                            open={isOpen}
-                            onOpen={() => setIsOpen(true)}
-                            onClose={() => setIsOpen(false)}
-                            format="MM/dd/yyyy"
-                            id="date-picker-inline"
-                            disableToolbar
-                            value={selectedDate}
-                            onChange={handleChange}
-                            InputProps={{
-                                disableUnderline: true,
-                                style: { width: '0' }
-                            }}
-                            keyboardbuttonprops={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                    </ThemeProvider>
-                </MuiPickersUtilsProvider>
+               
+
+
                 <div>
                     <Dialog
                         open={open}
@@ -478,6 +482,7 @@ export function _CalendarAdmin(props) {
                 }
             </main>
         </motion.div>
+        </>
     );
 }
 
