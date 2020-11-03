@@ -29,6 +29,7 @@
 .table-container {
     overflow-y: auto;
     height: 600px;
+    height: calc(100vh - 92px);
   }
   .days-header-container{
       height: 44px;
@@ -80,7 +81,6 @@
             padding: 3px;
             padding-top: 0;
             margin-bottom: 3px;
-            word-break:initial;
           }
       }
   }
@@ -138,6 +138,7 @@
     padding: 5px 20px;
     background-color: #273650;
     color: white;
+    height: 3rem;
 }
 .weekly-dates-container{
     height: 47px;
@@ -232,41 +233,9 @@
 
 //   I phone 5
 @media screen and (max-height: 570px) {
-    .table-container {
-    height:468px;
-      }
       .days-name-container{
         width: 44.2px;
         background-color: white;
     }
   }
 
-//   I phone 6-8 
-@media screen and (max-height: 670px) and (min-height: 570px){
-    .table-container {
-        height:566px;
-    }
-  }
-//   I phone 6-8 plus 
-@media screen and (max-height: 810px) and (min-height: 730px){
-    .table-container {
-        height:635px;
-    }
-  }
-
-//   I phone x
-@media screen and (min-height: 810px) {
-    .table-container {
-        height:719px;
-    }
-    .days-name-container{
-        width: 53.2px;
-    }
-  }
-
-  //   Ipad
-@media screen and (min-height: 1000px) {
-    .table-container {
-        height:929px;
-    }
-  }
