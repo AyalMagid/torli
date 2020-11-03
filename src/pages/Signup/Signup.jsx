@@ -147,8 +147,8 @@ export function _Signup(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={MotionService.getMotionStyle('pageVariants')}
-            transition={MotionService.getMotionStyle('pageTransition')}
+            variants={(!isContactsPath)? MotionService.getMotionStyle('pageVariants') :''}
+            transition={(!isContactsPath)? MotionService.getMotionStyle('pageTransition') :''}
         >
             <main className="main-login-container flex align-center justify-center column">
             {isContactsPath&& <header className="header-in-signup-modal">
