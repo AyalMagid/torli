@@ -36,6 +36,7 @@ export function _HomePage(props) {
                             setTimeout(() => {
                                 setModalInClass('ad-modal-in')
                             }, 1000);
+
                             props.updateIsAdShown(true)
                         }
                     }
@@ -73,7 +74,7 @@ export function _HomePage(props) {
                     </div>
                 </div>
                 <div className="icons-container flex column align-center justify-center">
-                {((props.logedinUser ) && !props.logedinUser.isAdmin)
+                {((props.loggedInUser ) && !props.loggedInUser.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>

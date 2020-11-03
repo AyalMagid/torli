@@ -24,7 +24,8 @@ export function _CancelAppointment(props) {
     setTimeout(() => {
         setLoader('')
     }, 2000);
-    const [phone, setPhone] = React.useState((props.clickedUser.phone)? props.clickedUser.phone:StorageService.loadFromStorage('tori-user').phone);
+
+    const [phone, setPhone] = React.useState((props.clickedUser)? props.clickedUser.phone:StorageService.loadFromStorage('tori-user').phone);
 
     const [eventsToCancel, setEventsToCancel] = useState(null)
 
@@ -81,7 +82,7 @@ export function _CancelAppointment(props) {
                         <main >
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
-                                    <div className={`cancel-table-container ${(props.clickedUser.phone)?'table-container-in-contacts-modal':''}`}>
+                                    <div className={`cancel-table-container ${(props.clickedUser)?'table-container-in-contacts-modal':''}`}>
                                         <div className="apointment-details">
                                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
@@ -97,7 +98,7 @@ export function _CancelAppointment(props) {
                                                 }
                                             </div>
                                         }
-                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser.phone)?'contacts-modal-btn':''} trash-btn`} > בטל תור <i className="fas fa-trash" ></i></button>
+                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור <i className="fas fa-trash" ></i></button>
                                     </div>
                                     :
                                     <div className="no-apointments">
