@@ -33,7 +33,7 @@
         width: 100%;
         text-align: right;
         color: #182c4e;
-        margin-top: 3rem;
+        margin-top: 5rem;
         background-color: #d8d8d80d;
         border: 0.2px solid white;
         border-radius: 5px;
@@ -51,7 +51,16 @@
         }
 }
 
-
+.header-in-form-modal{
+    position: absolute;
+    top: 0;
+    height: 50px;
+    width: 100%;
+    background-color: #273650;
+    border-radius: 24px 24px 0 0;
+    color: white;
+    font-size: 16px;
+}
 
 @media screen and (min-width: 500px) {
     .restart-btn{

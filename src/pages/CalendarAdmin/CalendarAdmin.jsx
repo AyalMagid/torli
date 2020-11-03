@@ -458,15 +458,6 @@ export function _CalendarAdmin(props) {
                         <div className="modal-screen" onClick={closeAppointmentsModal}>
                         </div>
                         <div className="apointments-modal">
-                            {isCalendarAdminForm &&
-                                <header className="header-in-form-modal flex align-center space-between">
-                                     <div className="back-arrow" onClick={()=> props.history.push('/calendarAdmin/treatments')}><i  class="fas fa-arrow-right"></i></div>
-                                     <div> 
-                                        לקביעת התור לחצו 'אישור'
-                                    </div> 
-                                    <div className={'modal-header-cls-btn-space'}></div>
-                                </header>
-                            }
                             <Router>
                                 <Route path="/calendarAdmin/contacts" exact component={Contacts} />
                                 <Route path="/calendarAdmin/contacts/signup" component={Signup} />

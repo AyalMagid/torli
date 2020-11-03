@@ -45,8 +45,15 @@ export function _SubmitForm(props) {
 
     return (
         <div className="submit-form flex column  align-center">
-          {!isCalendarAdminForm&&  <button className="reset-btn" onClick={init}> איפוס <i className="fas fa-redo-alt"></i></button>}
-            <div className={`user-details ${isCalendarAdminForm ?'user-details-in-modal':''}`}>
+            {isCalendarAdminForm && <header className="header-in-form-modal flex align-center space-between">
+                <div className="back-arrow" onClick={() => props.history.push('/calendarAdmin/treatments')}><i class="fas fa-arrow-right"></i></div>
+                <div>
+                    לקביעת התור לחצו 'אישור'
+                                    </div>
+                <div className={'modal-header-cls-btn-space'}></div>
+            </header>}
+            {!isCalendarAdminForm && <button className="reset-btn" onClick={init}> איפוס <i className="fas fa-redo-alt"></i></button>}
+            <div className={`user-details ${isCalendarAdminForm ? 'user-details-in-modal' : ''}`}>
                 <div>שם : {name}</div>
                 <div>טלפון : {phone}</div>
                 <div>אימייל : {email}</div>
@@ -55,8 +62,8 @@ export function _SubmitForm(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={(!isCalendarAdminForm)? MotionService.getMotionStyle('pageVariants') : ''}
-                transition={(!isCalendarAdminForm)? MotionService.getMotionStyle('pageTransition') : ''}
+                variants={(!isCalendarAdminForm) ? MotionService.getMotionStyle('pageVariants') : ''}
+                transition={(!isCalendarAdminForm) ? MotionService.getMotionStyle('pageTransition') : ''}
                 style={{ textAlign: 'center', width: '100%' }}
             >
                 <div className="appointment-details">
