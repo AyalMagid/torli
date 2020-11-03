@@ -37,10 +37,10 @@ export function _TreatmentApp(props) {
         if (!treatments) loadTreatments()
     }, [loadTreatments, treatments]);
 
-    useEffect( () => {
+    useEffect(() => {
         (async () => {
-        if (!userToSchedule && !props.logedinUser.isAdmin) setUserToSchedule()
-    })()
+            if (!userToSchedule && !props.logedinUser.isAdmin) setUserToSchedule()
+        })()
     }, [setUserToSchedule, userToSchedule]);
 
     const [isClicked, setIsClicked] = useState(false);
@@ -64,7 +64,6 @@ export function _TreatmentApp(props) {
                     >
                         <TreatmentTitle isClicked={isClicked} />
                         <TreatmentList treatments={treatments} />
-
                     </motion.div>
                     :
                     <div>

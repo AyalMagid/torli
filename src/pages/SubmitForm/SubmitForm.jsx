@@ -77,13 +77,15 @@ export function _SubmitForm(props) {
                 <div className="appointment-details">
                     <div className="table-cell">סוג הטיפול : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
                     <div className="table-cell">תאריך : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
-                    <div className="last-cell">בין השעות : {props.treatment.time} - {UtilsService.calculateEndTime(props.treatment.time, props.duration)}</div>
+                    <div className="last-cell">בין השעות : {UtilsService.calculateEndTime(props.treatment.time, props.duration)} - {props.treatment.time}</div>
                 </div>
                 <Modal modalContent={<div>
                     <h2>התור נקבע בהצלחה</h2>
-                    <div> נקבע לך תור ל: {markedTreatmetns}  </div>
-                    <div> בתאריך {dateIsraeliDisplay}</div>
-                    <div> בין השעות: {endTime} - {props.treatment.time}</div>
+                    <div className="form-modal-content flex column space-aruond">
+                        <div className="margin-bottom-5"> נקבע לך תור ל: {markedTreatmetns}  </div>
+                        <div className="margin-bottom-5"> בתאריך {dateIsraeliDisplay}</div>
+                        <div> בין השעות: {endTime} - {props.treatment.time}</div>
+                    </div>
                 </div>}
                 />
             </motion.div>

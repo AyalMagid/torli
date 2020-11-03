@@ -11,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-
+import './Modal.scss';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -34,9 +34,11 @@ export default function _Modal(props) {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
-            >
+          >
                 {props.modalTitle && <DialogTitle id="alert-dialog-slide-title">{props.modalTitle}</DialogTitle>}
-                <DialogContent>
+                <DialogContent
+                    style={{width:'300px', textAlign:'center'}}
+                >
                     {props.modalContent && <DialogContentText id="alert-dialog-slide-description">
                         {props.modalContent}
                     </DialogContentText>}
