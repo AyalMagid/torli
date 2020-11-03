@@ -14,6 +14,7 @@ import { loadTimeSlots } from '../../actions/calendarActions.js';
 import UtilsService from '../../services/UtilsService';
 import { Swipeable } from 'react-swipeable'
 import StoreService from '../../services/StoreService';
+import { StepperApp } from '../../cmps/StepperApp/StepperApp.jsx';
 import './CalendarApp.scss';
 
 
@@ -130,6 +131,7 @@ export function _CalendarApp(props) {
                     </div>
                     <div id="text2" onClick={navToHomePage} >Tori<i className="fas fa-tasks"></i></div>
                 </div>
+                <StepperApp className="calendar-app-stepper"/>
             <motion.div
                 initial="out"
                 exit="in"
@@ -138,11 +140,11 @@ export function _CalendarApp(props) {
                 transition={MotionService.getMotionStyle('pageTransition')}
                 style={{ width: "100%" }}
             >
-             
                 <div className="calendar-picker-container">
                     <div className={`${pickerRedTitle}`}>
                         {calendarTitle}
                     </div> 
+                    </div>
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={heLocale} >
                     <ThemeProvider theme={materialTheme}>
                         <DatePicker
@@ -170,7 +172,7 @@ export function _CalendarApp(props) {
                     </ThemeProvider>
                 </MuiPickersUtilsProvider>
 
-                </div>
+        
                 <Swipeable onSwiped={(eventData) => onSwipeDirection(eventData.dir)} >
                     <div className="time-slot-lists-container">
                         {(props.timeSlots && !loader) ? <TimeslotList date={selectedDate} timeSlots={props.timeSlots} duration={props.duration} />

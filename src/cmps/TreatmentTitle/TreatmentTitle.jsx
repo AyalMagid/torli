@@ -11,7 +11,7 @@ function _TreatmentTitle(props) {
     let isDurationValid=(props.duration>props.availableDuration)
     return (
         <div className={`treatment-title ${isCalendarAdmin?'treatment-title-in-modal':''} 
-         ${isCalendarAdmin&&isDurationValid?'red-title':''}`}>
+         ${isCalendarAdmin&&isDurationValid?'pink-title-treatments-modal':''}`}>
                 {
                     isCalendarAdmin?
                     <div className="back-arrow" onClick={()=> props.history.push('/calendarAdmin/contacts')}><i  class="fas fa-arrow-right"></i></div>
