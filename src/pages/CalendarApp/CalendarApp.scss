@@ -10,14 +10,10 @@
     justify-content: space-between!important;
 }
 
-
-.calendar-picker-container{
-    margin-bottom: 60px;
-}
-
 .date-picker-title{
     font-size: 1rem;
-    margin-top: 6rem;
+    margin-top: 1rem;
+    font-size: 15px;
 }
 
 .picker-red-title{
@@ -31,9 +27,6 @@
     background-color: #273650;
     color: white;
     width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 2;
     .dates-range-text{
         width: 60%;
         font-size: 15px;
