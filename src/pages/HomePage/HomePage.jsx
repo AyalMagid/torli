@@ -6,7 +6,9 @@ import './HomePage.scss';
 
 export function _HomePage(props) {
     const [isAdModalOpen, setIsAdModalOpen] = React.useState(false);
-
+    document.ontouchmove = function(e){ 
+        e.preventDefault(); 
+    }
     function closeAdModal() {
         setModalInClass('')
         setTimeout(() => {
