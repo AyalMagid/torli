@@ -69,7 +69,8 @@
     .save-btn{
         height: 50px;
         bottom: 0;
-        position: relative;
+        position: fixed;
+        transform: translate(50%,0%);
         color :white;
         border: none;
         outline: none;
