@@ -1,4 +1,5 @@
 import { TreatmentReducer } from './reducers/TreatmentReducer';
+import { ModalReducer } from './reducers/ModalReducers';
 import { StepperReducer } from './reducers/StepperReducer';
 import { CalendarReducer } from './reducers/CalendarReducer';
 import { UserReducer } from './reducers/UserReducer';
@@ -9,7 +10,8 @@ const rootReducer = combineReducers({
     TreatmentReducer,
     CalendarReducer,
     StepperReducer,
-    UserReducer
+    UserReducer,
+    ModalReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

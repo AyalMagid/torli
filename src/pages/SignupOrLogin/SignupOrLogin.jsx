@@ -1,24 +1,8 @@
 import React from "react";
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import './SignupOrLogin.scss';
 import { Link } from 'react-router-dom'
-
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
 
 export function SignupOrLogin(props) {
     return (
@@ -27,8 +11,8 @@ export function SignupOrLogin(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={pageVariants}
-            transition={pageTransition}
+            variants={MotionService.getMotionStyle('pageVariants')}
+            transition={MotionService.getMotionStyle('pageTransition')}
         >
             <main className="signup-or-login-container flex align-center justify-center column">
                 <div className="square top-square">

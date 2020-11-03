@@ -7,28 +7,10 @@ import { TreatmentList } from '../../cmps/TreatmentList/TreatmentList';
 import { TreatmentTitle } from '../../cmps/TreatmentTitle/TreatmentTitle';
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './TreatmentApp.scss';
 import '../../styles/style.scss';
-
-
-// style motion div
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: "0"
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
 
 export function _TreatmentApp(props) {
     const location = useLocation()
@@ -37,7 +19,7 @@ export function _TreatmentApp(props) {
         if (!treatments) loadTreatments()
     }, [loadTreatments, treatments]);
 
-    useEffect( () => {
+    useEffect(() => {
         (async () => {
         if (!userToSchedule && !props.loggedInUser.isAdmin) setUserToSchedule()
     })()
@@ -59,12 +41,11 @@ export function _TreatmentApp(props) {
                         initial="out"
                         exit="in"
                         animate="in"
-                        variants={pageVariants}
-                        transition={pageTransition}
+                        variants={MotionService.getMotionStyle('pageVariants')}
+                        transition={MotionService.getMotionStyle('pageTransition')}
                     >
                         <TreatmentTitle isClicked={isClicked} />
                         <TreatmentList treatments={treatments} />
-
                     </motion.div>
                     :
                     <div>

@@ -4,6 +4,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import { Swipeable } from 'react-swipeable'
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import DateFnsUtils from '@date-io/date-fns';
@@ -43,26 +44,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide timeout={5000} direction="down" ref={ref} {...props} />;
 });
 
-// motion div style
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0,
-        textAlign: 'center'
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
-
-
 // material ui - date picker style
 const materialTheme = createMuiTheme({
     overrides: {
@@ -71,8 +52,6 @@ const materialTheme = createMuiTheme({
                 backgroundColor: '#e91e63',
             },
         },
-
-
 
         MuiPickersDay: {
             day: {
@@ -350,8 +329,8 @@ export function _CalendarAdmin(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={pageVariants}
-            transition={pageTransition}
+            variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
+            transition={MotionService.getMotionStyle('pageTransition')}
             style={{ width: "100%", height: "100%" }}
         >
             <main className="calendar-admin-container">

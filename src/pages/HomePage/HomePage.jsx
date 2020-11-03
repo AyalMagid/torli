@@ -73,21 +73,7 @@ export function _HomePage(props) {
                     </div>
                 </div>
                 <div className="icons-container flex column align-center justify-center">
-                    <div className="top-icons-container flex space-around">
-                        <a className="facebook-container" href={`https://www.facebook.com/${facebook}/`} >
-                            <div className="circle"><i class="fab fa-facebook-f"></i> </div>
-                       פייסבוק
-                        </a>
-                        <a className="instagram-container" href={`https://www.instagram.com/${instagram}/`}>
-                            <div className="circle"><i class="fab fa-instagram"></i></div>
-                           אינסטגרם
-                        </a>
-                        <a className="waze-container" href={wazeUrl}>
-                            <div className="circle"> <i className="fab fa-waze"></i></div>
-                        נווטו אלינו
-                        </a>
-                    </div>
-                    {((props.loggedInUser ) && !props.loggedInUser.isAdmin)
+                {((props.logedinUser ) && !props.logedinUser.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -136,6 +122,21 @@ export function _HomePage(props) {
                           </a>
                             </div>
                     }
+                    <div className="top-icons-container flex space-around">
+                        <a className="facebook-container" href={`https://www.facebook.com/${facebook}/`} >
+                            <div className="circle"><i class="fab fa-facebook-f"></i> </div>
+                       פייסבוק
+                        </a>
+                        <a className="instagram-container" href={`https://www.instagram.com/${instagram}/`}>
+                            <div className="circle"><i class="fab fa-instagram"></i></div>
+                           אינסטגרם
+                        </a>
+                        <a className="waze-container" href={wazeUrl}>
+                            <div className="circle"> <i className="fab fa-waze"></i></div>
+                        נווטו אלינו
+                        </a>
+                    </div>
+                   
                 </div>
                 {isAdModalOpen &&
                     <>

@@ -1,74 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import {updateIsModalOpen} from '../../actions/modalAction.js';
+import {Modal} from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import { setTimeSlots } from '../../actions/calendarActions.js';
 import { updateActiveStep } from '../../actions/stepperActions';
 import UtilsService from "../../services/UtilsService";
 import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
-import StoreService from '../../services/StoreService';
 import StorageService from "../../services/StorageService";
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import './CancelAppointment.scss';
-
-// style motion div
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
-
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
-
 
 export function _CancelAppointment(props) {
     useEffect(() => {
         getEventsByPhone()
     }, []);
-
-    // style material ui modal
-    const useStyles = makeStyles((theme) => ({
-
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        paper: {
-            backgroundColor: theme.palette.background.paper,
-            border: '2px solid #000',
-            boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3),
-            color: 'form-title'
-        },
-        root: {
-            '& > *': {
-                margin: theme.spacing(1),
-                width: '25ch',
-                color: '#172b4d'
-            }
-        },
-    }));
-
-
-    const classes = useStyles();
-
-    const [open, setOpen] = React.useState(false);
 
     const [loader, setLoader] = React.useState(<LoaderApp />);
     setTimeout(() => {
@@ -76,22 +26,9 @@ export function _CancelAppointment(props) {
     }, 2000);
     const [phone, setPhone] = React.useState((props.clickedUser.phone)? props.clickedUser.phone:StorageService.loadFromStorage('tori-user').phone);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-        init()
-    };
-
     const [eventsToCancel, setEventsToCancel] = useState(null)
 
     const [pageCount, setPageCount] = useState(0)
-
-    function init() {
-        StoreService.initApp()
-    }
 
     function getEventsByPhone() {
         EventService.getEventByPhone(phone)
@@ -123,8 +60,8 @@ export function _CancelAppointment(props) {
         // delete from mongo data base
         await EventService.removeEventFromDB(eventToRmove._id)
         getEventsByPhone() 
-        // setEventsToCancel(null)
-        handleOpen()
+        //open modal useing store
+        props.updateIsModalOpen(true)
     }
 
     return (
@@ -134,8 +71,8 @@ export function _CancelAppointment(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={pageVariants}
-                transition={pageTransition}
+                variants={MotionService.getMotionStyle('pageVariants')}
+                transition={MotionService.getMotionStyle('pageTransition')}
             >
                 {
                     (loader) ?
@@ -168,26 +105,7 @@ export function _CancelAppointment(props) {
                                     </div>
                                 }
                             </div>
-
-                            <Modal
-                                aria-labelledby="transition-modal-title"
-                                aria-describedby="transition-modal-description"
-                                className={classes.modal}
-                                open={open}
-                                onClose={handleClose}
-                                closeAfterTransition
-                                BackdropComponent={Backdrop}
-                                BackdropProps={{
-                                    timeout: 500,
-                                }}
-                            >
-                                <Fade in={open}>
-                                    <div className={classes.paper}>
-                                        <h2 id="transition-modal-title">התור בוטל</h2>
-                                        <p id="transition-modal-description"></p>
-                                    </div>
-                                </Fade>
-                            </Modal>
+                            <Modal modalContent={'התור בוטל'} />
                         </main>
                 }
             </motion.div>
@@ -202,7 +120,8 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateActiveStep,
-    setTimeSlots
+    setTimeSlots,
+    updateIsModalOpen
 }
 
 export const CancelAppointment = withRouter(connect(mapStateProps, mapDispatchToProps)(_CancelAppointment))

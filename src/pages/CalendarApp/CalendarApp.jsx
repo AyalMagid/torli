@@ -6,6 +6,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker, DatePicker } from "@materi
 import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { motion } from 'framer-motion'
+import MotionService from "../../services/MotionService";
 import { NavBtns } from '../../cmps/NavBtns/NavBtns';
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import { TimeslotList } from '../../cmps/TimeslotList/TimeslotList';
@@ -15,24 +16,7 @@ import { Swipeable } from 'react-swipeable'
 import StoreService from '../../services/StoreService';
 import './CalendarApp.scss';
 
-// motion div style
-const pageVariants = {
-    in: {
-        opacity: 1,
-        x: 0,
-        textAlign: 'center'
-    },
-    out: {
-        opacity: 0,
-        x: "50%"
-    }
-}
 
-const pageTransition = {
-    duration: 0.5,
-    type: "spring",
-    stiffness: 50
-}
 
 // material ui - date picker style
 const materialTheme = createMuiTheme({
@@ -150,8 +134,8 @@ export function _CalendarApp(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={pageVariants}
-                transition={pageTransition}
+                variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
+                transition={MotionService.getMotionStyle('pageTransition')}
                 style={{ width: "100%" }}
             >
              
