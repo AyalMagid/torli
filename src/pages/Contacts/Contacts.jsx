@@ -61,7 +61,7 @@ export function _Contacts(props) {
             <div className="users-container-warpper">
                 <div className="users-container">
                     <div className="create-user flex align-center" onClick={transferTosignup} >
-                       <div className="create-user-title"><span className="create-user-title-span">+</span>לקוח חדש</div>
+                       <div className="create-user-title">לקוח חדש  <span className="create-user-title-span">+</span></div>
                     </div>
                     {
                         (props.users) &&

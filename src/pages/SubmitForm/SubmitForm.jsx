@@ -55,8 +55,8 @@ export function _SubmitForm(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={MotionService.getMotionStyle('pageVariants')}
-                transition={MotionService.getMotionStyle('pageTransition')}
+                variants={(!isCalendarAdminForm)? MotionService.getMotionStyle('pageVariants') : ''}
+                transition={(!isCalendarAdminForm)? MotionService.getMotionStyle('pageTransition') : ''}
                 style={{ textAlign: 'center', width: '100%' }}
             >
                 <div className="appointment-details">
