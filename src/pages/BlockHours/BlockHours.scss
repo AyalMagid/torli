@@ -10,7 +10,6 @@
     border-radius: 24px 24px 0 0;
     color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
     font-size: 16px;
     .block-hours-title-in-modal{
@@ -19,7 +18,7 @@
 }
 
 // the back arrow gets 10% the text the other 80%
-.modal-header-cls-btn{
+.modal-header-cls-btn-space{
   width:15%;
 }
 .hours-main-container{

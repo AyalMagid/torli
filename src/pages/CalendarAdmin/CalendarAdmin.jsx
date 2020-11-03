@@ -433,7 +433,7 @@ export function _CalendarAdmin(props) {
                         aria-labelledby="alert-dialog-slide-title"
                         aria-describedby="alert-dialog-slide-description"
                     >
-                        <DialogTitle id="alert-dialog-slide-title">{modalSubJect ? 'מחיקת סגירה' : 'מחיקת תור'}</DialogTitle>
+                        <DialogTitle id="alert-dialog-slide-title">{modalSubJect ? 'הסרת חסימה' : 'מחיקת תור'}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
                                 {
@@ -464,7 +464,7 @@ export function _CalendarAdmin(props) {
                                      <div> 
                                         לקביעת התור לחצו 'אישור'
                                     </div> 
-                                    <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                                    <div className={'modal-header-cls-btn-space'}></div>
                                 </header>
                             }
                             <Router>
@@ -477,6 +477,7 @@ export function _CalendarAdmin(props) {
                                 <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
                             </Router>
                             {((location.pathname !== '/calendarAdmin/appointmentOrBlock')&&(location.pathname !== '/calendarAdmin/contacts/signup')) && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
+                            <div className="close-admin-modal-btn" onClick={closeAppointmentsModal}><i class="fas fa-times"></i></div>
                         </div>
                     </>
                 }

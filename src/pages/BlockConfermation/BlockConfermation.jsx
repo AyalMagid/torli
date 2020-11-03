@@ -11,7 +11,7 @@ export function _BlockConfermation(props) {
         <div className="block-confirmation-title-in-modal">
           לסגירת החלון שנבחר לחצו 'אישור'
         </div>
-        <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+        <div className={'modal-header-cls-btn-space'}></div>
       </header>
       <main className="main-confermation-container flex align-center justify-center">
         <div className="block-confermation-details">

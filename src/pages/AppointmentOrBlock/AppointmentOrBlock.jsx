@@ -10,7 +10,7 @@ export function _AppointmentOrBlock(props) {
             <header className="header-in-apointment-or-block-modal">
                 <div className="space-div-for-flex"></div>
                 <div className="appointment-or-block-title-modal">בחרו בפעולה הרצויה</div>
-                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                <div className={'modal-header-cls-btn-space'}></div>
             </header>
                 <div className="routes-btn-container flex column space-around">
                     <div className="contacts-route-btn flex justify-center align-center column" onClick={() => props.history.push('/calendarAdmin/contacts')}>

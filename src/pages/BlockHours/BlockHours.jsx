@@ -33,7 +33,7 @@ export function _BlockHours(props) {
                 <header className="header-in-block-hours-modal flex align-center">
                      <div className="back-arrow" onClick={()=>props.history.push('/calendarAdmin/appointmentOrBlock')}><i  class="fas fa-arrow-right"></i></div>
                     <div className="block-hours-title-in-modal">בחרו חלון זמנים ולחצו 'אישור' </div>
-                    <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                    <div className={'modal-header-cls-btn-space'}></div>
                 </header>
             <div className="hours-container-warpper">
                 <div className="hours-container">

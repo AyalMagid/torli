@@ -56,7 +56,7 @@ export function _Contacts(props) {
                     <input className="search-input" placeholder="חפש לפי שם או טלפון" name="term" value={searchTerm} onChange={handleChange} />
                     <i className="fas fa-search"></i>
                 </div>
-                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                <div className={'modal-header-cls-btn-space'}></div>
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">

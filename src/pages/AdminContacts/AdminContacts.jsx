@@ -40,7 +40,7 @@ export function _AdminContacts(props) {
                                 <div className="admin-contacts-title-in-modal">
                                  התורים של {clickedUser.name}
                                 </div>
-                                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                                <div className={'modal-header-cls-btn-space'}></div>
                              </header>
                             <CancelAppointment clickedUser={clickedUser}/>
                         </div>
