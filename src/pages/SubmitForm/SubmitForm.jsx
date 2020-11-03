@@ -67,8 +67,8 @@ export function _SubmitForm(props) {
                 <Modal modalContent={<div>
                     <h2>התור נקבע בהצלחה</h2>
                     <div className="form-modal-content flex column space-aruond">
-                        <div className="margin-bottom-5"> נקבע לך תור ל: {markedTreatmetns}  </div>
-                        <div className="margin-bottom-5"> בתאריך {dateIsraeliDisplay}</div>
+                        <div className="margin-bottom-5"> נקבע לך תור ל{markedTreatmetns}  </div>
+                        <div className="margin-bottom-5"> בתאריך: {dateIsraeliDisplay}</div>
                         <div> בין השעות: {endTime} - {props.treatment.time}</div>
                     </div>
                 </div>}
