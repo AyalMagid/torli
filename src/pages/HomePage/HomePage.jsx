@@ -6,9 +6,11 @@ import './HomePage.scss';
 
 export function _HomePage(props) {
     const [isAdModalOpen, setIsAdModalOpen] = React.useState(false);
-    document.ontouchmove = function(e){ 
-        e.preventDefault(); 
-    }
+
+    document.addEventListener('wheel', function(e) {
+        e.preventDefault();
+    }, { passive: false });
+
     function closeAdModal() {
         setModalInClass('')
         setTimeout(() => {
