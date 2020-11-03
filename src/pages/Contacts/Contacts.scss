@@ -101,12 +101,14 @@
   background-color: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   margin-top: 8px;
-  .add-new-user{
-    margin-right: 10px;
+  .create-user-title{
+    margin-right: 13%;
   }
-  .fa-plus-circle{
-    margin-left: 10px;
+  .create-user-title-span{
+    font-size: 17px;
+  }
+  .fa-plus{
+    font-size: 10px;
     color: #273650d6;
-    font-size: 14px;
   }
 }
