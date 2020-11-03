@@ -10,13 +10,15 @@ export default {
   calculateEndTime,
   arrayToString,
   convertDateToIsraelisDisplay,
+  convertDateTo4DigitsDisplay,
   getDayByHebrewWord,
   getEventReadyForDisplay,
   convertNumberToWords,
   validateEmail,
   getWeekIsosDatesForCalendar,
   checkIfTsInRange,
-  getMonthByIdx
+  getMonthByIdx,
+  timeToDisplay
 }
 
 var gUtcDiff = 2
@@ -119,6 +121,11 @@ function getWeekIsosDatesForCalendar(dayByNum, date) {
   })
 }
 
+function timeToDisplay (time){
+  if (time.slice(0,1)==='0') {time = time.slice(1,5)}
+  return time
+}
+
 function getDailySlotsForPreview(slotsRanges, duration) {
   const timeslotsByConstraints = slotsRanges.map(sr => getTimeSlotsForPreview(sr, duration))
   const mergedTimeSlotsToRender = [].concat.apply([], timeslotsByConstraints);
@@ -165,10 +172,10 @@ function changeTimeForDisplay(time, diff) {
 
 function calculateEndTime(time, duration) {
   let hours = +time.slice(0, 2)
-  let minutes = +time.slice(3, 5)
+  let minutes = time.slice(3, 5)
 
   if (duration % 60 === 30) {
-    if (minutes === 30) {
+    if (+minutes === 30) {
       hours += Math.floor(duration / 60) + 1
       minutes = '00'
     }
@@ -179,7 +186,6 @@ function calculateEndTime(time, duration) {
   }
   else {
     hours += (duration / 60)
-    minutes = '00'
   }
 
   hours = checkDigitsAndAddZerosIfNeeded(hours)
@@ -210,6 +216,13 @@ function convertDateToIsraelisDisplay(date) {
   const dateParts = (date).split('-')
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
+
+function convertDateTo4DigitsDisplay(date) {
+  const dateParts = (date).split('-')
+  if (dateParts[2].slice(0,1)==='0') {  return `${dateParts[2].slice(1,2)}.${dateParts[1]}`}
+  else {return `${dateParts[2].slice(0,2)}.${dateParts[1]}`}
+}
+
 function getDayByHebrewWord(idx) {
   const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"]
   return days[idx]

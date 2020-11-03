@@ -37,7 +37,7 @@ function _AppHeader(props) {
                 setHeaderConstrains({...initWithFalse, isStepper:true, isTabs:true})
                 break;
             case '/calendar':
-                setHeaderConstrains({...initWithFalse, isHeader:true, isStepper:true})
+                setHeaderConstrains(false)
                 break;
             case '/form':
                 setHeaderConstrains({...initWithFalse, isHeader:true, isStepper:true})

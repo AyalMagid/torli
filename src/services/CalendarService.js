@@ -44,6 +44,7 @@ async function getAvailbleDailySlots(startTime, endtTime, duration) {
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
 async function setAppointment(treatments, duration, phone, email, name, treatment) {
+    console.log(treatments, duration, phone, email, name, treatment)
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     const startTime = `${treatment.date}T${time}:00Z`
     time = UtilsService.calculateEndTime(time, duration)

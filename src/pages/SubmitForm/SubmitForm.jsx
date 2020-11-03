@@ -90,7 +90,7 @@ export function _SubmitForm(props) {
 
     return (
         <div className="submit-form flex column  align-center">
-          {!isCalendarAdminForm&&  <button className="restart-btn" onClick={init}>אתחול  <i className="fas fa-redo-alt"></i></button>}
+          {!isCalendarAdminForm&&  <button className="reset-btn" onClick={init}> איפוס <i className="fas fa-redo-alt"></i></button>}
             <div className={`user-details ${isCalendarAdminForm ?'user-details-in-modal':''}`}>
                 <div>שם : {name}</div>
                 <div>טלפון : {phone}</div>

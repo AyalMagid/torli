@@ -42,7 +42,7 @@ function _TreatmentTitle(props) {
                     }
                 </div>
                 }
-                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                 { isCalendarAdmin?<div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>:''}
         </div>
     )
 }

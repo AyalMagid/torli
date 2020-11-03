@@ -4,6 +4,7 @@
     margin-right: 1rem;
     margin-left: 1rem;
     min-width: 80px;
+    overflow-y: scroll;
     .fully-booked{
         font-size: 14px;
         font-weight: 400;
@@ -15,6 +16,7 @@
         outline: none;
         font-size: 1rem;
         margin: 5px;
+        margin-bottom: 10px;
         padding: 5px 10px;
         cursor: pointer;
         background-color: transparent;
@@ -23,9 +25,67 @@
         color: #273650;
         // color: #e91e63;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        width: 70px;
+        min-height: 70px;
+        border-radius: 50%;
+        font-size: 16px;
+        background-color: #ffffffb0;
+        border: none;
     }
     .timeslot-btn:active{
         transition: 0.3s;
         background-color: pink;
     }
 }
+
+//   I phone 6-8 or smaller
+@media screen and (max-height: 670px) {
+.daily-slots{
+    .timeslot-btn{
+        width: 60px;
+        min-height: 60px;
+    }
+  }
+}
+
+
+
+//   I phone 5
+@media screen and (max-height: 570px) {
+    .daily-slots{
+        // width: 390px;
+        min-width: 70px;
+        max-height: 295px;
+    }
+  }
+
+//   I phone 6-8 
+@media screen and (max-height: 670px) and (min-height: 570px){
+    .daily-slots{
+        // width: 390px;
+        max-height: 370px;
+    }
+  }
+//   I phone 6-8 plus 
+@media screen and (max-height: 810px) and (min-height: 730px){
+    .daily-slots{
+        // width: 390px;
+        max-height: 420px;
+    }
+  }
+
+//   I phone x
+@media screen and (min-height: 810px) {
+    .daily-slots{
+        // width: 390px;
+        max-height: 505px;
+    }
+  }
+
+  //   Ipad
+@media screen and (min-height: 1000px) {
+    .daily-slots{
+        // width: 390px;
+        max-height: 770px;
+    }
+  }
