@@ -45,7 +45,7 @@ function _ModalButton(props) {
                         :
                         (location.pathname === '/calendarAdmin/blockHours')
                             ?
-                            'בחרו שעה ולחצו להמשך'
+                            'אישור'
                             :
                             (location.pathname === '/calendarAdmin/appointmentOrBlock')
                                 ?

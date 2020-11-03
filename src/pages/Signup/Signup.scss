@@ -103,22 +103,15 @@
     border-radius: 0 0 24px 24px;
 }
 
-.transfer-to-contact{
-    position: absolute;
-    top: 14px;
-    right: 20px;
-    color: white;
-    font-size: 17px;
-}
 
 .header-in-signup-modal{
+    justify-content: end;
     height: 70px;
     width: 100%;
     background-color: #273650;
     border-radius: 24px 24px 0 0;
     color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
     font-size: 16px;
 }

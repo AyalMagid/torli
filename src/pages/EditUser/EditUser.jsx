@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from '../../services/UserService';
-import { updateLogedinUser } from '../../actions/userAction.js';
+import { updateLoggedInUser } from '../../actions/userAction.js';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,7 +18,7 @@ import './EditUser.scss';
 const ownerPassword = '1234'
 
 export function _EditUser(props) {
-    const [credentials, setCredentials] = React.useState(props.logedinUser)
+    const [credentials, setCredentials] = React.useState(props.loggedInUser)
     const { name, phone, email } = credentials
     const [password, setPassword] = useState('');
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
@@ -111,7 +111,7 @@ export function _EditUser(props) {
 
     async function setUser() {
         //validation of owner phone number
-        if (!props.logedinUser.isAdmin) {
+        if (!props.loggedInUser.isAdmin) {
             UserService.updateUser(credentials)
             props.history.push('/')
         }
@@ -236,7 +236,7 @@ export function _EditUser(props) {
 
     function signOut() {
         StorageService.removeFromStorage('tori-user')
-        props.updateLogedinUser(null)
+        props.updateLoggedInUser(null)
         props.history.push('/')
     }
 
@@ -354,12 +354,12 @@ export function _EditUser(props) {
 
 function mapStateProps(state) {
     return {
-        logedinUser: state.UserReducer.logedinUser
+        loggedInUser: state.UserReducer.loggedInUser
     }
 }
 
 const mapDispatchToProps = {
-    updateLogedinUser
+    updateLoggedInUser
 }
 
 export const EditUser = connect(mapStateProps, mapDispatchToProps)(_EditUser)

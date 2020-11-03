@@ -51,8 +51,12 @@ export function _Contacts(props) {
     return (
         <main className="contacts-main-container">
             <div className="search-input-container flex align-center">
-                <input className="search-input" placeholder="חפש לפי שם או טלפון" name="term" value={searchTerm} onChange={handleChange} />
-                <i className="fas fa-search"></i>
+                <div className="back-arrow" onClick={()=>props.history.push('/calendarAdmin/appointmentOrBlock')}><i  class="fas fa-arrow-right"></i></div>
+                <div className="search-wrapper flex align-center">
+                    <input className="search-input" placeholder="חפש לפי שם או טלפון" name="term" value={searchTerm} onChange={handleChange} />
+                    <i className="fas fa-search"></i>
+                </div>
+                <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">

@@ -30,7 +30,11 @@ export function _BlockHours(props) {
 
     return (
         <main className="hours-main-container">
-            <header className="header-in-block-hours-modal"></header>
+                <header className="header-in-block-hours-modal flex align-center">
+                     <div className="back-arrow" onClick={()=>props.history.push('/calendarAdmin/appointmentOrBlock')}><i  class="fas fa-arrow-right"></i></div>
+                    <div className="block-hours-title-in-modal">בחרו חלון זמנים ולחצו 'אישור' </div>
+                    <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
+                </header>
             <div className="hours-container-warpper">
                 <div className="hours-container">
                     {
@@ -45,7 +49,7 @@ export function _BlockHours(props) {
                                                 (slotRange.isMarked) && <i class="fas fa-check"></i>
                                             }
                                         </div>
-                                        <div>לחצו לסגירת יום שלם</div>
+                                        <div>סגירת יום שלם</div>
                                     </div>
                                     :
                                     <div className={`hour-container ${(slotRange.isMarked) ? 'hour-clicked' : ''} flex align-center justify-center`} onClick={() => markClickedUser(slotRange)} key={idx}>

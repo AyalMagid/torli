@@ -5,6 +5,17 @@
         text-align: center;
         margin-top: 16px;
         color:#3f567f;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .space-div-for-flex{
+        width:15%;
+    }
+
+    .admin-contacts-title-in-modal{
+        width:70%;
+        text-align: center;
     }
     
     .search-input-wrapper{
@@ -14,7 +25,7 @@
         border: none;
         border-bottom: 1px solid #17171f6e;
         padding-right:6%;
-        padding-left:6%;
+        padding-left:20px;
         .logo{
             color:white;
             height: 60%;
@@ -31,7 +42,7 @@
     }
     .contacts-users-container{
         width: 88%;
-        height: 78vh;
+        height: 75vh;
         margin: 0 auto;
         overflow-x: hidden;
         overflow-y: scroll;

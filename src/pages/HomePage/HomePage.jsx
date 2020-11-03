@@ -7,10 +7,6 @@ import './HomePage.scss';
 export function _HomePage(props) {
     const [isAdModalOpen, setIsAdModalOpen] = React.useState(false);
 
-    document.addEventListener('wheel', function(e) {
-        e.preventDefault();
-    }, { passive: false });
-
     function closeAdModal() {
         setModalInClass('')
         setTimeout(() => {
@@ -19,7 +15,7 @@ export function _HomePage(props) {
     }
 
     function changeRoute(route) {
-        (props.logedinUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
+        (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
 
     const [advertise, setAdvertise] = useState();
@@ -32,7 +28,7 @@ export function _HomePage(props) {
         (async () => {
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
-                if (props.logedinUser&&(!props.logedinUser.isAdmin)) {
+                if (props.loggedInUser&&(!props.loggedInUser.isAdmin)) {
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
@@ -51,17 +47,17 @@ export function _HomePage(props) {
                     }
                 }
         })()
-    }, [props.logedinUser]);
+    }, [props.loggedInUser]);
 
 
     return (
         <div className="home-page-wrapper">
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
-                {(props.logedinUser) ?
+                {(props.loggedInUser) ?
                     <div className="login-container" onClick={() => props.history.push('/editUser')}>
                         <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
-                        <div>{props.logedinUser.name}</div>
+                        <div>{props.loggedInUser.name}</div>
                     </div>
                     :
                     <div className="login-container" onClick={() => props.history.push('/signupOrLogin')}>
@@ -78,7 +74,7 @@ export function _HomePage(props) {
                     </div>
                 </div>
                 <div className="icons-container flex column align-center justify-center">
-                {((props.logedinUser ) && !props.logedinUser.isAdmin)
+                {((props.loggedInUser ) && !props.loggedInUser.isAdmin)
                         ?
                         < div className="bottom-icons-container flex space-around">
                             <div className="queue-container" onClick={() => changeRoute('/treatments')}>
@@ -95,7 +91,7 @@ export function _HomePage(props) {
                     </a>
                         </div>
                         :
-                        props.logedinUser
+                        props.loggedInUser
                             ?
                             < div className="bottom-icons-container flex space-around">
                                 <div className="queue-container" onClick={() => changeRoute('/calendarAdmin')}>
@@ -161,7 +157,7 @@ export function _HomePage(props) {
 function mapStateProps(state) {
     return {
         isAdShown: state.UserReducer.isAdShown,
-        logedinUser: state.UserReducer.logedinUser
+        loggedInUser: state.UserReducer.loggedInUser
     }
 }
 

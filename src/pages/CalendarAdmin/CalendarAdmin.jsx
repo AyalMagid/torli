@@ -95,6 +95,7 @@ export function _CalendarAdmin(props) {
     const [loader, setLoader] = useState(true);
     let table = []
     let eventsIds = []
+
     useEffect(() => {
         (async () => {
             let weeklyEvents = await eventsToDisplay
@@ -105,7 +106,7 @@ export function _CalendarAdmin(props) {
                     timeSlots.map((ts, tsIdx) => {
                         if (tsIdx === timeSlots.length - 1) return
                         return <tr key={tsIdx}>
-                            <td className="td-hours">{ts}</td>
+                            <td className="td-hours">{UtilsService.timeToDisplay(ts)}</td>
                             {
                                 weeklyEvents.map((dailyEvents, dailyIdx) => {
 
@@ -122,7 +123,9 @@ export function _CalendarAdmin(props) {
                                                     eventsIds.push(ev.id)
                                                     return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
-                                                            <div className="event-time">{(ev.start).slice(11, 16)}-{(ev.end).slice(11, 16)}</div>
+                                                            <div className="event-time-wrapper">
+                                                            <div className="event-time">{UtilsService.timeToDisplay((ev.start).slice(11, 16))}-{UtilsService.timeToDisplay((ev.end).slice(11, 16))}</div>
+                                                            </div>
                                                             {(ev.name === 'block - block')
                                                                 ?
                                                                 <div>
@@ -133,7 +136,7 @@ export function _CalendarAdmin(props) {
                                                             }
                                                         </div>
                                                     </td>
-
+         
                                                 } else return ''
                                             }
                                             else if ((dailyEvents.length === eventIdx + 1) && (!cellIsRendered)) {
@@ -308,6 +311,8 @@ export function _CalendarAdmin(props) {
 
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
+        // chagne semantics, because it represents the opposite - making sure btn will be disable after modal closed and reopen
+        setIsClicked(true)
         props.updateUserPhoneInContactSignup('')
         StoreService.initApp()
         props.history.push('/calendarAdmin')
@@ -338,30 +343,30 @@ export function _CalendarAdmin(props) {
                 </div>
                 <Swipeable onSwiped={(eventData) => onSwipeDirection(eventData.dir)} >
                     <header className="days-header-container flex space-between">
-                        <div className="dayes-name-container" >
+                        <div className="days-name-container month-container" >
                             <div className="month-name">{month}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">ראשון</div>
                             <div className="daily-num"> {daysForDisplay[0]}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">שני</div>
                             <div className="daily-num"> {daysForDisplay[1]}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">שלישי</div>
                             <div className="daily-num"> {daysForDisplay[2]}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">רביעי</div>
                             <div className="daily-num"> {daysForDisplay[3]}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">חמישי</div>
                             <div className="daily-num"> {daysForDisplay[4]}</div>
                         </div>
-                        <div className="dayes-name-container">
+                        <div className="days-name-container">
                             <div className="daily-name">שישי</div>
                             <div className="daily-num"> {daysForDisplay[5]}</div>
                         </div>
@@ -429,8 +434,8 @@ export function _CalendarAdmin(props) {
                             <DialogContentText id="alert-dialog-slide-description">
                                 {
                                     modalSubJect ?
-                                        'האם את/ה בטוח/ה שברצונך למחוק סגירה זאת?'
-                                        : ' האם את/ה בטוח/ה שברצונך למחוק תור זה?'
+                                        'להסרת החסימה לחצו אישור'
+                                        : ' למחיקת התור לחצו אישור'
                                 }
                             </DialogContentText>
                         </DialogContent>
@@ -450,8 +455,12 @@ export function _CalendarAdmin(props) {
                         </div>
                         <div className="apointments-modal">
                             {isCalendarAdminForm &&
-                                <header className="header-in-form-modal">
-                                    לקביעת התור לחצו 'אישור'
+                                <header className="header-in-form-modal flex align-center space-between">
+                                     <div className="back-arrow" onClick={()=> props.history.push('/calendarAdmin/treatments')}><i  class="fas fa-arrow-right"></i></div>
+                                     <div> 
+                                        לקביעת התור לחצו 'אישור'
+                                    </div> 
+                                    <div className={'modal-header-cls-btn'}><i class="fas fa-times"></i></div>
                                 </header>
                             }
                             <Router>

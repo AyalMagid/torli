@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react';
 import { useLocation, withRouter } from 'react-router-dom';
 import { TabsApp } from '../TabsApp/TabsApp.jsx';
 import { StepperApp } from '../StepperApp/StepperApp.jsx';
+import StoreService from '../../services/StoreService';
 import './AppHeader.scss';
 
 
@@ -31,11 +32,12 @@ function _AppHeader(props) {
                 break;
             case '/login':
                 setHeaderConstrains({...initWithFalse, isHeader:true})
+                break;
             case '/treatments':
                 setHeaderConstrains({...initWithFalse, isStepper:true, isTabs:true})
                 break;
             case '/calendar':
-                setHeaderConstrains({...initWithFalse, isHeader:true, isStepper:true})
+                setHeaderConstrains(false)
                 break;
             case '/form':
                 setHeaderConstrains({...initWithFalse, isHeader:true, isStepper:true})
@@ -51,6 +53,11 @@ function _AppHeader(props) {
         }
     }, [location.pathname]);
 
+    function navToHomePage() {
+        StoreService.initApp()
+        props.history.push('/')
+    }
+
     return (
         <>
             {
@@ -59,7 +66,7 @@ function _AppHeader(props) {
                             {
                               (headerConstrains.isHeader)?
                                 <header className="flex upper-header align-center">
-                                  <h2 onClick={() => props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
+                                  <h2 onClick={navToHomePage} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
                                 </header>
                                 :
                                 ''

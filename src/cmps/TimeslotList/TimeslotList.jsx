@@ -22,15 +22,13 @@ export function TimeslotList(props) {
                                 {
                                 isDateFullyBooked?     
                                 <div className="fully-booked">
-                                    <div>{UtilsService.getDayByHebrewWord(new Date(date).getDay())}</div>
-                                    <div>{UtilsService.convertDateToIsraelisDisplay(date)}</div>
+                                    <div>{`${UtilsService.getDayByHebrewWord(new Date(date).getDay())} - ${UtilsService.convertDateTo4DigitsDisplay(date)}`}</div>
                                     <br/>
                                     <div className="fully-booked-title">אין תור פנוי</div>
                                 </div>
                                 :
                                 <div>
-                                    <div>{UtilsService.getDayByHebrewWord(new Date((props.timeSlots[day])[0].start).getDay())}</div>
-                                    <div>{UtilsService.convertDateToIsraelisDisplay(date)}</div>
+                                    <div>{`${UtilsService.getDayByHebrewWord(new Date(date).getDay())} - ${UtilsService.convertDateTo4DigitsDisplay(date)}`}</div>
                                 </div>
                                 }
                             </div>
