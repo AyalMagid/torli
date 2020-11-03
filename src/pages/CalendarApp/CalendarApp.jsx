@@ -14,6 +14,8 @@ import { loadTimeSlots } from '../../actions/calendarActions.js';
 import { Swipeable } from 'react-swipeable'
 import './CalendarApp.scss';
 
+
+
 // material ui - date picker style
 const materialTheme = createMuiTheme({
     overrides: {
@@ -108,7 +110,7 @@ export function _CalendarApp(props) {
                 initial="out"
                 exit="in"
                 animate="in"
-                variants={MotionService.getMotionStyle('pageVariants')}
+                variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
                 transition={MotionService.getMotionStyle('pageTransition')}
                 style={{ width: "100%" }}
             >

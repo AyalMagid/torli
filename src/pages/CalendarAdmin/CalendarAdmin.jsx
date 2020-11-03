@@ -53,8 +53,6 @@ const materialTheme = createMuiTheme({
             },
         },
 
-
-
         MuiPickersDay: {
             day: {
                 color: 'black',
@@ -326,7 +324,7 @@ export function _CalendarAdmin(props) {
             initial="out"
             exit="in"
             animate="in"
-            variants={MotionService.getMotionStyle('pageVariants')}
+            variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
             transition={MotionService.getMotionStyle('pageTransition')}
             style={{ width: "100%", height: "100%" }}
         >
