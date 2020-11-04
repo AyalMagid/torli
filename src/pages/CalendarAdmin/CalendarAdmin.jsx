@@ -132,7 +132,10 @@ export function _CalendarAdmin(props) {
                                                                     סגור
                                                                 </div>
                                                                 :
-                                                                <div className="event-desc">{ev.name}</div>
+                                                                <div className="event-desc">
+                                                                    <div className="event-name">{UtilsService.getSplitedEventDesc(ev.name).name}</div>
+                                                                    <div className="event-treatment">{UtilsService.getSplitedEventDesc(ev.name).treatment}</div>
+                                                                </div>
                                                             }
                                                         </div>
                                                     </td>

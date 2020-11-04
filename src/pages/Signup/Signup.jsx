@@ -164,7 +164,7 @@ export function _Signup(props) {
                             <div className="form-title">* שם מלא  </div>
                             <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
                         </div>
-                        <input autoFocus={true} className="name" name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
+                        <input maxlength="18" autoFocus={true} className="name" name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
                     </div>
                     <div className="input-container">
                         <div className="form-title-container flex">

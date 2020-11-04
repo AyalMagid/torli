@@ -18,7 +18,8 @@ export default {
   getWeekIsosDatesForCalendar,
   checkIfTsInRange,
   getMonthByIdx,
-  timeToDisplay
+  timeToDisplay,
+  getSplitedEventDesc
 }
 
 var gUtcDiff = 2
@@ -273,4 +274,9 @@ function getMonthByIdx(idx) {
 function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+}
+
+function getSplitedEventDesc(desc){
+     let splitedDesc= desc.split(' - ')
+     return {name:splitedDesc[0],treatment:splitedDesc[1]}
 }

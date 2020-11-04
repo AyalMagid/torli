@@ -78,9 +78,10 @@
         background-color: rgba(255, 255, 255, 0.308);
         margin: 0 auto;
         .event-time{
+            font-weight: 400;
             padding: 3px;
             padding-top: 0;
-            margin-bottom: 3px;
+            margin-bottom: 7px;
           }
       }
   }
@@ -235,6 +236,13 @@
     transform: translate(0, -50%);
     top: 25px;
 }
+
+.event-name{
+    margin-bottom: 7px; 
+ }
+ .event-treatment{
+   font-weight: 400;
+ }
 
 //   I phone 5
 @media screen and (max-height: 570px) {
