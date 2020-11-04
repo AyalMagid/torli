@@ -60,9 +60,12 @@ export function _Contacts(props) {
             </div>
             <div className="users-container-warpper">
                 <div className="users-container">
-                    <div className="create-user flex align-center" onClick={transferTosignup} >
-                       <div className="create-user-title">לקוח חדש  <span className="create-user-title-span">+</span></div>
-                    </div>
+                     <div className={`user-container  flex align-center justify-center`} onClick={transferTosignup}>
+                                    {/* // just for kepping the space of the text */}
+                                    <div className="check-mark-container"></div>
+                                    <div className="user-name user-attr">לקוח חדש</div>
+                                    <div className="user-icon user-attr"> <i class="fas fa-user-plus"></i></div>
+                                </div>
                     {
                         (props.users) &&
                         props.users.map((user, idx) => {

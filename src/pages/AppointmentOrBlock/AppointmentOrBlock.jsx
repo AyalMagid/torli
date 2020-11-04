@@ -19,7 +19,7 @@ export function _AppointmentOrBlock(props) {
                     </div >
                     <div className="block-route-btn flex justify-center align-center column" onClick={() => props.history.push('/calendarAdmin/blockHours')}>
                         <div className="app-or-block-title">סגירת חלונות זמנים</div>
-                        <i class="claendar-icon far fa-calendar-times"></i>
+                        <i class="fas fa-ban"></i>
                     </div>
                 </div>
             <footer className="footer-in-apointment-or-block-modal"></footer>
