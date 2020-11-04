@@ -66,7 +66,7 @@ function _AppHeader(props) {
                             {
                               (headerConstrains.isHeader)?
                                 <header className="flex upper-header align-center">
-                                  <div onClick={navToHomePage} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></div>
+                                  <h2 onClick={navToHomePage} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></h2>
                                 </header>
                                 :
                                 ''
