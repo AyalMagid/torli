@@ -313,9 +313,9 @@ export function _EditUser(props) {
                     </div>
                 </form>
 
-                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
+                <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div>
 
-                <div>
+              
                     <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
                         <DialogContent>
@@ -343,8 +343,6 @@ export function _EditUser(props) {
           </Button>
                         </DialogActions>
                     </Dialog>
-                </div>
-
             </main>
         </motion.div>
     );
