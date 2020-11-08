@@ -34,7 +34,9 @@ function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block'
 }
 
 async function removeEventFromCalendar(eventId) {
-    return HttpService.delete('calendar', { eventId })
+    const res = await HttpService.delete('calendar', { eventId })
+    console.log(res);
+    return res
 }
 
 async function getAvailbleDailySlots(startTime, endtTime, duration) {
@@ -63,6 +65,7 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     }
     EventService.saveConfirmedEvent(event)
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
+    return confirmedEvent
 }
 
 async function blockSlotRange(slotToBlock, name = 'block') {
@@ -83,6 +86,7 @@ async function blockSlotRange(slotToBlock, name = 'block') {
         date: startTime.slice(0, 10)
     }
     EventService.saveConfirmedEvent(event)
+    return confirmedEvent
 }
 
 
@@ -102,6 +106,7 @@ function buildWeeklyModel(timeSlots, weeklyEvents) {
                     if (range.occupied) {
                         isCellInUsed = true
                         tableCellsModel[dailyIdx, tsIdx].push(false)
+                        // tableCellsModel[dailyIdx, tsIdx].push({name:ev.name,id:ev.id,start:ev.start,end:ev.end})
                     }
                     else if ((dailyEvents.length === eventIdx + 1) && (!isCellInUsed)) {
                         tableCellsModel[dailyIdx, tsIdx].push(true)
@@ -145,11 +150,11 @@ function getHoursToBlock(timeSlots, ts, availableDuration, date, isDayFullyAvail
             {
                 date,
                 start: timeSlots[0],
-                end: timeSlots[timeSlots.length-1],
+                end: timeSlots[timeSlots.length - 1],
                 isMarked: false
             }
         )
-      if(ts===timeSlots[0])  hoursToBlock.pop()
+        if (ts === timeSlots[0]) hoursToBlock.pop()
     }
     return hoursToBlock
 }

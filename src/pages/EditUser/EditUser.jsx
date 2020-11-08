@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UtilsService from "../../services/UtilsService";
 import UserService from '../../services/UserService';
+import { EditButton } from '../../cmps/EditButton/EditButton';
 import { updateLoggedInUser } from '../../actions/userAction.js';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -313,8 +314,9 @@ export function _EditUser(props) {
                     </div>
                 </form>
 
-                <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div>
-
+                {/* <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div> */}
+              
+                <EditButton toggleValidations={toggleValidations} setUser={setUser} isValid={isValid}/>
               
                     <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
