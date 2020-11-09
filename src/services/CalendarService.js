@@ -46,13 +46,15 @@ async function removeEventFromCalendar(eventId) {
 
 async function getAvailbleDailySlots(startTime, endtTime, duration) {
     const dailySlots = { startTime, endtTime, duration }
+    console.log(dailySlots)
     return await HttpService.post('calendar/slots', dailySlots)
 }
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
-async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence) {
+async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence, selectedDate) {
     console.log(treatments, duration, phone, email, name, treatment, recurrence)
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
+    let firstTime = time
     const startTime = `${treatment.date}T${time}:00Z`
     time = UtilsService.calculateEndTime(time, duration)
     const endTime = `${treatment.date}T${time}:00Z`
@@ -60,7 +62,13 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     if (!recurrence.isRecurrence){
         confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
     } else {
+        // checking if recurrence is possible during all the chosen dates
+        const occupiedDates = await checkRecurrenceAvailbility (selectedDate, firstTime, time, duration, recurrence)
+        if (!occupiedDates.length) {
         confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com', recurrence)
+        } else {
+            console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
+        }
     }
     const event = {
         name,
@@ -77,6 +85,28 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 
+// freq should get 1 or 7 depends - representing day or week diff. count - for how many times to repeat 
+async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence) {
+    let occupiedDates = []
+    let startTime
+    let endTime
+    let isosDate = UtilsService.getIsosDate(0, fullDate)
+
+    for (var i=0; i < recurrence.count-1; i++){
+    startTime = `${isosDate}T${firstTime}:00Z`
+    time = UtilsService.calculateEndTime(time, duration)
+    endTime = `${isosDate}T${time}:00Z`
+    const availbleSlots = await getAvailbleDailySlots(startTime, endTime, "1H")
+    console.log(availbleSlots)
+    // if the time is already occupied the day isnt avaiblle
+    if (!availbleSlots.length){
+        occupiedDates.push(isosDate)
+    }
+    isosDate = UtilsService.getIsosDate(i+recurrence.freq, fullDate) 
+    }
+    console.log(occupiedDates)
+    return occupiedDates
+}
 
 
 async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
