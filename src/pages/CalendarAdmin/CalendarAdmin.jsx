@@ -96,12 +96,15 @@ export function _CalendarAdmin(props) {
     let table = []
     let eventsIds = []
 
+
     useEffect(() => {
         (async () => {
             let weeklyEvents = await eventsToDisplay
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
                 table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
+                console.log(table)
+                console.table(table)
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
                         if (tsIdx === timeSlots.length - 1) return
@@ -109,7 +112,6 @@ export function _CalendarAdmin(props) {
                             <td className="td-hours">{UtilsService.timeToDisplay(ts)}</td>
                             {
                                 weeklyEvents.map((dailyEvents, dailyIdx) => {
-
                                     let counter = 0
                                     if (dailyEvents.length) {
                                         let cellIsRendered = false
@@ -159,6 +161,71 @@ export function _CalendarAdmin(props) {
             }
         })()
     }, [eventsToDisplay]);
+    
+    // useEffect(() => {
+    //     (async () => {
+    //         let weeklyEvents = await eventsToDisplay
+    //         if (weeklyEvents) setLoader(false)
+    //         if (weeklyEvents && timeSlots) {
+    //             table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
+    //             console.log(table)
+    //             console.table(table)
+    //             return setTableCells(
+    //                 timeSlots.map((ts, tsIdx) => {
+    //                     if (tsIdx === timeSlots.length - 1) return
+    //                     return <tr key={tsIdx}>
+    //                         <td className="td-hours">{UtilsService.timeToDisplay(ts)}</td>
+    //                         {
+    //                             weeklyEvents.map((dailyEvents, dailyIdx) => {
+    //                                 let counter = 0
+    //                                 if (dailyEvents.length) {
+    //                                     let cellIsRendered = false
+    //                                     return dailyEvents.map((ev, eventIdx) => {
+    //                                         let evenOrOdd = (dailyIdx % 2 === 0) ? 'even-event' : 'odd-event'
+    //                                         if (counter > 2) counter = 0
+    //                                         const range = UtilsService.checkIfTsInRange(ts, ev.start, ev.end, 30)
+    //                                         if (range.occupied) {
+    //                                             cellIsRendered = true
+    //                                             if (!eventsIds.includes(ev.id)) {
+    //                                                 eventsIds.push(ev.id)
+    //                                                 return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
+    //                                                     <div className="occupied-cell-content">
+    //                                                         <div className="event-time-wrapper">
+    //                                                         <div className="event-time">{UtilsService.timeToDisplay((ev.start).slice(11, 16))}-{UtilsService.timeToDisplay((ev.end).slice(11, 16))}</div>
+    //                                                         </div>
+    //                                                         {(ev.name === 'block - block')
+    //                                                             ?
+    //                                                             <div>
+    //                                                                 סגור
+    //                                                             </div>
+    //                                                             :
+    //                                                             <div className="event-desc">
+    //                                                                 <div className="event-name">{UtilsService.getSplitedEventDesc(ev.name).name}</div>
+    //                                                                 <div className="event-treatment">{UtilsService.getSplitedEventDesc(ev.name).treatment}</div>
+    //                                                             </div>
+    //                                                         }
+    //                                                     </div>
+    //                                                 </td>
+         
+    //                                             } else return ''
+    //                                         }
+    //                                         else if ((dailyEvents.length === eventIdx + 1) && (!cellIsRendered)) {
+    //                                             return <td className="available-cell" key={eventIdx} onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts)}>{<i className="fas fa-plus"></i>}</td>
+    //                                         }
+    //                                         counter++
+    //                                     })
+    //                                 } else {
+    //                                     //all day available no event at this day
+    //                                     return <td key={dailyIdx} className="available-cell" onClick={() => openAppointmentsModal({ tsIdx, dailyIdx }, ts, true)}>{<i className="fas fa-plus"></i>}</td>
+    //                                 }
+    //                             })
+    //                         }
+    //                     </tr>
+    //                 })
+    //             )
+    //         }
+    //     })()
+    // }, [eventsToDisplay]);
 
     useEffect(() => {
         checkIfClicked()
