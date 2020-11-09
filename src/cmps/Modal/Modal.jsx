@@ -10,12 +10,13 @@ import './Modal.scss';
 export default function _Modal(props) {
     const location = useLocation()
     const [modalClass, setModalClass] = useState('');
-
+    let isAdminContacts = (location.pathname === '/adminContacts')
     useEffect(() => {
         setTimeout(() => {
-            setModalClass('ad-modal-in')
+            if(!isAdminContacts)  setModalClass('ad-modal-in')
+            else setModalClass('ad-modal-in-in-admin-contacts')
         }, 2000);
-    }, [ props.isModalOpen]);
+    }, [props.isModalOpen]);
 
     const handleClose = () => {
         setModalClass('')
@@ -31,8 +32,8 @@ export default function _Modal(props) {
             {
                 props.isModalOpen &&
                 <div className="main-modal-container">
-                    <div className="ad-modal-screen" onClick={handleClose}> </div>
-                    <div className={`ad-modal ${modalClass}`}>
+                    <div className={`ad-modal-screen ${(isAdminContacts) ? 'modal-in-admin-contacts' : ''}`} onClick={handleClose}> </div>
+                    <div className={`ad-modal ${modalClass} ${(isAdminContacts&&!modalClass) ? 'ad-modal-in-admin-contacts' : ''}`}>
                         <div className="advertise-content">{props.modalContent}</div>
                         <button className="ad-modal-btn" onClick={handleClose}> אישור</button>
                     </div>
