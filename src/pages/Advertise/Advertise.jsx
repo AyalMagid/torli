@@ -57,7 +57,11 @@ export function _Advertise(props) {
                     </div>
                 </div>
             <button className="ad-content-btn" onClick={updateAdContent}>שמור טקסט</button>
-            <Modal modalContent={'הטקסט נשמר'} />
+            <Modal modalContent={
+                <div className="flex align-center justify-center" style={{height:'100%'}}>
+                <div>הטקסט נשמר</div>
+                </div>
+                } />
         </main>
 
     );

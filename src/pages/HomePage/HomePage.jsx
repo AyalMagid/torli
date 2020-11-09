@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { updateIsAdShown} from '../../actions/userAction';
+import { updateIsModalOpen } from '../../actions/modalAction.js';
+import { Modal } from '../../cmps/Modal/Modal';
 import AdvertiseService from '../../services/AdvertiseService';
 import './HomePage.scss';
 
 export function _HomePage(props) {
-    const [isAdModalOpen, setIsAdModalOpen] = React.useState(false);
-
-    function closeAdModal() {
-        setModalInClass('')
-        setTimeout(() => {
-            setIsAdModalOpen(false)
-        }, 1100);
-    }
-
     function changeRoute(route) {
         (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
@@ -32,11 +25,7 @@ export function _HomePage(props) {
                     if (ad && ad.content && ad.isAdModeOn) {
                         if (!props.isAdShown) {
                             setAdvertise(ad.content)
-                            setIsAdModalOpen(true)
-                            setTimeout(() => {
-                                setModalInClass('ad-modal-in')
-                            }, 1000);
-
+                            props.updateIsModalOpen(true)
                             props.updateIsAdShown(true)
                         }
                     }
@@ -137,18 +126,8 @@ export function _HomePage(props) {
                         נווטו אלינו
                         </a>
                     </div>
-                   
                 </div>
-                {isAdModalOpen &&
-                    <>
-                        <div className="ad-modal-screen" onClick={closeAdModal}> </div>
-                        <div className={`ad-modal ${modalInClass}`}>
-                            <div className="advertise-content"> {advertise}</div>
-                            <button className="ad-modal-btn" onClick={closeAdModal}> אישור</button>
-                        </div>
-
-                    </>
-                }
+                 <Modal modalContent={advertise} />  
             </main>
         </div >
     );
@@ -163,6 +142,7 @@ function mapStateProps(state) {
 
 const mapDispatchToProps = {
     updateIsAdShown,
+    updateIsModalOpen
 }
 
 export const HomePage = connect(mapStateProps, mapDispatchToProps)(_HomePage)
