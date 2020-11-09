@@ -127,7 +127,6 @@
     background-color:#00ff7812;
 }
 .blocked-cell{
-    // background: linear-gradient(45deg, #273650 1%, #f8ebed 1%, #f8ebed 49%, #4d648b 49%, #56698a 51%, #f8ebed 51%, #f8ebed 99%, #273650 99%);
     background-color: #ff000059;
     font-weight: bold;
     background-size: 6px 6px;
@@ -135,6 +134,19 @@
     font-weight: bold;
     letter-spacing: 0.5px;
 }
+
+ .temp-cell{
+    background-image: repeating-linear-gradient(120deg, #f8ebed,#f8ebed 20px, white 20px, white 40px);
+    /* Expanded the size of the image to prevent visual blips when animation loop repeats */
+    background-size: 7250%;
+    animation: animatedBackground 100s linear infinite;
+  }
+  
+  @keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: -100% 0; }
+  }
+  
 .header-app{
     padding: 5px 20px;
     background-color: #273650;

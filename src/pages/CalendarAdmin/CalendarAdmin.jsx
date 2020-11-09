@@ -141,7 +141,7 @@ export function _CalendarAdmin(props) {
                                                 cellIsRendered = true
                                                 if (!eventsIds.includes(ev.id)) {
                                                     eventsIds.push(ev.id)
-                                                    return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
+                                                    return <td className={`occupied-cell ${(ev.name === 'block - block') ? 'blocked-cell' : ''} ${evenOrOdd}-${(counter)} ${(ev.isTemp&&!ev.isCancelApp) ? 'temp-cell' : ''}`} key={eventIdx} onClick={() => handleClickOpen(ev)} rowSpan={range.rowspan}>
                                                         <div className="occupied-cell-content">
                                                             <div className="event-time-wrapper">
                                                                 <div className="event-time">{UtilsService.timeToDisplay((ev.start).slice(11, 16))}-{UtilsService.timeToDisplay((ev.end).slice(11, 16))}</div>
@@ -230,9 +230,10 @@ export function _CalendarAdmin(props) {
             return dailyEvents.filter(ev => ev.id !== tempEventToRmoveId)
         })
         eventsToDisplayCopy = eventsToDisplayCopy.map(dailyEvents => {
-          return dailyEvents.map(ev => {
-               ev.isTemp = true
-               return ev
+            return dailyEvents.map(ev => {
+                ev.isTemp = true
+                ev.isCancelApp = true
+                return ev
             })
         })
         console.log(eventsToDisplayCopy);
