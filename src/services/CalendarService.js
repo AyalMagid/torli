@@ -79,12 +79,17 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
 
 
 
-async function blockSlotRange(slotToBlock, name = 'block') {
+async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
     let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, gUtcDiff)
     let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, gUtcDiff)
     const startTime = `${slotToBlock.date}T${time1}:00Z`
     const endTime = `${slotToBlock.date}T${time2}:00Z`
-    const confirmedEvent = await addEventToCalendar(startTime, endTime, name)
+    let confirmedEvent 
+    if (!recurrence.isRecurrence) {
+        confirmedEvent = await addEventToCalendar(startTime, endTime, name)
+    } else {
+        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
+    }
     const event = {
         name,
         email: '',

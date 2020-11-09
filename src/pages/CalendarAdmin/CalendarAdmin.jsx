@@ -83,7 +83,8 @@ export function _CalendarAdmin(props) {
     const [weeklyDates, setWeeklyDates] = useState([]);
     const [tableModel, setTableModel] = useState([]);
     const [recurrence, setRecurrence] = useState({
-        isRecurrence:false, freq:'', count: '' 
+        isRecurrence:true, freq:'', count: '' 
+        // isRecurrence:false, freq:'', count: '' 
     });
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
     const [isClicked, setIsClicked] = useState(true);
@@ -260,7 +261,7 @@ export function _CalendarAdmin(props) {
             props.history.push('/calendarAdmin/blockConfermation')
         }
         if (location.pathname === '/calendarAdmin/blockConfermation') {
-            blockSlotRange()
+            blockSlotRange(recurrence)
             closeAppointmentsModal()
         }
     }
@@ -360,8 +361,8 @@ export function _CalendarAdmin(props) {
         setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 
-    async function blockSlotRange() {
-        await CalendarService.blockSlotRange(props.slotToBlock)
+    async function blockSlotRange(recurrence) {
+        await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
         setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 
