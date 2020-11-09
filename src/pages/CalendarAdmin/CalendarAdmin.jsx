@@ -82,6 +82,9 @@ export function _CalendarAdmin(props) {
     const [selectedDate, handleDateChange] = useState(new Date());
     const [weeklyDates, setWeeklyDates] = useState([]);
     const [tableModel, setTableModel] = useState([]);
+    const [recurrence, setRecurrence] = useState({
+        isRecurrence:false, freq:'', count: '' 
+    });
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
     const [isClicked, setIsClicked] = useState(true);
     const [tableCells, setTableCells] = useState([]);
@@ -161,7 +164,7 @@ export function _CalendarAdmin(props) {
             }
         })()
     }, [eventsToDisplay]);
-    
+
     // useEffect(() => {
     //     (async () => {
     //         let weeklyEvents = await eventsToDisplay
@@ -250,7 +253,7 @@ export function _CalendarAdmin(props) {
             props.history.push('/calendarAdmin/form')
         }
         if (location.pathname === '/calendarAdmin/form') {
-            setAppointment(duration)
+            setAppointment(duration, recurrence)
             closeAppointmentsModal()
         }
         if (location.pathname === '/calendarAdmin/blockHours') {
@@ -350,10 +353,10 @@ export function _CalendarAdmin(props) {
     };
 
 
-    async function setAppointment(duration) {
+    async function setAppointment(duration, recurrence) {
         const markedTreatmetns = TreatmentService.getMarkedTreatmentsStr(props.treatments)
         const { phone, email, name } = props.userToSchedule
-        await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
+        await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment, recurrence)
         setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 

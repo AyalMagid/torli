@@ -7,6 +7,7 @@ export default {
     getCalendar,
     getAvailbleDailySlots,
     addEventToCalendar,
+    addRecurrenceToCalendar,
     removeEventFromCalendar,
     setAppointment,
     getEventsFromCalendar,
@@ -33,6 +34,12 @@ function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block'
     return HttpService.post('calendar', event)
 }
 
+// adding Recurrence event/block
+async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorName = 'block', recurrence) {
+    const event = { eventName, creatorName, startTime, endTime, recurrence}
+    return HttpService.post('calendar/recurrence', event)
+}
+
 async function removeEventFromCalendar(eventId) {
     return HttpService.delete('calendar', { eventId })
 }
@@ -43,13 +50,18 @@ async function getAvailbleDailySlots(startTime, endtTime, duration) {
 }
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
-async function setAppointment(treatments, duration, phone, email, name, treatment) {
-    console.log(treatments, duration, phone, email, name, treatment)
+async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence) {
+    console.log(treatments, duration, phone, email, name, treatment, recurrence)
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     const startTime = `${treatment.date}T${time}:00Z`
     time = UtilsService.calculateEndTime(time, duration)
     const endTime = `${treatment.date}T${time}:00Z`
-    const confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
+    let confirmedEvent
+    if (!recurrence.isRecurrence){
+        confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
+    } else {
+        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com', recurrence)
+    }
     const event = {
         name,
         email,
@@ -64,6 +76,8 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     EventService.saveConfirmedEvent(event)
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
+
+
 
 async function blockSlotRange(slotToBlock, name = 'block') {
     let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, gUtcDiff)
