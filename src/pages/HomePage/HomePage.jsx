@@ -10,9 +10,7 @@ export function _HomePage(props) {
     function changeRoute(route) {
         (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
-
     const [advertise, setAdvertise] = useState();
-    const [modalInClass, setModalInClass] = useState('');
     const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
     const facebook = 'bokeresh'
     const instagram = 'restylebar'
