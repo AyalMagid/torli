@@ -46,13 +46,11 @@ async function removeEventFromCalendar(eventId) {
 
 async function getAvailbleDailySlots(startTime, endtTime, duration) {
     const dailySlots = { startTime, endtTime, duration }
-    console.log(dailySlots)
     return await HttpService.post('calendar/slots', dailySlots)
 }
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
-async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence, selectedDate) {
-    console.log(treatments, duration, phone, email, name, treatment, recurrence)
+async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence) {
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     let firstTime = time
     const startTime = `${treatment.date}T${time}:00Z`
@@ -63,11 +61,12 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
         confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
     } else {
         // checking if recurrence is possible during all the chosen dates
-        const occupiedDates = await checkRecurrenceAvailbility (selectedDate, firstTime, time, duration, recurrence)
+        const occupiedDates = await checkRecurrenceAvailbility (new Date(`${treatment.date}T02:00:00Z`), firstTime, time, duration, recurrence)
         if (!occupiedDates.length) {
-        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com', recurrence)
+        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, recurrence)
         } else {
             console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
+            return
         }
     }
     const event = {
@@ -85,24 +84,25 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
 }
 
-// freq should get 1 or 7 depends - representing day or week diff. count - for how many times to repeat 
+// freq should get DAILY or WEEKLY depends - representing day or week diff. count - for how many times to repeat 
 async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence) {
     let occupiedDates = []
     let startTime
     let endTime
     let isosDate = UtilsService.getIsosDate(0, fullDate)
+    let freq = (recurrence.freq === 'DAILY')? 1 : 7
+    let recurrenceAvailbilityCheck = true
+    duration = UtilsService.convertDurationToApiStr(duration)
 
-    for (var i=0; i < recurrence.count-1; i++){
+    for (var i=0; i < recurrence.count; i++){
     startTime = `${isosDate}T${firstTime}:00Z`
-    time = UtilsService.calculateEndTime(time, duration)
     endTime = `${isosDate}T${time}:00Z`
-    const availbleSlots = await getAvailbleDailySlots(startTime, endTime, "1H")
-    console.log(availbleSlots)
+    const availbleSlots = await getAvailbleDailySlots(startTime, endTime, duration)
     // if the time is already occupied the day isnt avaiblle
-    if (!availbleSlots.length){
+    if (typeof availbleSlots === 'string'){
         occupiedDates.push(isosDate)
     }
-    isosDate = UtilsService.getIsosDate(i+recurrence.freq, fullDate) 
+    isosDate = UtilsService.getIsosDate(i+freq, fullDate, recurrenceAvailbilityCheck) 
     }
     console.log(occupiedDates)
     return occupiedDates
@@ -114,11 +114,21 @@ async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
     let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, gUtcDiff)
     const startTime = `${slotToBlock.date}T${time1}:00Z`
     const endTime = `${slotToBlock.date}T${time2}:00Z`
+    const duration = UtilsService.calculateDuration (time1, time2)
+
     let confirmedEvent 
     if (!recurrence.isRecurrence) {
         confirmedEvent = await addEventToCalendar(startTime, endTime, name)
     } else {
-        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
+        // checking if recurrence is possible during all the chosen dates
+
+        const occupiedDates = await checkRecurrenceAvailbility (new Date(`${slotToBlock.date}T02:00:00Z`), time1, time2, duration, recurrence)
+        if (!occupiedDates.length) {
+             confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
+        } else {
+            console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
+            return
+        }
     }
     const event = {
         name,

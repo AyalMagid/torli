@@ -19,7 +19,9 @@ export default {
   checkIfTsInRange,
   getMonthByIdx,
   timeToDisplay,
-  getSplitedEventDesc
+  getSplitedEventDesc,
+  convertDurationToApiStr,
+  calculateDuration
 }
 
 var gUtcDiff = 2
@@ -67,10 +69,10 @@ function englishToHebrew(word) {
   return ' ' + convertedWord
 }
 //get a date and how many days before/after and returns only the date part by isos convention
-function getIsosDate(daysAfterOrBefore, date = new Date()) {
+function getIsosDate(daysAfterOrBefore, date = new Date(), recurrenceAvailbilityCheck=false) {
   let dateCopy = new Date(date.getTime())
   dateCopy.setDate(dateCopy.getDate() + daysAfterOrBefore)
-  if (dateCopy.getDay() === 6) {
+  if ((dateCopy.getDay() === 6)&&(!recurrenceAvailbilityCheck)) {
     return ''
   }
   dateCopy = dateCopy.toISOString().slice(0, 10)
@@ -120,6 +122,10 @@ function getWeekIsosDatesForCalendar(dayByNum, date) {
   return weeklyDates.map(isosDate => {
     return { start: `${isosDate}T06:00:00Z`, end: `${isosDate}T18:00:00Z` }
   })
+}
+
+function convertDurationToApiStr(duration){
+  return duration/60 + 'H'
 }
 
 function timeToDisplay (time){
@@ -196,6 +202,15 @@ function calculateEndTime(time, duration) {
 function checkDigitsAndAddZerosIfNeeded(digit) {
   digit = (digit < 10) ? '0' + digit : digit
   return digit
+}
+
+function calculateDuration (start,end){
+  let startHours = +start.slice(0, 2)*60
+  let startMinutes = +start.slice(3, 5)
+  let endHours =  +end.slice(0, 2)*60
+  let endMinutes = +end.slice(3, 5)
+  const duration = (endHours - startHours + endMinutes - startMinutes)
+  return duration
 }
 
 
