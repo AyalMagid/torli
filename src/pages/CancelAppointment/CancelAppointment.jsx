@@ -98,11 +98,7 @@ export function _CancelAppointment(props) {
                                                 }
                                             </div>
                                         }
-<<<<<<< HEAD
                                         <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור </button>
-=======
-                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser) ? 'contacts-modal-btn' : ''} trash-btn`} > בטל תור <i className="fas fa-trash" ></i></button>
->>>>>>> f83fcf1ddeae6def6fc276efef361ffa5c955c01
                                     </div>
                                     :
                                     <div className="no-apointments">

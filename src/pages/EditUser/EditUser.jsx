@@ -314,14 +314,9 @@ export function _EditUser(props) {
                     </div>
                 </form>
 
-<<<<<<< HEAD
-                <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div>
-
-=======
                 {/* <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div> */}
               
                 <EditButton toggleValidations={toggleValidations} setUser={setUser} isValid={isValid}/>
->>>>>>> f83fcf1ddeae6def6fc276efef361ffa5c955c01
               
                     <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
