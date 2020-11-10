@@ -18,6 +18,9 @@ function _ModalButton(props) {
             case '/calendarAdmin/form':
                 isValid = false
                 break;
+            case '/calendarAdmin/freq':
+                isValid = false
+                break;
             case '/calendarAdmin/blockHours':
                 isValid = props.isClicked
                 break;

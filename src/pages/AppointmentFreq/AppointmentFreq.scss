@@ -1,0 +1,69 @@
+.appointment-freq{
+    text-align: right;
+    .appointment-freq-title-modal{
+        text-align: center;
+    }
+    .appointment-freq-main-contianer{
+        width: 100%;
+    }
+    .header-in-appointment-freq-modal{
+        height: 50px;
+        width: 100%;
+        background-color: #273650;
+        border-radius: 24px 24px 0 0;
+        color: white;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        .appointment-freq-title-modal{
+            width:70%;
+        }
+        .space-div-for-flex{
+            width: 15%;
+        }
+    }
+    .appointment-freq-selects-wrapper{
+
+    }
+
+    .freq-container, .count-container{
+        width: 70%;
+        margin: 0 auto;
+        .appointment-freq-select, .count-select{
+            border: none;
+            border-radius: 5px;
+            color: #273650;
+            width: 35%;
+        }  
+    }
+
+    .appointment-freq-exmple-container{
+        width:70%;
+        margin: 0 auto;
+        margin-bottom: 2rem;
+    }
+
+    .one-time-appointment{
+        font-weight: 700;
+    }
+
+} 
+
+//   I phone 6-8 
+@media screen and (max-height: 670px) and (min-height: 570px){
+    .appointment-freq {
+        .appointment-freq-exmple-container {
+            margin-bottom: 0;
+        }
+}
+  }
+
+//   I phone 5
+@media screen and (max-height: 570px) {
+    .appointment-freq{
+        font-size: 12px;
+        .appointment-freq-exmple-container {
+            margin-bottom: 0;
+        }
+    }
+  }

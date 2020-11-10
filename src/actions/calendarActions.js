@@ -106,6 +106,18 @@ export function _updateSlotToBlock(slotToBlock) {
      };
 }
 
+export function updateRecurrence(recurrence) {
+  return  dispatch => { dispatch(_updateRecurrence(recurrence))}
+}
+
+export function _updateRecurrence(recurrence) {
+    return {
+      type: 'UPDATE_RECURRENCE',
+      recurrence
+     };
+}
+
+
 
 export function updateIsDayFullyAvailable(isDayFullyAvailable) {
    return  dispatch => { dispatch(_updateIsDayFullyAvailable(isDayFullyAvailable))}

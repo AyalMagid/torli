@@ -7,7 +7,7 @@ export function _BlockConfermation(props) {
   return (
     <>
       <header className="header-in-block-confermation-modal flex space-between">
-        <div className="back-arrow" onClick={()=>props.history.push('/calendarAdmin/blockHours')}><i  class="fas fa-arrow-right"></i></div>
+        <div className="back-arrow" onClick={()=>props.history.push('/calendarAdmin/freq')}><i  class="fas fa-arrow-right"></i></div>
         <div className="block-confirmation-title-in-modal">
           לסגירת החלון שנבחר לחצו 'אישור'
         </div>

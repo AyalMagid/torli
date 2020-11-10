@@ -50,25 +50,26 @@ async function getAvailbleDailySlots(startTime, endtTime, duration) {
 }
 
 // MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
-async function setAppointment(treatments, duration, phone, email, name, treatment, recurrence) {
+async function setAppointment(treatments, duration, phone, email, name, treatment) {
+    // in case of recurrence => (treatments, duration, phone, email, name, treatment, recurrence)
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     let firstTime = time
     const startTime = `${treatment.date}T${time}:00Z`
     time = UtilsService.calculateEndTime(time, duration)
     const endTime = `${treatment.date}T${time}:00Z`
     let confirmedEvent
-    if (!recurrence.isRecurrence){
+    // if (!recurrence.isRecurrence){
         confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
-    } else {
+    // } else {
         // checking if recurrence is possible during all the chosen dates
-        const occupiedDates = await checkRecurrenceAvailbility (new Date(`${treatment.date}T02:00:00Z`), firstTime, time, duration, recurrence)
-        if (!occupiedDates.length) {
-        confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, recurrence)
-        } else {
-            console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
-            return
-        }
-    }
+    //     const occupiedDates = await checkRecurrenceAvailbility (new Date(`${treatment.date}T02:00:00Z`), firstTime, time, duration, recurrence)
+    //     if (!occupiedDates.length) {
+    //     confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, treatments, name, recurrence)
+    //     } else {
+    //         console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
+    //         return
+    //     }
+    // }
     const event = {
         name,
         email,

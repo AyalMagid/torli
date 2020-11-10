@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     hoursToBlock:null,
     slotToBlock:null,
     confirmedEventId:null,
-    isDayFullyAvailable:false
+    isDayFullyAvailable:false,
+    recurrence: {isRecurrence:false, freq:'DAILY', count: 1}
 }
 
 export function CalendarReducer(state = INITIAL_STATE, action) {
@@ -34,6 +35,11 @@ export function CalendarReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 isDayFullyAvailable: action.isDayFullyAvailable
+            }          
+        case 'UPDATE_RECURRENCE':
+            return {
+                ...state,
+                recurrence: action.recurrence
             }          
 
         default:

@@ -23,6 +23,7 @@ import StoreService from '../../services/StoreService';
 import { TreatmentApp } from '../TreatmentApp/TreatmentApp'
 import { Contacts } from '../../pages/Contacts/Contacts.jsx'
 import { AppointmentOrBlock } from '../../pages/AppointmentOrBlock/AppointmentOrBlock.jsx'
+import { AppointmentFreq } from '../../pages/AppointmentFreq/AppointmentFreq.jsx'
 import { BlockHours } from '../../pages/BlockHours/BlockHours.jsx'
 import { BlockConfermation } from '../../pages/BlockConfermation/BlockConfermation.jsx'
 import { SubmitForm } from '../../pages/SubmitForm/SubmitForm.jsx'
@@ -82,9 +83,9 @@ export function _CalendarAdmin(props) {
     const [selectedDate, handleDateChange] = useState(new Date());
     const [weeklyDates, setWeeklyDates] = useState([]);
     const [tableModel, setTableModel] = useState([]);
-    const [recurrence, setRecurrence] = useState({
-        isRecurrence:true, freq:'WEEKLY', count: '2' 
-    });
+    // const [recurrence, setRecurrence] = useState({
+    //     isRecurrence:true, freq:'', count: '' 
+    // });
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
     const [isClicked, setIsClicked] = useState(true);
     const [tableCells, setTableCells] = useState([]);
@@ -251,16 +252,27 @@ export function _CalendarAdmin(props) {
         }
         if (location.pathname === '/calendarAdmin/treatments') {
             props.history.push('/calendarAdmin/form')
+            // props.history.push('/calendarAdmin/freq')
+        }
+        if (location.pathname === '/calendarAdmin/freq') {
+        //  if (userToSchedule) {props.history.push('/calendarAdmin/form')}
+        //  else {{props.history.push('/calendarAdmin/blockConfermation')}
+            props.history.push('/calendarAdmin/blockConfermation')
         }
         if (location.pathname === '/calendarAdmin/form') {
-            setAppointment(duration, recurrence)
+            // setAppointment(duration, props.recurrence)
+            setAppointment(duration)
             closeAppointmentsModal()
         }
         if (location.pathname === '/calendarAdmin/blockHours') {
+            props.history.push('/calendarAdmin/freq')
+            // props.history.push('/calendarAdmin/blockConfermation')
+        }
+        if (location.pathname === '/calendarAdmin/freq') {
             props.history.push('/calendarAdmin/blockConfermation')
         }
         if (location.pathname === '/calendarAdmin/blockConfermation') {
-            blockSlotRange(recurrence)
+            blockSlotRange(props.recurrence)
             closeAppointmentsModal()
         }
     }
@@ -535,6 +547,7 @@ export function _CalendarAdmin(props) {
                                 <Route path="/calendarAdmin/contacts" exact component={Contacts} />
                                 <Route path="/calendarAdmin/contacts/signup" component={Signup} />
                                 <Route path="/calendarAdmin/treatments" component={TreatmentApp} />
+                                <Route path="/calendarAdmin/freq" component={AppointmentFreq} />
                                 <Route path="/calendarAdmin/form" component={SubmitForm} />
                                 <Route path="/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
                                 <Route path="/calendarAdmin/blockHours" component={BlockHours} />
@@ -558,7 +571,8 @@ function mapStateProps(state) {
         treatments: state.TreatmentReducer.treatments,
         treatment: state.TreatmentReducer.treatment,
         slotsRangeToBlock: state.CalendarReducer.slotsRangeToBlock,
-        slotToBlock: state.CalendarReducer.slotToBlock
+        slotToBlock: state.CalendarReducer.slotToBlock,
+        recurrence: state.CalendarReducer.recurrence
     }
 }
 
