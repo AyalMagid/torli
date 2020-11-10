@@ -62,6 +62,21 @@
     font-size: 16px;
 }
 
+.main-modal-in-form{
+    height: 100%;
+    .form-modal-content{
+        font-size: 16px;
+    }
+.title-modal-in-form{
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.margin-bottom-5{
+    margin-bottom: 5px;
+}
+}
+
 @media screen and (min-width: 500px) {
     .restart-btn{
         // left: 192PX;

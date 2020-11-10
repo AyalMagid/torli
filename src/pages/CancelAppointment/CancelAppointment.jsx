@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {updateIsModalOpen} from '../../actions/modalAction.js';
-import {Modal} from '../../cmps/Modal/Modal';
+import { updateIsModalOpen } from '../../actions/modalAction.js';
+import { Modal } from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
 import MotionService from "../../services/MotionService";
 import { setTimeSlots } from '../../actions/calendarActions.js';
@@ -25,7 +25,7 @@ export function _CancelAppointment(props) {
         setLoader('')
     }, 2000);
 
-    const [phone, setPhone] = React.useState((props.clickedUser)? props.clickedUser.phone:StorageService.loadFromStorage('tori-user').phone);
+    const [phone, setPhone] = React.useState((props.clickedUser) ? props.clickedUser.phone : StorageService.loadFromStorage('tori-user').phone);
 
     const [eventsToCancel, setEventsToCancel] = useState(null)
 
@@ -52,17 +52,17 @@ export function _CancelAppointment(props) {
     }
 
     async function cancelAppointment(eventId) {
+        props.updateIsModalOpen(true)
         const events = await EventService.getEventByPhone(phone)
         let eventToRmove = events.find(event => event._id === eventId)
         // delete from Calendar
         CalendarService.removeEventFromCalendar(eventToRmove.eventId)
-        if (pageCount) {setPageCount(pageCount-1)}
+        if (pageCount) { setPageCount(pageCount - 1) }
         EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
         // delete from mongo data base
         await EventService.removeEventFromDB(eventToRmove._id)
-        getEventsByPhone() 
+        getEventsByPhone()
         //open modal useing store
-        props.updateIsModalOpen(true)
     }
 
     return (
@@ -82,7 +82,7 @@ export function _CancelAppointment(props) {
                         <main >
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
-                                    <div className={`cancel-table-container ${(props.clickedUser)?'table-container-in-contacts-modal':''}`}>
+                                    <div className={`cancel-table-container ${(props.clickedUser) ? 'table-container-in-contacts-modal' : ''}`}>
                                         <div className="apointment-details">
                                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
@@ -98,7 +98,11 @@ export function _CancelAppointment(props) {
                                                 }
                                             </div>
                                         }
+<<<<<<< HEAD
                                         <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור </button>
+=======
+                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser) ? 'contacts-modal-btn' : ''} trash-btn`} > בטל תור <i className="fas fa-trash" ></i></button>
+>>>>>>> f83fcf1ddeae6def6fc276efef361ffa5c955c01
                                     </div>
                                     :
                                     <div className="no-apointments">
@@ -106,10 +110,13 @@ export function _CancelAppointment(props) {
                                     </div>
                                 }
                             </div>
-                            <Modal modalContent={'התור בוטל'} />
                         </main>
                 }
             </motion.div>
+            <Modal modalContent={
+                <div className="flex align-center justify-center" style={{ height: '100%' }}>
+                    <div>התור בוטל</div>
+                </div>} />
         </div>
     );
 }

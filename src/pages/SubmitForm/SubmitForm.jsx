@@ -64,23 +64,23 @@ export function _SubmitForm(props) {
                 animate="in"
                 variants={(!isCalendarAdminForm) ? MotionService.getMotionStyle('pageVariants') : ''}
                 transition={(!isCalendarAdminForm) ? MotionService.getMotionStyle('pageTransition') : ''}
-                style={{ textAlign: 'center', width: '100%' }}
-            >
+           style={{textAlign:'center', width:'100%'}}
+           >
                 <div className="appointment-details">
                     <div className="table-cell">סוג הטיפול : {TreatmentService.getMarkedTreatmentsStr(props.treatments)}</div>
                     <div className="table-cell">תאריך : {UtilsService.convertDateToIsraelisDisplay(props.treatment.date)}</div>
                     <div className="last-cell">בין השעות : {UtilsService.calculateEndTime(props.treatment.time, props.duration)} - {props.treatment.time}</div>
                 </div>
-                <Modal modalContent={<div>
-                    <h2>התור נקבע בהצלחה</h2>
-                    <div className="form-modal-content flex column space-aruond">
+            </motion.div>
+            <Modal modalContent={<div className="main-modal-in-form flex column justify-center align-center">
+                    <div className="title-modal-in-form">התור נקבע בהצלחה</div>
+                    <div className="form-modal-content flex column space-between">
                         <div className="margin-bottom-5"> נקבע לך תור ל{markedTreatmetns}  </div>
                         <div className="margin-bottom-5"> בתאריך: {dateIsraeliDisplay}</div>
                         <div> בין השעות: {endTime} - {props.treatment.time}</div>
                     </div>
                 </div>}
                 />
-            </motion.div>
             {!isCalendarAdminForm && <NavBtns handleOpen={handleOpen} setAppointment={setAppointment} />}
         </div>
     );
