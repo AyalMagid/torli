@@ -13,7 +13,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/picker
 import { createMuiTheme, Hidden } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { updateAvailbleDuration, setTreatment } from '../../actions/treatmentActions.js';
-import { updateHoursToBlock, updateIsDayFullyAvailable } from '../../actions/calendarActions';
+import { updateHoursToBlock, updateIsDayFullyAvailable, updateTableModel} from '../../actions/calendarActions';
 import { updateUserPhoneInContactSignup } from '../../actions/userAction.js';
 import TreatmentService from "../../services/TreatmentService";
 import UtilsService from '../../services/UtilsService';
@@ -88,10 +88,6 @@ export function _CalendarAdmin(props) {
     const [modalSubJect, setModalSubJect] = React.useState('');
     const [isTempModeOn, setIsTempModeOn] = useState(false);
     const [weeklyDates, setWeeklyDates] = useState([]);
-    const [tableModel, setTableModel] = useState([]);
-    // const [recurrence, setRecurrence] = useState({
-    //     isRecurrence:true, freq:'', count: '' 
-    // });
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
     const [isClicked, setIsClicked] = useState(true);
     const [tableCells, setTableCells] = useState([]);
@@ -103,29 +99,28 @@ export function _CalendarAdmin(props) {
         return getDailyDates(selectedDate)
     });
     const [loader, setLoader] = useState(true);
-    let table = []
+
     let eventsIds = []
 
 
     useEffect(() => {
         (async () => {
+
             let weeklyEvents = await eventsToDisplay
             let isTemp = false
-            console.log(weeklyEvents);
             weeklyEvents.forEach(dailyEvents => {
                 dailyEvents.forEach(ev => {
                     if (ev.isTemp) isTemp = true
                 })
             })
-            console.log(isTemp);
             if (!isTemp) {
                 setIsTempModeOn(false)
                 setOpen(false)
             }
-
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
-                table = CalendarService.buildWeeklyModel(timeSlots, weeklyEvents)
+                console.log('calendaradmin recreated')
+
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
                         if (tsIdx === timeSlots.length - 1) return
@@ -182,6 +177,10 @@ export function _CalendarAdmin(props) {
             }
         })()
     }, [eventsToDisplay]);
+
+    useEffect(() => {
+        if (eventsToDisplay) props.updateTableModel (CalendarService.buildWeeklyModel(timeSlots, eventsToDisplay))
+    }, [eventsToDisplay,props.updateTableModel]);
 
     useEffect(() => {
         checkIfClicked()
@@ -250,7 +249,6 @@ export function _CalendarAdmin(props) {
                 return ev
             })
         })
-        console.log(eventsToDisplayCopy);
         setEventsToDisplay(eventsToDisplayCopy)
         const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
         console.log(confirmedDeletedEvent)
@@ -320,10 +318,8 @@ export function _CalendarAdmin(props) {
     }
 
     const handleClickOpen = async (ev) => {
-        console.log(ev)
         if (ev) {
             setTempEventToRmoveId(ev.id)
-            console.log(ev.id.slice(0, 5));
             if (ev.name === 'block - block') setModalSubJect('block')
             else setModalSubJect('appointment')
             if (ev.id.slice(0, 5) !== 'event') setModalSubJect('temp')
@@ -334,7 +330,6 @@ export function _CalendarAdmin(props) {
     };
 
     const handleClose = (isApproved) => {
-        console.log('isApproved', isApproved)
         setOpen(false);
         if (isApproved) cancelAppiontment()
     };
@@ -355,9 +350,7 @@ export function _CalendarAdmin(props) {
             isTemp: true
         }
         let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
-        console.log(await eventsToDisplay);
         eventsToDisplayCopy[props.treatment.dailyIdx].push(tempEvent)
-        console.log(eventsToDisplayCopy);
         setEventsToDisplay(eventsToDisplayCopy)
         const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
         if (!confirmedEvent) {
@@ -370,24 +363,48 @@ export function _CalendarAdmin(props) {
     }
 
     async function blockSlotRange(recurrence) {
+        console.table('tt',props.tableModel)
         setIsTempModeOn(true)
         let time1 = UtilsService.changeTimeForDisplay(props.slotToBlock.start, 0)
         let time2 = UtilsService.changeTimeForDisplay(props.slotToBlock.end, 0)
-        const startTime = `${props.slotToBlock.date}T${time1}:00Z`
-        const endTime = `${props.slotToBlock.date}T${time2}:00Z`
-        const tempEvent = {
+        let startTime = `${props.slotToBlock.date}T${time1}:00Z`
+        let endTime = `${props.slotToBlock.date}T${time2}:00Z`
+        let tempEvent = {
             id: UtilsService.idGen(),
             name: 'block - block',
             start: startTime,
             end: endTime,
             isTemp: true
         }
-        let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
-        console.log(await eventsToDisplay);
-        eventsToDisplayCopy[props.treatment.dailyIdx].push(tempEvent)
-        console.log(eventsToDisplayCopy);
-        setEventsToDisplay(eventsToDisplayCopy)
-        const confirmedBlock = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
+            let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
+            eventsToDisplayCopy[props.treatment.dailyIdx].push(tempEvent)
+        
+            let startTimeTs = tempEvent.start.slice(11,16) 
+            let startTimeTsIdx = timeSlots.findIndex(ts => ts === startTimeTs)
+            let endTimeTs = tempEvent.end.slice(11,16)
+            let endTimeTsIdx = timeSlots.findIndex(ts => ts === endTimeTs)
+    
+            for (var i=1; i<props.recurrence.count && props.recurrence.freq === 'DAILY'; i++){
+              tempEvent = {...tempEvent}
+              startTime = new Date (new Date(startTime).getTime() + (1000 * 60 * 60 * 24))
+              startTime = startTime.toISOString()
+              endTime = new Date (new Date(endTime).getTime() + (1000 * 60 * 60 * 24))
+              endTime = endTime.toISOString()
+              tempEvent.id = UtilsService.idGen()
+              tempEvent.start = startTime
+              tempEvent.end = endTime
+            //   dailyIdx+i for the next day -- the j is for the ts (where exactly in the next day) => making sure there is not already an event there before pushing temp
+            let isCellOccupied = false
+            for (var j=startTimeTsIdx; j<endTimeTsIdx; j++) { 
+                if (!props.tableModel[j][props.treatment.dailyIdx+i]){
+                    isCellOccupied = true
+                    console.log(timeSlots[j], 'is not availble at', props.treatment.dailyIdx+i)
+                }
+            }
+                if (!isCellOccupied) { eventsToDisplayCopy[props.treatment.dailyIdx+i].push(tempEvent)}
+        }
+            setEventsToDisplay(eventsToDisplayCopy)
+            const confirmedBlock = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
         if (!confirmedBlock) {
             console.log('couldnt schduale appointment')
             //need to put modal
@@ -402,7 +419,7 @@ export function _CalendarAdmin(props) {
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
 
     function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
-        console.log('here')
+        console.table('tt',props.tableModel)
         props.updateIsDayFullyAvailable(isDayFullyAvailable)
         const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
         props.setTreatment({
@@ -410,7 +427,7 @@ export function _CalendarAdmin(props) {
             date: dateToScheduale.slice(0, 10),
             dailyIdx: cellPos.dailyIdx
         })
-        const availableDuration = CalendarService.getAvailbleDuration(table, cellPos)
+        const availableDuration = CalendarService.getAvailbleDuration(props.tableModel, cellPos)
         props.updateAvailbleDuration(availableDuration)
         props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
         setAppointmentsModalIsOpen(true)
@@ -617,7 +634,8 @@ function mapStateProps(state) {
         treatment: state.TreatmentReducer.treatment,
         slotsRangeToBlock: state.CalendarReducer.slotsRangeToBlock,
         slotToBlock: state.CalendarReducer.slotToBlock,
-        recurrence: state.CalendarReducer.recurrence
+        recurrence: state.CalendarReducer.recurrence,
+        tableModel: state.CalendarReducer.tableModel
     }
 }
 
@@ -626,7 +644,8 @@ const mapDispatchToProps = {
     setTreatment,
     updateHoursToBlock,
     updateIsDayFullyAvailable,
-    updateUserPhoneInContactSignup
+    updateUserPhoneInContactSignup,
+    updateTableModel
 }
 
 export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)

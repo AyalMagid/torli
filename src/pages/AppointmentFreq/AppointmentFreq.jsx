@@ -12,7 +12,6 @@ export function _AppointmentFreq(props) {
         if (freqOrCount.length > 2) {recurrenceCopy.freq = freqOrCount}
         else  {recurrenceCopy.count = freqOrCount}
         props.updateRecurrence(recurrenceCopy)
-        console.log(props.recurrence)
     }
 
     return (

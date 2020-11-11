@@ -116,6 +116,17 @@ export function _updateRecurrence(recurrence) {
       recurrence
      };
 }
+export function  updateTableModel (tableModel) {
+  console.table('act',tableModel)
+  return  dispatch => { dispatch(_updateTableModel(tableModel))}
+}
+
+export function  _updateTableModel(tableModel) {
+    return {
+      type: 'UPDATE_TABLE_MODEL',
+      tableModel
+     };
+}
 
 
 

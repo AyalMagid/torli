@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     slotToBlock:null,
     confirmedEventId:null,
     isDayFullyAvailable:false,
+    tableModel:[],
     recurrence: {isRecurrence:false, freq:'DAILY', count: 1}
 }
 
@@ -40,6 +41,12 @@ export function CalendarReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 recurrence: action.recurrence
+            }          
+        case 'UPDATE_TABLE_MODEL':
+            console.table('reduce', action.tableModel)
+            return {
+                ...state,
+                tableModel: action.tableModel
             }          
 
         default:

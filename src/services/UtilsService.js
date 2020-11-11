@@ -21,7 +21,8 @@ export default {
   timeToDisplay,
   getSplitedEventDesc,
   convertDurationToApiStr,
-  calculateDuration
+  calculateDuration,
+  dateToDisplay
 }
 
 var gUtcDiff = 2
@@ -131,6 +132,11 @@ function convertDurationToApiStr(duration){
 function timeToDisplay (time){
   if (time.slice(0,1)==='0') {time = time.slice(1,5)}
   return time
+}
+
+function dateToDisplay (date){
+  if (date.slice(0,1)==='0') {date = date.slice(1,10)}
+  return date
 }
 
 function getDailySlotsForPreview(slotsRanges, duration) {
