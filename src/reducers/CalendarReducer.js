@@ -43,10 +43,10 @@ export function CalendarReducer(state = INITIAL_STATE, action) {
                 recurrence: action.recurrence
             }          
         case 'UPDATE_TABLE_MODEL':
-            console.table('reduce', action.tableModel)
+
             return {
                 ...state,
-                tableModel: action.tableModel
+                tableModel : action.tableModel
             }          
 
         default:

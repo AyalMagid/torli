@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
 import { motion } from 'framer-motion'
 import MotionService from "../../services/MotionService";
 import { Swipeable } from 'react-swipeable'
 import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
 import DateFnsUtils from '@date-io/date-fns';
 import heLocale from "date-fns/locale/he";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
-import { createMuiTheme, Hidden } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { createMuiTheme} from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { updateAvailbleDuration, setTreatment } from '../../actions/treatmentActions.js';
 import { updateHoursToBlock, updateIsDayFullyAvailable, updateTableModel} from '../../actions/calendarActions';
@@ -73,7 +74,7 @@ const materialTheme = createMuiTheme({
 
 
 
-export function _CalendarAdmin(props) {
+function _CalendarAdmin(props) {
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
     const location = useLocation()
     const constrains = {
@@ -117,9 +118,30 @@ export function _CalendarAdmin(props) {
                 setIsTempModeOn(false)
                 setOpen(false)
             }
+
+            let table = CalendarService.buildWeeklyModel(timeSlots,await eventsToDisplay)
+            if (!props.tableModel.length) {props.updateTableModel(table)}
+
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
                 console.log('calendaradmin recreated')
+
+                function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
+                    console.log('tt',props.tableModel)
+                    props.updateIsDayFullyAvailable(isDayFullyAvailable)
+                    const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
+                    props.setTreatment({
+                        time: ts,
+                        date: dateToScheduale.slice(0, 10),
+                        dailyIdx: cellPos.dailyIdx
+                    })
+                    const availableDuration = CalendarService.getAvailbleDuration(props.tableModel, cellPos)
+                    props.updateAvailbleDuration(availableDuration)
+                    props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
+                    setAppointmentsModalIsOpen(true)
+                    props.history.push('/calendarAdmin/appointmentOrBlock')
+                }
+
 
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
@@ -176,16 +198,18 @@ export function _CalendarAdmin(props) {
                 )
             }
         })()
-    }, [eventsToDisplay]);
-
-    useEffect(() => {
-        if (eventsToDisplay) props.updateTableModel (CalendarService.buildWeeklyModel(timeSlots, eventsToDisplay))
-    }, [eventsToDisplay,props.updateTableModel]);
+    }, [eventsToDisplay, props.updateTableModel, props.tableModel]);
 
     useEffect(() => {
         checkIfClicked()
     }, [props.users, props.slotsRangeToBlock]);
 
+    useEffect(() => {
+        (async () => {
+                let table = CalendarService.buildWeeklyModel(timeSlots,await eventsToDisplay)
+                props.updateTableModel(table)
+        })()
+    }, [eventsToDisplay]);
 
     function checkIfClicked() {
         if (location.pathname === '/calendarAdmin/contacts') {
@@ -295,6 +319,7 @@ export function _CalendarAdmin(props) {
         setEventsToDisplay(weeklyEvents)
         handleDateChange(date)
     }
+
     function onSwipeDirection(direction) {
         if (!loader) {
             //need to change to normal way
@@ -418,21 +443,7 @@ export function _CalendarAdmin(props) {
     let weeklyRange = getDatesWeeklyRange(selectedDate)
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
 
-    function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
-        console.table('tt',props.tableModel)
-        props.updateIsDayFullyAvailable(isDayFullyAvailable)
-        const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
-        props.setTreatment({
-            time: ts,
-            date: dateToScheduale.slice(0, 10),
-            dailyIdx: cellPos.dailyIdx
-        })
-        const availableDuration = CalendarService.getAvailbleDuration(props.tableModel, cellPos)
-        props.updateAvailbleDuration(availableDuration)
-        props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
-        setAppointmentsModalIsOpen(true)
-        props.history.push('/calendarAdmin/appointmentOrBlock')
-    }
+
 
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
@@ -648,4 +659,4 @@ const mapDispatchToProps = {
     updateTableModel
 }
 
-export const CalendarAdmin = connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin)
+export const CalendarAdmin = withRouter(connect(mapStateProps, mapDispatchToProps)(_CalendarAdmin))

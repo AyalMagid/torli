@@ -181,7 +181,7 @@ function buildWeeklyModel(timeSlots, weeklyEvents) {
 }
 
 function getAvailbleDuration(table, cellPos, slotSize = 30) {
-    console.log('service', table)
+    console.table( table)
     let durationAvalability = 0
     let i = cellPos.tsIdx
     while (table[i][cellPos.dailyIdx] && i < table.length - 1) {
