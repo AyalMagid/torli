@@ -1,3 +1,20 @@
+
+// .ad-modal {
+//     /* position: absolute; */
+//     position: relative;
+//     /* width: 82%; */
+//     /* height: 25%; */
+//     /* left: calc(50% - 300px); */
+//     /* top: 17%; */
+//     padding: 26px;
+//     font-size: 18px;
+//     z-index: 2;
+//     background-color: #ffecf2;
+//     border-radius: 8px;
+//     border: 1px #212731d6 solid;
+// }
+
+
 .ad-modal{
     position: absolute;
     width: 82%;
@@ -6,12 +23,10 @@
     top: 17%;
     padding: 26px;
     font-size: 18px;
-    transform: translate(-50%,-172%);
     z-index: 2;
     background-color: #ffecf2;
     border-radius: 8px;
     border: 1px #212731d6 solid;
-    transition: 1.5s;
         .ad-modal-btn{
             outline: none;
             background-color: #273650;
@@ -32,8 +47,27 @@
     }
 
 .ad-modal-in{ 
-    transition: 1s;
+    animation: slide-in 1.5s normal;
     transform: translate(-50%,-50%); 
+}
+@keyframes slide-in{
+    from{
+        transform: translate(-50%,-172%);
+    }to{
+        transform: translate(-50%,-50%); 
+    }
+}
+
+.ad-modal-out{ 
+    animation: slide-out 1.5s normal;
+    transform: translate(-50%,-172%);
+}
+@keyframes slide-out{
+    from{
+        transform: translate(-50%,-50%); 
+    }to{
+        transform: translate(-50%,-172%);
+    }
 }
 
 .ad-modal-screen{
@@ -48,17 +82,34 @@
 }
 
 
-.modal-in-admin-contacts{
-    height: 100%;
-    width: 100%;
-    border-radius: 24px;
-}
-
-.ad-modal-in-admin-contacts{
-    transform: translate(-50%,-68%);
+.modal-screen-admin-contacts{
+    transform: translate(-10%,-10%);
 }
 
 .ad-modal-in-in-admin-contacts{
-    transition: 1s;
-    transform: translate(-50%,50%); 
+    animation: slide-in-admin-contacts 1.5s normal;
+    transform: translate(-50%,-30%); 
 }
+
+@keyframes slide-in-admin-contacts{
+    from{
+        transform: translate(-50%, -67%);
+    }to{
+        transform: translate(-50%,-30%); 
+    }
+}
+
+.ad-modal-out-in-admin-contacts{
+    animation: slide-out-admin-contacts 1.5s normal;
+    transform: translate(-50%, -67%);
+}
+
+@keyframes slide-out-admin-contacts{
+    from{
+        transform: translate(-50%,-30%); 
+    }to{
+        transform: translate(-50%, -67%);
+    }
+}
+
+
