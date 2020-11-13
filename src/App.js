@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { AppHeader } from './cmps/AppHeader/AppHeader';
 import { TreatmentApp } from './pages/TreatmentApp/TreatmentApp.jsx'
+import { EditTreatments } from './pages/EditTreatments/EditTreatments.jsx'
 import { CalendarApp } from './pages/CalendarApp/CalendarApp.jsx'
 import { SubmitForm } from './pages/SubmitForm/SubmitForm.jsx'
 import { CancelAppointment } from './pages/CancelAppointment/CancelAppointment.jsx'
@@ -40,6 +41,7 @@ export function _App(props) {
           <Route path="/cancelAppointment" component={CancelAppointment} />
           <Route path="/form" component={SubmitForm} />
           <Route path="/treatments" component={TreatmentApp} />
+          <Route path="/editTreatments" component={EditTreatments} />
           <Route path="/signupOrLogin" component={SignupOrLogin} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
