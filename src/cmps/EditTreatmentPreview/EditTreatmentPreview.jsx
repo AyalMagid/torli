@@ -12,7 +12,7 @@ class _EditTreatmentPreview extends Component {
 
     pickedTreatment = () => {
         this.props.setTreatment(this.props.treatment)
-        this.props.history.push('/')
+        this.props.history.push('/treatmentToEdit')
     }
 
     render() {
