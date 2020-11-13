@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
-import { HashRouter as Router } from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { useLocation, HashRouter as Router, withRouter, Route } from 'react-router-dom';
+import { connect} from 'react-redux';
 import { motion } from 'framer-motion'
 import MotionService from "../../services/MotionService";
 import { Swipeable } from 'react-swipeable'
@@ -39,8 +36,6 @@ import Slide from '@material-ui/core/Slide';
 import { DatePicker } from "@material-ui/pickers";
 import './CalendarAdmin.scss';
 import { Signup } from "../Signup/Signup";
-
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide timeout={5000} direction="down" ref={ref} {...props} />;
@@ -84,6 +79,7 @@ function _CalendarAdmin(props) {
     const [selectedDate, handleDateChange] = useState(new Date());
     const [tempEventToRmoveId, setTempEventToRmoveId] = useState('');
     const [eventToRmoveId, setEventToRmove] = React.useState({});
+    const [prevEventsToDisplay, setPrevEventsToDisplay] = React.useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [modalSubJect, setModalSubJect] = React.useState('');
@@ -92,6 +88,7 @@ function _CalendarAdmin(props) {
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
     const [isClicked, setIsClicked] = useState(true);
     const [tableCells, setTableCells] = useState([]);
+    const [occDates, setOccupiedDates] = useState([]);
     const [month, setMonth] = useState(UtilsService.getMonthByIdx(new Date().getMonth() + 1));
     const [eventsToDisplay, setEventsToDisplay] = useState(async () => {
         return await getWeeklyEvents()
@@ -102,6 +99,10 @@ function _CalendarAdmin(props) {
     const [loader, setLoader] = useState(true);
 
     let eventsIds = []
+
+    let weeklyRange = CalendarService.getDatesWeeklyRange(selectedDate)
+    
+    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
 
 
     useEffect(() => {
@@ -119,29 +120,14 @@ function _CalendarAdmin(props) {
                 setOpen(false)
             }
 
-            let table = CalendarService.buildWeeklyModel(timeSlots,await eventsToDisplay)
-            if (!props.tableModel.length) {props.updateTableModel(table)}
+            if (!props.tableModel.length) {
+                let table = CalendarService.buildWeeklyModel(timeSlots,await eventsToDisplay)
+                props.updateTableModel(table)
+            }
 
             if (weeklyEvents) setLoader(false)
             if (weeklyEvents && timeSlots) {
                 console.log('calendaradmin recreated')
-
-                function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
-                    console.log('tt',props.tableModel)
-                    props.updateIsDayFullyAvailable(isDayFullyAvailable)
-                    const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
-                    props.setTreatment({
-                        time: ts,
-                        date: dateToScheduale.slice(0, 10),
-                        dailyIdx: cellPos.dailyIdx
-                    })
-                    const availableDuration = CalendarService.getAvailbleDuration(props.tableModel, cellPos)
-                    props.updateAvailbleDuration(availableDuration)
-                    props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
-                    setAppointmentsModalIsOpen(true)
-                    props.history.push('/calendarAdmin/appointmentOrBlock')
-                }
-
 
                 return setTableCells(
                     timeSlots.map((ts, tsIdx) => {
@@ -205,8 +191,12 @@ function _CalendarAdmin(props) {
     }, [props.users, props.slotsRangeToBlock]);
 
     useEffect(() => {
+        // events to display
+    }, []);
+
+    useEffect(() => {
         (async () => {
-                let table = CalendarService.buildWeeklyModel(timeSlots,await eventsToDisplay)
+                let table = CalendarService.buildWeeklyModel(timeSlots, await eventsToDisplay)
                 props.updateTableModel(table)
         })()
     }, [eventsToDisplay]);
@@ -219,6 +209,23 @@ function _CalendarAdmin(props) {
             setIsClicked(!(props.slotsRangeToBlock.find(sr => sr.isMarked)))
         }
     }
+
+    function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
+        console.log('tt',props.tableModel)
+        props.updateIsDayFullyAvailable(isDayFullyAvailable)
+        const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
+        props.setTreatment({
+            time: ts,
+            date: dateToScheduale.slice(0, 10),
+            dailyIdx: cellPos.dailyIdx
+        })
+        const availableDuration = CalendarService.getAvailbleDuration(props.tableModel, cellPos)
+        props.updateAvailbleDuration(availableDuration)
+        props.updateHoursToBlock(CalendarService.getHoursToBlock(timeSlots, ts, availableDuration, dateToScheduale.slice(0, 10), isDayFullyAvailable))
+        setAppointmentsModalIsOpen(true)
+        props.history.push('/calendarAdmin/appointmentOrBlock')
+    }
+
 
     function handleModalRoute(duration) {
         if (location.pathname === '/calendarAdmin/contacts') {
@@ -273,6 +280,7 @@ function _CalendarAdmin(props) {
                 return ev
             })
         })
+
         setEventsToDisplay(eventsToDisplayCopy)
         const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
         console.log(confirmedDeletedEvent)
@@ -289,13 +297,7 @@ function _CalendarAdmin(props) {
         // EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
     }
 
-    function getDatesWeeklyRange(date) {
-        const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
-        const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
-        const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
-        return { lastDay, firstDay }
 
-    }
 
     function getWorkingTimeSlots() {
         return UtilsService.getDailySlotsForPreview([constrains], 15)
@@ -329,16 +331,6 @@ function _CalendarAdmin(props) {
             else if (direction === 'Right') {
                 handleChange(new Date(selectedDate.setDate(selectedDate.getDate() + 7)));
             }
-            // else {
-            //     if ((direction !== 'Up') && (direction !== 'Down')) {
-            //         seTcalendarTitle('לא ניתן לבחור תאריך שעבר')
-            //         setPickerRedTitle('picker-red-title')
-            //         setTimeout(() => {
-            //             seTcalendarTitle('בחרו תאריך ושעה, ניתן להחליק ימינה/שמאלה ');
-            //             setPickerRedTitle('date-picker-title')
-            //         }, 3000);
-            //     }
-            // }
         }
     }
 
@@ -347,7 +339,6 @@ function _CalendarAdmin(props) {
             setTempEventToRmoveId(ev.id)
             if (ev.name === 'block - block') setModalSubJect('block')
             else setModalSubJect('appointment')
-            if (ev.id.slice(0, 5) !== 'event') setModalSubJect('temp')
             const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
             setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
         }
@@ -356,7 +347,12 @@ function _CalendarAdmin(props) {
 
     const handleClose = (isApproved) => {
         setOpen(false);
-        if (isApproved) cancelAppiontment()
+        console.log(prevEventsToDisplay)
+        if (isApproved && !prevEventsToDisplay) cancelAppiontment()
+        if (prevEventsToDisplay) {
+            setEventsToDisplay(prevEventsToDisplay)
+            setPrevEventsToDisplay(null)
+        }
     };
 
     async function setAppointment(duration) {
@@ -428,22 +424,21 @@ function _CalendarAdmin(props) {
             }
                 if (!isCellOccupied) { eventsToDisplayCopy[props.treatment.dailyIdx+i].push(tempEvent)}
         }
+            let prevEvents = [... await eventsToDisplay]
             setEventsToDisplay(eventsToDisplayCopy)
-            const confirmedBlock = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
-        if (!confirmedBlock) {
-            console.log('couldnt schduale appointment')
-            //need to put modal
+            const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
+        if (confirmedBlockOrOccDates &&  typeof confirmedBlockOrOccDates !== 'array') {
+            setOccupiedDates (confirmedBlockOrOccDates)
+            setPrevEventsToDisplay (prevEvents)
+            setIsTempModeOn(false)
+            setModalSubJect('occupied')
+            setOpen(true)
             return
         }
         setEventsToDisplay(async () => {
             return await getWeeklyEvents(selectedDate)
         })
     }
-
-    let weeklyRange = getDatesWeeklyRange(selectedDate)
-    const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = React.useState(false);
-
-
 
     function closeAppointmentsModal() {
         setAppointmentsModalIsOpen(false)
@@ -576,7 +571,13 @@ function _CalendarAdmin(props) {
                                             ?
                                             'הסרת חסימה'
                                             :
+                                            (modalSubJect === 'appointment')?
                                             'ביטול תור'
+                                            :
+                                                (occDates.length>1)?
+                                                 'התאריכים הנ״ל כבר תפוסים' 
+                                                 :
+                                                 'התאריך הנ״ל כבר תפוס' 
                                 }
                             </DialogTitle>
                             <DialogContent>
@@ -589,7 +590,23 @@ function _CalendarAdmin(props) {
                                                 ?
                                                 'להסרת החסימה לחצו אישור'
                                                 :
+                                                (modalSubJect === 'appointment')?
                                                 ' לביטול התור לחצו אישור'
+                                                :
+                                                (occDates.length>1)?
+                                                `התאריכים - ${occDates.map(d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוסים, הסגירות לא נקבעו!`
+                                                :
+                                                `התאריך ${occDates.map(d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוס, הסגירות לא נקבעו!`
+
+                                           
+                                        // (isTempModeOn) ?
+                                        //     'סגרו את המודעה ונסו שנית'
+                                        //     :
+                                        //     (modalSubJect === 'block')
+                                        //         ?
+                                        //         'להסרת החסימה לחצו אישור'
+                                        //         :
+                                        //         ' לביטול התור לחצו אישור'
                                     }
                                 </DialogContentText>
                             </DialogContent>
@@ -598,7 +615,7 @@ function _CalendarAdmin(props) {
                                     ביטול
                             </Button>
                                 {
-                                    (modalSubJect === 'temp')
+                                    (isTempModeOn)
                                         ?
                                         <Button onClick={() => handleClose(false)} color="primary">
                                             אישור

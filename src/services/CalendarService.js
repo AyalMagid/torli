@@ -14,7 +14,8 @@ export default {
     buildWeeklyModel,
     getAvailbleDuration,
     getHoursToBlock,
-    blockSlotRange
+    blockSlotRange,
+    getDatesWeeklyRange
 }
 
 var gUtcDiff = 2
@@ -131,9 +132,10 @@ async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
              confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
         } else {
             console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
-            return
+            return occupiedDates
         }
     }
+    console.log('adsasd', confirmedEvent)
     const event = {
         name,
         email: '',
@@ -220,3 +222,10 @@ function getHoursToBlock(timeSlots, ts, availableDuration, date, isDayFullyAvail
     return hoursToBlock
 }
 
+function getDatesWeeklyRange(date) {
+    const days = UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)
+    const firstDay = UtilsService.convertDateToIsraelisDisplay(days[0].start.slice(0, 10))
+    const lastDay = UtilsService.convertDateToIsraelisDisplay(days[days.length - 1].start.slice(0, 10))
+    return { lastDay, firstDay }
+
+}
