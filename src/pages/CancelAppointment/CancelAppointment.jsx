@@ -68,7 +68,7 @@ export function _CancelAppointment(props) {
     return (
         <div className="cancel-appointment flex column align-center space-between ">
             <motion.div
-                className="motion-div"
+                className="motion-div flex justify-center align-center"
                 initial="out"
                 exit="in"
                 animate="in"
@@ -79,7 +79,7 @@ export function _CancelAppointment(props) {
                     (loader) ?
                         <div className="cancel-apointment-loader">{loader}</div>
                         :
-                        <main >
+                        <main className="cancel-appointment-wrapper">
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
                                     <div className={`cancel-table-container ${(props.clickedUser) ? 'table-container-in-contacts-modal' : ''}`}>

@@ -1,5 +1,8 @@
 
 .cancel-appointment{
+    .cancel-appointment-wrapper{
+        width:100%;
+    }
     .cancel-apointment-loader{
         margin-top: 100px;
     }
@@ -35,9 +38,13 @@
         .table-cell{
             border-bottom: 0.2px solid white;
             padding: 20px;
+            background: #273650;
+            color: white;
         }
         .last-cell{
             padding: 20px;
+            background: #273650;
+            color: white;
             }
         }
       .no-apointments{

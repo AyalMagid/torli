@@ -211,7 +211,6 @@ function _CalendarAdmin(props) {
     }
 
     function openAppointmentsModal(cellPos, ts, isDayFullyAvailable = false) {
-        console.log('tt',props.tableModel)
         props.updateIsDayFullyAvailable(isDayFullyAvailable)
         const dateToScheduale = weeklyDates[cellPos.dailyIdx].start
         props.setTreatment({
@@ -337,8 +336,11 @@ function _CalendarAdmin(props) {
     const handleClickOpen = async (ev) => {
         if (ev) {
             setTempEventToRmoveId(ev.id)
-            if (ev.name === 'block - block') setModalSubJect('block')
-            else setModalSubJect('appointment')
+            if (ev.name === 'block - block') {
+                setModalSubJect('block')
+            } else {
+                 setModalSubJect('appointment')
+            }
             const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
             setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
         }
@@ -384,7 +386,6 @@ function _CalendarAdmin(props) {
     }
 
     async function blockSlotRange(recurrence) {
-        console.table('tt',props.tableModel)
         setIsTempModeOn(true)
         let time1 = UtilsService.changeTimeForDisplay(props.slotToBlock.start, 0)
         let time2 = UtilsService.changeTimeForDisplay(props.slotToBlock.end, 0)
@@ -427,11 +428,11 @@ function _CalendarAdmin(props) {
             let prevEvents = [... await eventsToDisplay]
             setEventsToDisplay(eventsToDisplayCopy)
             const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
-        if (confirmedBlockOrOccDates &&  typeof confirmedBlockOrOccDates !== 'array') {
+        if (Array.isArray(confirmedBlockOrOccDates)) {
+            setModalSubJect('occupied')
             setOccupiedDates (confirmedBlockOrOccDates)
             setPrevEventsToDisplay (prevEvents)
             setIsTempModeOn(false)
-            setModalSubJect('occupied')
             setOpen(true)
             return
         }
@@ -577,7 +578,11 @@ function _CalendarAdmin(props) {
                                                 (occDates.length>1)?
                                                  'התאריכים הנ״ל כבר תפוסים' 
                                                  :
+                                                 (occDates.length===1)?
                                                  'התאריך הנ״ל כבר תפוס' 
+                                                 :
+                                                 ''
+                            
                                 }
                             </DialogTitle>
                             <DialogContent>
@@ -594,10 +599,13 @@ function _CalendarAdmin(props) {
                                                 ' לביטול התור לחצו אישור'
                                                 :
                                                 (occDates.length>1)?
-                                                `התאריכים - ${occDates.map(d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוסים, הסגירות לא נקבעו!`
-                                                :
-                                                `התאריך ${occDates.map(d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוס, הסגירות לא נקבעו!`
-
+                                                    `התאריכים - ${occDates.map(d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוסים, הסגירות לא נקבעו!`
+                                                    :
+                                                    (occDates.length===1)?
+                                                    `התאריך ${occDates.map
+                                                    (d=>UtilsService.convertDateTo4DigitsDisplay(d))} כבר תפוס, הסגירות לא נקבעו!`
+                                                    :
+                                                    ''
                                            
                                         // (isTempModeOn) ?
                                         //     'סגרו את המודעה ונסו שנית'
