@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import {updateUserPhoneInContactSignup,updateUserToSchedule} from '../../actions/userAction.js';
+import { updateUserPhoneInContactSignup, updateUserToSchedule } from '../../actions/userAction.js';
 import { useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +13,7 @@ import UtilsService from "../../services/UtilsService";
 import UserService from "../../services/UserService";
 import { updateLoggedInUser } from '../../actions/userAction.js';
 import { motion } from 'framer-motion'
+import { EditButton } from '../../cmps/EditButton/EditButton';
 import MotionService from "../../services/MotionService";
 import './Signup.scss';
 
@@ -106,25 +107,25 @@ export function _Signup(props) {
         }
     }
 
-    function navToContacts(){
+    function navToContacts() {
         props.history.push('/calendarAdmin/contacts')
     }
 
     const isContactsPath = (location.pathname === '/calendarAdmin/contacts/signup')
-    
+
     async function setUser() {
         const user = await UserService.getUser(phone)
         if (user) {
             handleClickOpen()
         } else {
-          if(!isContactsPath)  props.updateLoggedInUser(credentials)
-          await  UserService.addUser(credentials, isContactsPath)
+            if (!isContactsPath) props.updateLoggedInUser(credentials)
+            await UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
                 if (phone !== '123456789') props.history.push('/treatments')
                 else props.history.push('/calendarAdmin')
             } else {
-               await props.updateUserPhoneInContactSignup(credentials.phone)
-               props.updateUserToSchedule(credentials)
+                await props.updateUserPhoneInContactSignup(credentials.phone)
+                props.updateUserToSchedule(credentials)
                 navToContacts()
             }
         }
@@ -142,23 +143,25 @@ export function _Signup(props) {
 
 
     return (
-        <motion.div
-            className="motion-div"
-            initial="out"
-            exit="in"
-            animate="in"
-            variants={(!isContactsPath)? MotionService.getMotionStyle('pageVariants') :''}
-            transition={(!isContactsPath)? MotionService.getMotionStyle('pageTransition') :''}
-        >
-            <main className="main-login-container flex align-center justify-center column">
-            {isContactsPath&& <header className="header-in-signup-modal">
-                    {isContactsPath&&<div className="back-arrow" onClick={navToContacts}><i class="fas fa-arrow-right"></i></div>}
-                 </header>}
-                <div className={`login-title ${isContactsPath? 'login-title-display-none' : ''}`}>
+        <main className="main-login-container flex align-center column">
+            <motion.div
+                className="motion-div"
+                initial="out"
+                exit="in"
+                animate="in"
+                variants={(!isContactsPath) ? MotionService.getMotionStyle('pageVariants') : ''}
+                transition={(!isContactsPath) ? MotionService.getMotionStyle('pageTransition') : ''}
+                style={{ width: "100%", height: "100%" }}
+         >
+
+                {isContactsPath && <header className="header-in-signup-modal">
+                    {isContactsPath && <div className="back-arrow" onClick={navToContacts}><i class="fas fa-arrow-right"></i></div>}
+                </header>}
+                <div className={`login-title ${isContactsPath ? 'login-title-display-none' : ''}`}>
                     אנא מלאו את השדות הבאים ולחצו 'שמור'.
                     <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
                 </div>
-                <form className={`main-form flex align-center justify-center column ${isContactsPath?'main-form-in-contact-path' :''}`}>
+                <form className={`main-form flex align-center justify-center column ${isContactsPath ? 'main-form-in-contact-path' : ''}`}>
                     <div className="input-container">
                         <div className="form-title-container flex">
                             <div className="form-title">* שם מלא  </div>
@@ -189,53 +192,48 @@ export function _Signup(props) {
                         <input className="email" name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
                     </div>
                 </form>
-
-                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className={`save-btn ${isContactsPath?'save-btn-in-contact-path' :''}`} onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></span>
-                <div>
-                    <Dialog
-                        open={open}
-                        TransitionComponent={Transition}
-                        keepMounted
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-slide-title"
-                        aria-describedby="alert-dialog-slide-description"
-                    >
-                        {/* <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle> */}
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-slide-description">
-                                <div>
-                                    <div>
-                                        המספר שהוקש כבר קיים במערכת.
+            </motion.div>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                {/* <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle> */}
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        <div>
+                            <div>
+                                המספר שהוקש כבר קיים במערכת.
                                     </div>
-                                    {(!isContactsPath) &&
-                                        <div className="flex">
-                                            <div>להתחברות לחץ</div>
-                                            <Link className="login-link flex align-center justify-center" to="/login">
-                                                כאן
+                            {(!isContactsPath) &&
+                                <div className="flex">
+                                    <div>להתחברות לחץ</div>
+                                    <Link className="login-link flex align-center justify-center" to="/login">
+                                        כאן
                                        </Link>
-                                        </div>
-                                    }
                                 </div>
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                                ביטול
+                            }
+                        </div>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        ביטול
                        </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            </main>
-        </motion.div>
+                </DialogActions>
+            </Dialog>
+            <EditButton toggleValidations={toggleValidations} setUser={setUser} isValid={isValid} />
+        </main>
     );
 }
 
 
-
-
 function mapStateProps(state) {
     return {
-       
+
     }
 }
 
