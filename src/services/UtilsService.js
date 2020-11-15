@@ -22,13 +22,14 @@ export default {
   getSplitedEventDesc,
   convertDurationToApiStr,
   calculateDuration,
-  dateToDisplay
+  dateToDisplay,
+  getArray
 }
 
 var gUtcDiff = 2
 
 // for half an hour slots = 2. 15 min slots will be 4 etc...
-var gDividedHour = 2 
+var gDividedHour = 2
 
 function englishToHebrew(word) {
   let convertedWord
@@ -70,10 +71,10 @@ function englishToHebrew(word) {
   return ' ' + convertedWord
 }
 //get a date and how many days before/after and returns only the date part by isos convention
-function getIsosDate(daysAfterOrBefore, date = new Date(), recurrenceAvailbilityCheck=false) {
+function getIsosDate(daysAfterOrBefore, date = new Date(), recurrenceAvailbilityCheck = false) {
   let dateCopy = new Date(date.getTime())
   dateCopy.setDate(dateCopy.getDate() + daysAfterOrBefore)
-  if ((dateCopy.getDay() === 6)&&(!recurrenceAvailbilityCheck)) {
+  if ((dateCopy.getDay() === 6) && (!recurrenceAvailbilityCheck)) {
     return ''
   }
   dateCopy = dateCopy.toISOString().slice(0, 10)
@@ -81,8 +82,8 @@ function getIsosDate(daysAfterOrBefore, date = new Date(), recurrenceAvailbility
 }
 
 function getWeekIsosDatesForCalendar(dayByNum, date) {
-  let weeklyDates =[]
-  if (date.getDay()===6){
+  let weeklyDates = []
+  if (date.getDay() === 6) {
     date = new Date(date.getTime() + (1000 * 60 * 60 * 24));
     dayByNum = 1
   }
@@ -125,17 +126,17 @@ function getWeekIsosDatesForCalendar(dayByNum, date) {
   })
 }
 
-function convertDurationToApiStr(duration){
-  return duration/60 + 'H'
+function convertDurationToApiStr(duration) {
+  return duration / 60 + 'H'
 }
 
-function timeToDisplay (time){
-  if (time.slice(0,1)==='0') {time = time.slice(1,5)}
+function timeToDisplay(time) {
+  if (time.slice(0, 1) === '0') { time = time.slice(1, 5) }
   return time
 }
 
-function dateToDisplay (date){
-  if (date.slice(0,1)==='0') {date = date.slice(1,10)}
+function dateToDisplay(date) {
+  if (date.slice(0, 1) === '0') { date = date.slice(1, 10) }
   return date
 }
 
@@ -152,7 +153,7 @@ function getTimeSlotsForPreview(timeslot, duration) {
   let day = timeslot.start.slice(8, 10)
   let hours = +timeslot.start.slice(11, 13)
   let min = timeslot.start.slice(14, 16)
-  const startTime = new Date(year, month - 1, day, hours +  gUtcDiff, min, 0, 0);
+  const startTime = new Date(year, month - 1, day, hours + gUtcDiff, min, 0, 0);
   year = timeslot.end.slice(0, 4)
   month = timeslot.end.slice(5, 7)
   day = timeslot.end.slice(8, 10)
@@ -210,10 +211,10 @@ function checkDigitsAndAddZerosIfNeeded(digit) {
   return digit
 }
 
-function calculateDuration (start,end){
-  let startHours = +start.slice(0, 2)*60
+function calculateDuration(start, end) {
+  let startHours = +start.slice(0, 2) * 60
   let startMinutes = +start.slice(3, 5)
-  let endHours =  +end.slice(0, 2)*60
+  let endHours = +end.slice(0, 2) * 60
   let endMinutes = +end.slice(3, 5)
   const duration = (endHours - startHours + endMinutes - startMinutes)
   return duration
@@ -241,8 +242,8 @@ function convertDateToIsraelisDisplay(date) {
 
 function convertDateTo4DigitsDisplay(date) {
   const dateParts = (date).split('-')
-  if (dateParts[2].slice(0,1)==='0') {  return `${dateParts[2].slice(1,2)}.${dateParts[1]}`}
-  else {return `${dateParts[2].slice(0,2)}.${dateParts[1]}`}
+  if (dateParts[2].slice(0, 1) === '0') { return `${dateParts[2].slice(1, 2)}.${dateParts[1]}` }
+  else { return `${dateParts[2].slice(0, 2)}.${dateParts[1]}` }
 }
 
 function getDayByHebrewWord(idx) {
@@ -256,8 +257,8 @@ function getEventReadyForDisplay(filteredEvents) {
     return {
       id: event._id,
       treatments: event.treatments,
-      startTime: changeTimeForDisplay(event.startTime, gUtcDiff*-1),
-      endTime: changeTimeForDisplay(event.endTime, gUtcDiff*-1),
+      startTime: changeTimeForDisplay(event.startTime, gUtcDiff * -1),
+      endTime: changeTimeForDisplay(event.endTime, gUtcDiff * -1),
       date: convertDateToIsraelisDisplay(event.date),
       email: event.email,
       name: event.name,
@@ -268,7 +269,7 @@ function getEventReadyForDisplay(filteredEvents) {
 function checkIfTsInRange(tsToCompare, startTime, endTime, duration) {
 
   //adding 3 hours to match the time differnce
-  const tsToCompareWithAddedHours = changeTimeForDisplay(tsToCompare, gUtcDiff*-1)
+  const tsToCompareWithAddedHours = changeTimeForDisplay(tsToCompare, gUtcDiff * -1)
   const timeRangeBySlots = getDailySlotsForPreview([{ start: startTime, end: endTime }], duration)
   if (timeRangeBySlots.length) {
     return { occupied: timeRangeBySlots.includes(tsToCompareWithAddedHours), rowspan: timeRangeBySlots.length }
@@ -283,7 +284,7 @@ function checkIfTsInRange(tsToCompare, startTime, endTime, duration) {
 }
 
 function convertNumberToWords(idx) {
-  const words = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמשה', 'ששה', 'שבעה', 'שמונה', 'תשעה', 'עשרה', 'אחד עשר','שתיים עשר','שלושה עשר','ארבע עשר','חמישה עשר','ששה עשר']
+  const words = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמשה', 'ששה', 'שבעה', 'שמונה', 'תשעה', 'עשרה', 'אחד עשר', 'שתיים עשר', 'שלושה עשר', 'ארבע עשר', 'חמישה עשר', 'ששה עשר']
   return words[idx - 1]
 }
 
@@ -297,7 +298,16 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-function getSplitedEventDesc(desc){
-     let splitedDesc= desc.split(' - ')
-     return {name:splitedDesc[0],treatment:splitedDesc[1]}
+function getSplitedEventDesc(desc) {
+  let splitedDesc = desc.split(' - ')
+  return { name: splitedDesc[0], treatment: splitedDesc[1] }
+}
+
+function getArray(num, priceOrDuration) {
+  let arr = []
+  if (priceOrDuration) arr[0] = priceOrDuration
+  for (var i = 0; i < num; i++) {
+    arr.push(i)
+  }
+  return arr
 }
