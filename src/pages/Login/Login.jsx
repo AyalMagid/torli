@@ -127,7 +127,7 @@ function _Login(props) {
     };
 
     return (
-        <main className="main-login-container flex align-center  column">
+        <main className="main-login-container log-in-page flex align-center  column">
             <motion.div
                 className="motion-div"
                 initial="out"
@@ -137,7 +137,7 @@ function _Login(props) {
                 transition={MotionService.getMotionStyle('pageTransition')}
                 style={{ width: "100%", height: "100%" }}
             >
-
+    
                 <div className="login-title">
                     אנא הכניסו מספר טלפון לזיהוי
                 </div>
