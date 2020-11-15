@@ -242,111 +242,115 @@ export function _EditUser(props) {
     }
 
     return (
-        <motion.div
-            initial="out"
-            exit="in"
-            animate="in"
-            variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
-            transition={MotionService.getMotionStyle('pageTransition')}
-            style={{ width: "100%", height: "100%" }}
-        >
-            <main className="main-edit-container flex align-center justify-center column">
-                <div className="sign-out flex align-center justify-center space-between" onClick={signOut}>
-                    <i class="fas fa-sign-out-alt"></i>
-                    <div>התנתק</div>
-                </div>
-                <div className="login-title">
-                    לשינוי לחצו על סמל העריכה ולחצו 'שמור'.
-                    <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
-                </div>
-                <form className="main-form flex align-center justify-center column">
-                    <div className="input-container">
-                        <div className="form-title-container flex">
-                            <div className="form-title">* שם מלא  </div>
-                            <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
-                        </div>
-                        <div className={`input-edit-container ${nameBorderBottom} flex justify-center align-center`}>
-                            <input className="input-edit-page name" disabled={isNameDisabled} ref={nameFocus} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
-                            {
-                                (isNameEditing) ?
-                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('name')}></i>
-                                    :
-                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('name')}></i>
-                            }
-                        </div>
+        <main className="main-edit-container flex column  align-center">
+            <motion.div
+                initial="out"
+                exit="in"
+                animate="in"
+                variants={MotionService.getMotionStyle('pageVariantsWithTextAlign')}
+                transition={MotionService.getMotionStyle('pageTransition')}
+                style={{ width: "100%", height: "100%" }}
+            >
+               
+                    <div className="sign-out flex align-center justify-center space-between" onClick={signOut}>
+                        <i class="fas fa-sign-out-alt"></i>
+                        <div>התנתק</div>
                     </div>
-                    <div className="input-container">
-                        <div className="form-title-container flex">
-                            <div className="form-title">* טלפון  </div>
-                            <div className={`validation-text ${togglePhoneValidation}`}>
+                    <div className="login-title">
+                        לשינוי לחצו על סמל העריכה ולחצו 'שמור'.
+                    <div className="login-title-sub">שדות המסומנים ב - *  הינם שדות חובה</div>
+                    </div>
+                    <form className="main-form flex align-center justify-center column">
+                        <div className="input-container">
+                            <div className="form-title-container flex">
+                                <div className="form-title">* שם מלא  </div>
+                                <div className={`validation-text ${toggleNameValidation}`}>זהו שדה חובה, יש להכניס שם</div>
+                            </div>
+                            <div className={`input-edit-container ${nameBorderBottom} flex justify-center align-center`}>
+                                <input className="input-edit-page name" disabled={isNameDisabled} ref={nameFocus} name="name" id="outlined-basic" variant="outlined" value={name} onChange={handleChange} />
                                 {
-                                    (phone) ?
-                                        "מספר הטלפון שהוקש שגוי"
+                                    (isNameEditing) ?
+                                        <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('name')}></i>
                                         :
-                                        "זהו שדה חובה, יש להכניס טלפון"
+                                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('name')}></i>
                                 }
                             </div>
                         </div>
-                        <div className={`input-edit-container ${phoneBorderBottom} flex justify-center align-center`}>
-                            <input className="input-edit-page phone" disabled={isPhoneDisabled} ref={phoneFocus} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-                            {
-                                (isPhoneEditing) ?
-                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('phone')}></i>
-                                    :
-                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('phone')}></i>
-                            }
+                        <div className="input-container">
+                            <div className="form-title-container flex">
+                                <div className="form-title">* טלפון  </div>
+                                <div className={`validation-text ${togglePhoneValidation}`}>
+                                    {
+                                        (phone) ?
+                                            "מספר הטלפון שהוקש שגוי"
+                                            :
+                                            "זהו שדה חובה, יש להכניס טלפון"
+                                    }
+                                </div>
+                            </div>
+                            <div className={`input-edit-container ${phoneBorderBottom} flex justify-center align-center`}>
+                                <input className="input-edit-page phone" disabled={isPhoneDisabled} ref={phoneFocus} name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
+                                {
+                                    (isPhoneEditing) ?
+                                        <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('phone')}></i>
+                                        :
+                                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('phone')}></i>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div className="input-container">
-                        <div className="form-title-container flex">
-                            <div className="form-title form-title-email">מייל </div>
-                            <div className={`validation-text ${toggleEmailValidation}`}>האימייל שהוקש שגוי</div>
+                        <div className="input-container">
+                            <div className="form-title-container flex">
+                                <div className="form-title form-title-email">מייל </div>
+                                <div className={`validation-text ${toggleEmailValidation}`}>האימייל שהוקש שגוי</div>
+                            </div>
+                            <div className={`input-edit-container ${emailBorderBottom} flex justify-center align-center`}>
+                                <input className="input-edit-page email" disabled={isEmailDisabled} ref={emailFocus} name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
+                                {
+                                    (isEmailEditing) ?
+                                        <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('email')}></i>
+                                        :
+                                        <i className="edit-logo far fa-edit" onClick={() => toggleEditing('email')}></i>
+                                }
+                            </div>
                         </div>
-                        <div className={`input-edit-container ${emailBorderBottom} flex justify-center align-center`}>
-                            <input className="input-edit-page email" disabled={isEmailDisabled} ref={emailFocus} name="email" id="outlined-basic" variant="outlined" value={email} onChange={handleChange} />
-                            {
-                                (isEmailEditing) ?
-                                    <i className="edit-logo fas fa-edit" onClick={() => toggleEditing('email')}></i>
-                                    :
-                                    <i className="edit-logo far fa-edit" onClick={() => toggleEditing('email')}></i>
-                            }
-                        </div>
-                    </div>
-                </form>
+                    </form>
 
-                {/* <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div> */}
-              
-                <EditButton toggleValidations={toggleValidations} setUser={setUser} isValid={isValid}/>
-              
-                    <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                הכנס סיסמה
-          </DialogContentText>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="סיסמה"
-                                type="email"
-                                fullWidth
-                                value={password}
-                                onChange={handleChange}
-                                name="password"
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={() => handleClose('close')} color="primary">
-                                בטל
-          </Button>
-                            <Button onClick={handleClose} color="primary">
-                                אשר
-          </Button>
-                        </DialogActions>
-                    </Dialog>
+                    {/* <div className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!isValid.phone || !isValid.email || !isValid.name}>שמור</button></div> */}
+
+                
+
+
+           
+            </motion.div>
+            <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        הכנס סיסמה
+</DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="סיסמה"
+                        type="email"
+                        fullWidth
+                        value={password}
+                        onChange={handleChange}
+                        name="password"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleClose('close')} color="primary">
+                        בטל
+</Button>
+                    <Button onClick={handleClose} color="primary">
+                        אשר
+</Button>
+                </DialogActions>
+            </Dialog>
+            <EditButton toggleValidations={toggleValidations} setUser={setUser} isValid={isValid} />
             </main>
-        </motion.div>
     );
 }
 
