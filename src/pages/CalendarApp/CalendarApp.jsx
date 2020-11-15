@@ -116,10 +116,10 @@ export function _CalendarApp(props) {
 
     return (
         <>
-                <div className="header-calendar-app flex justifiy-center align-center space-between" >
+                {/* <div className="header-calendar-app flex justifiy-center align-center space-between" > */}
                     <div className="weekly-dates-container weekly-dates-container-calendar-app flex space-between align-center" onClick={() => setIsOpen(true)}>
-                        <i className="calendar-icon fas fa-calendar-week"></i>
-                        <div className="dates-range-text">{UtilsService.convertDateToIsraelisDisplay(UtilsService.getIsosDate(0,selectedDate))}<br />
+                        <i className="calendar-icon-in-calendar fas fa-calendar-week"></i>
+                        <div className="date-range-in-calendar">{UtilsService.convertDateToIsraelisDisplay(UtilsService.getIsosDate(0,selectedDate))}<br />
                         {
                             // check for saturday case
                              ((UtilsService.getIsosDate(2,selectedDate)) !== '')?
@@ -129,9 +129,9 @@ export function _CalendarApp(props) {
                         }
                         </div>
                     </div>
-                    <div id="text2" onClick={navToHomePage} >Tori<i className="fas fa-tasks"></i></div>
-                </div>
-                <StepperApp className="calendar-app-stepper"/>
+                    {/* <div id="text2" onClick={navToHomePage} >Tori<i className="fas fa-tasks"></i></div> */}
+                {/* </div> */}
+                {/* <StepperApp className="calendar-app-stepper"/> */}
             <motion.div
                 initial="out"
                 exit="in"

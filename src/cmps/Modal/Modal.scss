@@ -18,15 +18,15 @@
 .ad-modal{
     position: absolute;
     width: 82%;
-    height: 25%;
+    height: 22%;
     left: 50%;
     top: 17%;
     padding: 26px;
     font-size: 18px;
     z-index: 2;
     background-color: #ffecf2;
-    border-radius: 8px;
-    border: 1px #212731d6 solid;
+    border-radius: 5px;
+    // border: 1px #212731d6 solid;
         .ad-modal-btn{
             outline: none;
             background-color: #273650;
@@ -35,7 +35,7 @@
             left:0;
             color: white;
             border: none;
-            border-radius: 0 7px 0 7px;
+            border-radius: 0 5px 0 5px;
             height: 15%;
             width:20%;
         }
@@ -47,24 +47,24 @@
     }
 
 .ad-modal-in{ 
-    animation: slide-in 1.5s normal;
-    transform: translate(-50%,-50%); 
+    animation: slide-in 0.5s normal;
+    transform: translate(-50%,-15%); 
 }
 @keyframes slide-in{
     from{
         transform: translate(-50%,-172%);
     }to{
-        transform: translate(-50%,-50%); 
+        transform: translate(-50%,-15%); 
     }
 }
 
 .ad-modal-out{ 
-    animation: slide-out 1.5s normal;
+    animation: slide-out 0.5s normal;
     transform: translate(-50%,-172%);
 }
 @keyframes slide-out{
     from{
-        transform: translate(-50%,-50%); 
+        transform: translate(-50%,-15%); 
     }to{
         transform: translate(-50%,-172%);
     }

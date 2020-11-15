@@ -22,7 +22,7 @@ export default function _Modal(props) {
             props.updateIsModalOpen(false)
             if (!isAdminContacts) setModalClass('ad-modal-in')
             else setModalClass('ad-modal-in-in-admin-contacts')
-        }, 1500);
+        }, 500);
         if (location.pathname === '/form' || location.pathname === '/cancelAppointment') StoreService.initApp()
         if (location.pathname === '/form') props.history.push('/treatments')
     }

@@ -18,7 +18,7 @@ import './Login.scss';
 
 const ownerPassword = '1234'
 
-  function _Login(props) {
+function _Login(props) {
     const [phone, setPhone] = React.useState('')
     const [password, setPassword] = useState('');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
@@ -73,8 +73,8 @@ const ownerPassword = '1234'
         if (userFromDb) {
             if (!userFromDb.isAdmin) {
                 //need to bring from mongo
-                const { name, email, phone} = userFromDb
-                StorageService.saveToStorage('tori-user',{name, email, phone})
+                const { name, email, phone } = userFromDb
+                StorageService.saveToStorage('tori-user', { name, email, phone })
                 props.updateLoggedInUser(userFromDb)
                 props.history.push('/treatments')
             }
@@ -99,9 +99,9 @@ const ownerPassword = '1234'
             //owner password
             if (password === ownerPassword) {
                 setOpen(false);
-                const { name, email, phone} = userFromDb
-                StorageService.saveToStorage('tori-user',{name, email, phone})
-                props.updateLoggedInUser(userFromDb) 
+                const { name, email, phone } = userFromDb
+                StorageService.saveToStorage('tori-user', { name, email, phone })
+                props.updateLoggedInUser(userFromDb)
                 props.history.push('/calendarAdmin')
             }
             else {
@@ -127,15 +127,17 @@ const ownerPassword = '1234'
     };
 
     return (
-        <motion.div
-            className="motion-div"
-            initial="out"
-            exit="in"
-            animate="in"
-            variants={MotionService.getMotionStyle('pageVariants')}
-            transition={MotionService.getMotionStyle('pageTransition')}
-        >
-            <main className="main-login-container flex align-center justify-center column">
+        <main className="main-login-container log-in-page flex align-center  column">
+            <motion.div
+                className="motion-div"
+                initial="out"
+                exit="in"
+                animate="in"
+                variants={MotionService.getMotionStyle('pageVariants')}
+                transition={MotionService.getMotionStyle('pageTransition')}
+                style={{ width: "100%", height: "100%" }}
+            >
+    
                 <div className="login-title">
                     אנא הכניסו מספר טלפון לזיהוי
                 </div>
@@ -153,76 +155,68 @@ const ownerPassword = '1234'
                             </div>
                         </div>
                         <input className="phone" name="phone" id="outlined-basic" variant="outlined" value={phone} onChange={handleChange} />
-
                     </div>
-
                 </form>
-
-                <span className="save-btn-wrapper" onClick={toggleValidations}> <button className="save-btn" onClick={setUser} disabled={!phoneIsValid}>התחבר</button></span>
-
-                <div>
-                    <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                הכנס סיסמה
+            </motion.div>
+            <Dialog open={open} onClose={() => handleClose('close')} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title"> {dialogTitle}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        הכנס סיסמה
           </DialogContentText>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="סיסמה"
-                                type="email"
-                                fullWidth
-                                value={password}
-                                onChange={handleChange}
-                                name="password"
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={() => handleClose('close')} color="primary">
-                                בטל
-          </Button>
-                            <Button onClick={handleClose} color="primary">
-                                אשר
-          </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-
-                {/* modal dialog */}
-                <div>
-                    <Dialog
-                        open={openModal}
-                        onClose={handleModalClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle> */}
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description row">
-                                <div>
-                                    <div>
-                                        המספר שהוקש אינו קיים במערכת.
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="סיסמה"
+                        type="email"
+                        fullWidth
+                        value={password}
+                        onChange={handleChange}
+                        name="password"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleClose('close')} color="primary">
+                        בטל
+                    </Button>
+                    <Button onClick={handleClose} color="primary">
+                        אשר
+                   </Button>
+                </DialogActions>
+            </Dialog>
+            {/* //second modal */}
+            <Dialog
+                open={openModal}
+                onClose={handleModalClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle> */}
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description row">
+                        <div>
+                            <div>
+                                המספר שהוקש אינו קיים במערכת.
                                     </div>
-                                    <div className="flex">
-                                        <div>להרשמה לחץ</div>
-                                        <Link className="login-link flex align-center justify-center" to="/signup">
-                                             כאן
+                            <div className="flex">
+                                <div>להרשמה לחץ</div>
+                                <Link className="login-link flex align-center justify-center" to="/signup">
+                                    כאן
                                        </Link>
-                                    </div>
-                                </div>
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleModalClose} color="primary" autoFocus>
-                                ביטול
+                            </div>
+                        </div>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleModalClose} color="primary" autoFocus>
+                        ביטול
                          </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            </main>
-        </motion.div>
+                </DialogActions>
+            </Dialog>
+            <div className="save-btn-wrapper" onClick={toggleValidations}> </div>
+            <button className="save-btn" onClick={setUser} disabled={!phoneIsValid}>התחבר</button>
+        </main>
     );
 }
 
