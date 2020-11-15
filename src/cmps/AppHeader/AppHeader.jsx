@@ -28,10 +28,10 @@ function _AppHeader(props) {
                 setHeaderConstrains({...initWithFalse, isHeader:true, noHeaderMargin:true})
                 break;
             case '/signup':
-                setHeaderConstrains({...initWithFalse, isHeader:true})
+                setHeaderConstrains({...initWithFalse, isHeader:true,noHeaderMargin:true})
                 break;
             case '/login':
-                setHeaderConstrains({...initWithFalse, isHeader:true})
+                setHeaderConstrains({...initWithFalse, isHeader:true,noHeaderMargin:true})
                 break;
             case '/treatments':
                 setHeaderConstrains({...initWithFalse, isStepper:true, isTabs:true})
@@ -46,7 +46,7 @@ function _AppHeader(props) {
                  setHeaderConstrains({...initWithFalse, isTabs:true})
                 break;
             case '/editUser':
-                setHeaderConstrains({...initWithFalse, isHeader:true})
+                setHeaderConstrains({...initWithFalse, isHeader:true,noHeaderMargin:true})
                 break;
             default:
                 setHeaderConstrains(false)

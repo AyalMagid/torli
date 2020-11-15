@@ -7,8 +7,10 @@ import './EditButton.scss';
 
 function _EditButton(props) {
     return (
-        <div className="save-btn-wrapper" onClick={() => props.toggleValidations()}>
-            <button className="save-btn" onClick={() => props.setUser()} disabled={!props.isValid.phone || !props.isValid.email || !props.isValid.name}>שמור</button></div>
+        <>
+        <div className="save-btn-wrapper" onClick={() => props.toggleValidations()}> </div>
+            <button className="save-btn" onClick={() => props.setUser()} disabled={!props.isValid.phone || !props.isValid.email || !props.isValid.name}>שמור</button>
+        </>
     );
 }
 
