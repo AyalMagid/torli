@@ -12,7 +12,7 @@ import CalendarService from '../../services/CalendarService';
 import EventService from '../../services/EventService';
 import EmailService from '../../services/EmailService';
 import StorageService from "../../services/StorageService";
-import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp'
+import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp';
 import './CancelAppointment.scss';
 
 export function _CancelAppointment(props) {
@@ -65,10 +65,18 @@ export function _CancelAppointment(props) {
         //open modal useing store
     }
 
+    function checkNextBtnDisabillity(){
+        return  !((eventsToCancel.length > 1) && (pageCount < eventsToCancel.length-1))
+    }
+
+    function checkBackBtnDisabillity(){
+        return  !pageCount > 0
+    }
+
     return (
         <div className="cancel-appointment flex column align-center space-between ">
             <motion.div
-                className="motion-div flex justify-center align-center"
+                className="motion-div"
                 initial="out"
                 exit="in"
                 animate="in"
@@ -88,17 +96,7 @@ export function _CancelAppointment(props) {
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
                                             <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
                                         </div>
-                                        {(eventsToCancel.length > 1) &&
-                                            <div className="arrows-container flex space-between">
-                                                {(eventsToCancel[pageCount - 1]) ? <i onClick={() => setPageCount(pageCount - 1)} className="arrow fas fa-angle-right"></i>
-                                                    : <i className="arrow-disabled fas fa-angle-right"></i>
-                                                }
-                                                {eventsToCancel[pageCount + 1] ? <i onClick={() => setPageCount(pageCount + 1)} className="arrow fas fa-angle-left"></i>
-                                                    : <i className="arrow-disabled fas fa-angle-left"></i>
-                                                }
-                                            </div>
-                                        }
-                                        <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור </button>
+                                        {/* <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור </button> */}
                                     </div>
                                     :
                                     <div className="no-apointments">
@@ -106,8 +104,28 @@ export function _CancelAppointment(props) {
                                     </div>
                                 }
                             </div>
+                            <div className="cancel-appointment-btn flex align-center space-around" onClick={() => cancelAppointment(eventsToCancel[pageCount].id)}>
+                                    <div className="cancel-appointment-btn-text">בטל תור זה</div>
+                                    <i className="fas fa-ban"></i>
+                            </div>
+                                    <div className="cancel-appointment-btns-container flex">
+                                            <div className="nav-btn-wrapper"  >
+                                                <button className={`nav-btn`} disabled={checkBackBtnDisabillity()} onClick={() => setPageCount(pageCount - 1)}>
+                                                    <i className="fas fa-arrow-circle-right"></i>
+                                                </button>
+                                            </div>
+                                            <div className={`nav-btn-wrapper`} >
+                                                <button className={`nav-btn`} disabled={checkNextBtnDisabillity()} onClick={() => {
+                                                    setPageCount(pageCount + 1)
+                                                    console.log(pageCount)
+                                            } }>
+                                                     <i className="fas fa-arrow-circle-left"></i>
+                                                </button>
+                                            </div>
+                                         </div>
                         </main>
                 }
+                
             </motion.div>
             <Modal modalContent={
                 <div className="flex align-center justify-center" style={{ height: '100%' }}>

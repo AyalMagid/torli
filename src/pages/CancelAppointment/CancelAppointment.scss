@@ -25,26 +25,36 @@
   
 
     .table-wrapper{
+        margin-top: 5rem;
       .table-container-in-contacts-modal{
           margin-top: 38%;
+          .apointment-details{
+            width: 90%;
+          
+        }
       }
       .apointment-details{
         text-align: right;
         color: #182c4e;
         margin-top: 3rem;
         background-color: #d8d8d80d;
-        border: 0.2px solid white;
         border-radius: 5px;
+        width: 80%;
+        margin: 0 auto;
         .table-cell{
-            border-bottom: 0.2px solid white;
+            // border-bottom: 0.2px solid white;
             padding: 20px;
-            background: #273650;
-            color: white;
+            background: #ffffffc7;
+            color: #273650;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
         .last-cell{
             padding: 20px;
-            background: #273650;
-            color: white;
+            background: #ffffffc7;
+            color: #273650;
+            border-radius: 5px;
+            margin-bottom: 10px;
             }
         }
       .no-apointments{
@@ -60,19 +70,32 @@
         font-size: 1.1rem;
         margin-right:10px;
     }
-    .trash-btn{
-        bottom: 0;
-        position: fixed;
-        color :white;
-        border: none;
-        outline: none;
-        width: 100%;
-        padding: 10px;
-        font-size: 1rem;
-        background-color:#273650;
-        cursor: pointer;
-        left: 50%;
-        margin-left: -50%; /* Negative half of width. */
+    // .trash-btn{
+    //     bottom: 0;
+    //     position: fixed;
+    //     color :white;
+    //     border: none;
+    //     outline: none;
+    //     width: 100%;
+    //     padding: 10px;
+    //     font-size: 1rem;
+    //     background-color:#273650;
+    //     cursor: pointer;
+    //     left: 50%;
+    //     margin-left: -50%; /* Negative half of width. */
+    // }
+    .cancel-appointment-btn{
+        padding: 12px;
+        padding-left: 25px;
+        padding-right: 25px;
+        width: 50%;
+        color: rgb(82, 0, 0);
+        background:white;
+        border-radius: 7px;
+        margin:0 auto;
+        .fa-ban{
+            color: rgb(82, 0, 0);
+        }
     }
 }
 
@@ -91,9 +114,115 @@
 }
 
 
+
+    .cancel-appointment-btns-container{
+        width: 100%;
+        position:fixed;
+        bottom: 0;
+        height: 50px;
+    
+    .nav-btn-wrapper{
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+    .nav-btn{
+        width: 100%;
+        height: 100%;
+        border: none;
+        background-color: #273650;
+        color: rgb(173, 173, 173);
+    }
+
+//     .nav-btn-wrapper-next{
+//         width: 100%;
+//         height: 50px;
+//     .nav-btn-next{
+//         height: 50px;
+//         bottom: 0;
+//         position: relative;
+//         color :white;
+//         border: none;
+//         outline: none;
+//         width: 100%;
+//         padding: 10px;
+//         font-size: 15px;
+//         font-weight: bold;
+//         background-color:#273650;
+//         cursor: pointer;
+//         transition: 0.5s;
+//     }
+// }
+button{
+    outline: none;
+}
+button[disabled]{
+    font-size: 14px;
+    z-index: -1;
+        .fa-arrow-circle-right:before {
+            color: #929292;
+        }
+        .fa-arrow-circle-left:before {
+            color: #929292;
+        }
+    }
+
+    }
+
+
+@media screen and (max-width: 500px) {
+    .treatment-list {
+        // width: 390px;
+    }
+  }
+
+
+
 //   I phone 5
 @media screen and (max-height: 570px) {
     .arrows-container{
         margin: 40px auto;
     }
+    .cancel-appointment{
+        .cancel-appointment-btn {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 5%;
+    }
+    }
 }
+
+//   I phone 6-8 
+@media screen and (max-height: 670px) and (min-height: 570px){
+    .cancel-appointment{
+        .cancel-appointment-btn {
+            margin-top: 20%;
+    } 
+  }
+}
+//   I phone 6-8 plus 
+@media screen and (max-height: 810px) and (min-height: 730px){
+    .cancel-appointment{
+        .cancel-appointment-btn{
+            margin-top: 30%;
+        }
+    }
+  }
+
+//   I phone x
+@media screen and (min-height: 810px) {
+    .cancel-appointment{
+        .cancel-appointment-btn{
+            margin-top: 55%;
+        }
+    }
+  }
+
+  //   Ipad
+@media screen and (min-height: 1000px) {
+    .cancel-appointment{
+        .cancel-appointment-btn{
+            margin-top: 55%;
+        }
+    }
+  }
