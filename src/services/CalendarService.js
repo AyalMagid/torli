@@ -42,6 +42,8 @@ async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorNam
 }
 
 async function removeEventFromCalendar(eventId) {
+    // console.log(eventId)
+    // console.log('3')
     const res = await HttpService.delete('calendar', { eventId })
     console.log(res);
     return res

@@ -12,6 +12,7 @@ export function TimeslotList(props) {
         <div className="timeslot-list flex">
             {
                 Object.keys(props.timeSlots).map(day => {
+                    // not necceserly meants it isnt fully booked even if it gets false, because the treatment might just be longer than the window got
                     const isDateFullyBooked = (typeof props.timeSlots[day] == 'string') ? true : false
                     const date = isDateFullyBooked ? props.timeSlots[day].slice(0, 10) : (props.timeSlots[day])[0].start.slice(0, 10)
                     // running on each day
@@ -20,10 +21,9 @@ export function TimeslotList(props) {
                         <div key={UtilsService.idGen()}>
                             <div className="date-container">
                                 {
-                                isDateFullyBooked?     
+                                !slotsForPreview.length?     
                                 <div className="fully-booked">
                                     <div>{`${UtilsService.getDayByHebrewWord(new Date(date).getDay())} - ${UtilsService.convertDateTo4DigitsDisplay(date)}`}</div>
-                                    <br/>
                                     <div className="fully-booked-title">אין תור פנוי</div>
                                 </div>
                                 :
