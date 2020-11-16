@@ -44,6 +44,12 @@ export function _CancelAppointment(props) {
                     return (date > Date.now())
                 })
                 if (filteredEvents.length) {
+                    filteredEvents.sort((a, b) => {
+                        if (+a.date.slice(2,4) > +b.date.slice(2,4)) return 1
+                        if (+a.date.slice(8,10) > +b.date.slice(8,10)) return 1
+                        if (+a.date.slice(5,7) > +b.date.slice(5,7)) return 1
+                        return -1
+                    })
                     setEventsToCancel(UtilsService.getEventReadyForDisplay(filteredEvents))
                 } else {
                     setEventsToCancel(null)
@@ -66,10 +72,12 @@ export function _CancelAppointment(props) {
     }
 
     function checkNextBtnDisabillity(){
+        if (!eventsToCancel) return true
         return  !((eventsToCancel.length > 1) && (pageCount < eventsToCancel.length-1))
     }
 
     function checkBackBtnDisabillity(){
+        if (!eventsToCancel) return true
         return  !pageCount > 0
     }
 
@@ -96,7 +104,6 @@ export function _CancelAppointment(props) {
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
                                             <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
                                         </div>
-                                        {/* <button onClick={() => cancelAppointment(eventsToCancel[pageCount].id)} className={`${(props.clickedUser)?'contacts-modal-btn':''} trash-btn`} > בטל תור </button> */}
                                     </div>
                                     :
                                     <div className="no-apointments">
@@ -104,18 +111,20 @@ export function _CancelAppointment(props) {
                                     </div>
                                 }
                             </div>
+                            {eventsToCancel &&
                             <div className="cancel-appointment-btn flex align-center space-around" onClick={() => cancelAppointment(eventsToCancel[pageCount].id)}>
                                     <div className="cancel-appointment-btn-text">בטל תור זה</div>
                                     <i className="fas fa-ban"></i>
                             </div>
+                            }
                                     <div className="cancel-appointment-btns-container flex">
                                             <div className="nav-btn-wrapper"  >
-                                                <button className={`nav-btn`} disabled={checkBackBtnDisabillity()} onClick={() => setPageCount(pageCount - 1)}>
+                                                <button className={`nav-btn ${(props.clickedUser)?'nav-btn-right':''}`} disabled={checkBackBtnDisabillity()} onClick={() => setPageCount(pageCount - 1)}>
                                                     <i className="fas fa-arrow-circle-right"></i>
                                                 </button>
                                             </div>
                                             <div className={`nav-btn-wrapper`} >
-                                                <button className={`nav-btn`} disabled={checkNextBtnDisabillity()} onClick={() => {
+                                                <button className={`nav-btn ${(props.clickedUser)?'nav-btn-left':''}`} disabled={checkNextBtnDisabillity()} onClick={() => {
                                                     setPageCount(pageCount + 1)
                                                     console.log(pageCount)
                                             } }>
@@ -129,7 +138,7 @@ export function _CancelAppointment(props) {
             </motion.div>
             <Modal modalContent={
                 <div className="flex align-center justify-center" style={{ height: '100%' }}>
-                    <div>התור בוטל</div>
+                    <div>התור בוטל, תודה על העדכון.</div>
                 </div>} />
         </div>
     );
