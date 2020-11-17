@@ -68,7 +68,7 @@ function _NavBtns(props) {
                             </div>
                             <div className={`nav-btn-wrapper`}>
                                 <button className={`nav-btn ${activeBtn}`} onClick={() => changeStep(1)} disabled={isNextBtnDisable()}>
-                                    אשר
+                                    אישור
                 </button>
                             </div>
                         </div>

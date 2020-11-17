@@ -2,6 +2,13 @@
 .cancel-appointment{
     .cancel-appointment-wrapper{
         width:100%;
+        .appointments-amount-title{
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+        .appointments-amount-title-modal{
+            margin-top: 4rem;
+        }
     }
     .cancel-apointment-loader{
         margin-top: 100px;
@@ -25,13 +32,10 @@
   
 
     .table-wrapper{
-        margin-top: 5rem;
-      .table-container-in-contacts-modal{
-          margin-top: 38%;
+        margin-top: 4rem;
           .apointment-details{
             width: 90%;
           
-        }
       }
       .apointment-details{
         text-align: right;

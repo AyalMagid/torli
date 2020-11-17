@@ -24,7 +24,7 @@ export default function _Modal(props) {
             else setModalClass('ad-modal-in-in-admin-contacts')
         }, 500);
         if (location.pathname === '/form' || location.pathname === '/cancelAppointment') StoreService.initApp()
-        if (location.pathname === '/form') props.history.push('/treatments')
+        if (location.pathname === '/form') props.history.push('/')
     }
 
     return (

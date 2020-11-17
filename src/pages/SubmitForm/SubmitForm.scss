@@ -33,20 +33,23 @@
         width: 100%;
         text-align: right;
         color: #182c4e;
+        margin: 0 auto;
         margin-top: 5rem;
         background-color: #d8d8d80d;
-        border: 0.2px solid white;
         border-radius: 5px;
+        width: 80%;
         .table-cell{
-            border-bottom: 0.2px solid white;
             padding: 20px;
-            padding-right: 35px;
-            padding-left: 35px;
+            background: #ffffffc7;
+            color: #273650;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
         .last-cell{
             padding: 20px;
-            padding-right: 35px;
-            padding-left: 35px;
+            background: #ffffffc7;
+            color: #273650;
+            border-radius: 5px;
             }
         }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, withRouter } from 'react-router-dom';
 import { updateIsModalOpen } from '../../actions/modalAction.js';
 import { Modal } from '../../cmps/Modal/Modal';
 import { motion } from 'framer-motion'
@@ -16,9 +16,12 @@ import { LoaderApp } from '../../cmps/LoaderApp/LoaderApp';
 import './CancelAppointment.scss';
 
 export function _CancelAppointment(props) {
+
     useEffect(() => {
         getEventsByPhone()
     }, []);
+
+    const location = useLocation()
 
     const [loader, setLoader] = React.useState(<LoaderApp />);
     setTimeout(() => {
@@ -30,6 +33,8 @@ export function _CancelAppointment(props) {
     const [eventsToCancel, setEventsToCancel] = useState(null)
 
     const [pageCount, setPageCount] = useState(0)
+
+    const [eventsAmount, setEventsAmount] = useState(0)
 
     function getEventsByPhone() {
         EventService.getEventByPhone(phone)
@@ -44,6 +49,7 @@ export function _CancelAppointment(props) {
                     return (date > Date.now())
                 })
                 if (filteredEvents.length) {
+                    setEventsAmount(filteredEvents.length)
                     filteredEvents.sort((a, b) => {
                         if (+a.date.slice(2,4) > +b.date.slice(2,4)) return 1
                         if (+a.date.slice(8,10) > +b.date.slice(8,10)) return 1
@@ -96,15 +102,30 @@ export function _CancelAppointment(props) {
                         <div className="cancel-apointment-loader">{loader}</div>
                         :
                         <main className="cancel-appointment-wrapper">
+                                      {(eventsToCancel) ?
+                                      (eventsAmount===1) ?
+                                        <div className={`appointments-amount-title ${(location.pathname!=='/cancelAppointment')? 'appointments-amount-title-modal' : ''}`}>
+                                            {`נמצא תור אחד`}
+                                        </div>
+                                        :
+                                        <div className={`appointments-amount-title ${(location.pathname!=='/cancelAppointment')? 'appointments-amount-title-modal' : ''}`}>
+                                            {`נמצאו ${UtilsService.convertNumberToWords(eventsAmount)} תורים`}
+                                        </div>
+                                            :
+                                            ''
+                                        }
                             <div className="table-wrapper">
                                 {(eventsToCancel) ?
-                                    <div className={`cancel-table-container ${(props.clickedUser) ? 'table-container-in-contacts-modal' : ''}`}>
+                                <div>
+                              
+                                    <div className={`cancel-table-container`}>
                                         <div className="apointment-details">
                                             <div className="table-cell"> <span>סוג הטיפול</span> : {eventsToCancel[pageCount].treatments}</div>
                                             <div className="table-cell"> בתאריך : {eventsToCancel[pageCount].date}</div>
                                             <div className="last-cell"> בין השעות : {`${eventsToCancel[pageCount].endTime} - ${eventsToCancel[pageCount].startTime}`}</div>
                                         </div>
                                     </div>
+                                </div>
                                     :
                                     <div className="no-apointments">
                                         לא נמצאו תורים

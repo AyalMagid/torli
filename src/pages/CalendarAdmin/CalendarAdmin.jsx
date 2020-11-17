@@ -67,7 +67,7 @@ const materialTheme = createMuiTheme({
     },
 });
 
-
+// {api: "calendar", type: "event", id: "event_NWhmdml1b25sYnZlYXRucHRuYXZjYjlzMG8", account_id: "416830154", calendar_id: "calendar_YmFydmFyZm1hbjNAZ21haWwuY29t", …}
 
 function _CalendarAdmin(props) {
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.

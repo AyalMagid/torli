@@ -56,7 +56,7 @@ export function _SubmitForm(props) {
             <div className={`user-details ${isCalendarAdminForm ? 'user-details-in-modal' : ''}`}>
                 <div>שם : {name}</div>
                 <div>טלפון : {phone}</div>
-                <div>אימייל : {email}</div>
+                {(email)?<div>אימייל : {email}</div>:''}
             </div>
             <motion.div
                 initial="out"

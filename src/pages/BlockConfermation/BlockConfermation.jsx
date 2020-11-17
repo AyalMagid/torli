@@ -16,7 +16,7 @@ export function _BlockConfermation(props) {
       <main className="main-confermation-container flex align-center justify-center">
         <div className="block-confermation-details">
           <div className="table-cell1">חלון הזמנים שנבחר :</div>
-          <div className="table-cell2">בתאריך : {UtilsService.convertDateToIsraelisDisplay(props.slotToBlock.date)}</div>
+          <div className="table-cell2">תאריך : {UtilsService.convertDateToIsraelisDisplay(props.slotToBlock.date)}</div>
           <div className="table-cell3">בין השעות : {props.slotToBlock.end} - {props.slotToBlock.start}</div>
         </div>
       </main>
