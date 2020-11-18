@@ -1,6 +1,6 @@
 .App {
     display: flex;
-    // flex-direction: column;
+    flex-direction: column;
     align-items: center;
     height: 100%;
 }
@@ -8,15 +8,3 @@
 #root{
     height: 100%;
 }
-
-@media (orientation: landscape) {
-    .App{
-      flex-direction: row;
-    }
-  }
-  
-  @media (orientation: portrait) {
-    .App {
-      flex-direction: column;
-    }
-  }
