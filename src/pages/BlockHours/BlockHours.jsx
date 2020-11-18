@@ -6,6 +6,7 @@ import './BlockHours.scss';
 export function _BlockHours(props) {
 
     function markClickedUser(clickedSlotRange) {
+        console.log('clickedSlotRange',clickedSlotRange)
         let slotsRange = props.slotsRangeToBlock.slice()
         if (clickedSlotRange.isMarked) {
             slotsRange = slotsRange.map(slotRange => {
@@ -15,7 +16,7 @@ export function _BlockHours(props) {
             })
         } else {
             slotsRange = props.slotsRangeToBlock.map(slotRange => {
-                if (slotRange.end === clickedSlotRange.end) {
+                if ((slotRange.end === clickedSlotRange.end)&&(slotRange.start === clickedSlotRange.start)) {
                     slotRange.isMarked = true
                     props.updateSlotToBlock(slotRange)
                     return slotRange
@@ -27,7 +28,7 @@ export function _BlockHours(props) {
         }
         props.updateHoursToBlock(slotsRange)
     }
-
+ 
     return (
         <main className="hours-main-container">
                 <header className="header-in-block-hours-modal flex align-center">

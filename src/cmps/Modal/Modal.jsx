@@ -22,9 +22,10 @@ export default function _Modal(props) {
             props.updateIsModalOpen(false)
             if (!isAdminContacts) setModalClass('ad-modal-in')
             else setModalClass('ad-modal-in-in-admin-contacts')
+            // here, so when modal is closing it will not be the homepage modal - there is the setitmeout delay.
+            if (location.pathname === '/form') props.history.push('/')
+            if (location.pathname === '/form' || location.pathname === '/cancelAppointment') StoreService.initApp()
         }, 500);
-        if (location.pathname === '/form' || location.pathname === '/cancelAppointment') StoreService.initApp()
-        if (location.pathname === '/form') props.history.push('/')
     }
 
     return (
