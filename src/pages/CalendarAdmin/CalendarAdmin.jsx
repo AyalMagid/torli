@@ -71,6 +71,8 @@ const materialTheme = createMuiTheme({
 //"event_ZmQwbmt2czEydmU4aGNvMTNnc20zNHFqNGc"
 //"event_OW9xbGFtdXN2ZXFmMTMzYjhhbm8za3RoaDRfMjAyMDEyMTNUMDYzMDAwWg"
 
+let approvedCounter = 0
+
 function _CalendarAdmin(props) {
 
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
@@ -105,7 +107,6 @@ function _CalendarAdmin(props) {
 
     let eventsIds = []
 
-    let approvedCounter = 0
 
     let weeklyRange = CalendarService.getDatesWeeklyRange(selectedDate)
     
@@ -196,6 +197,15 @@ function _CalendarAdmin(props) {
     useEffect(() => {
         checkIfClicked()
     }, [props.users, props.slotsRangeToBlock]);
+
+    useEffect(() => {
+        if (approvedCounter === 2){
+            console.log(eventToRmoveId)
+            cancelAppiontment()
+            approvedCounter = 0
+            setReccurenceBlock(false)
+        }
+    }, [eventToRmoveId]);
 
     useEffect(() => {
         (async () => {
@@ -363,30 +373,47 @@ function _CalendarAdmin(props) {
 
     // fermove is approved is for the second time - so we can delete all events or just single
     const handleClose = (isApproved) => {
-        console.log(isApproved)
+        console.log(reccurenceBlock, 'reccurenceBlock')
         if (isApproved) {
-            approvedCounter++
+            // isapproved - approval on the modal - true/false
+            // counter to make sure how many times? 1? 2?
+            approvedCounter ++
             console.log(approvedCounter, 'approvedCounter')
         if (reccurenceBlock) {
+            // is it reccurence?
             console.log(reccurenceBlock, 'reccurenceBlock')
             setModalContent({title:'סגירה שחוזרת על עצמה', text:'למחיקת כל המופעים החוזרים של הסגירה, לחצו אישור. למחיקה בתאריך הספציפי שנבחר לחצו ביטול'})
-            // it always has delay of one becasue of setstate
             if (approvedCounter === 2) {
-                console.log('in')
+                // wants to delete the whole block reccurence
                 cancelRecurrenceBlock()
                 setOpen(false);
-                approvedCounter = 0
+                setModalContent({title:'הסרת חסימה ',text:'להסרת החסימה לחצו אישור'})
                 return
-            } 
+            }
+            // means it is not modal after trying to scheduale on occupied dates but some kind of removal (either appointment or block)
+        } else if (!prevEventsToDisplay) {
+            // normal individual block
+            setOpen(false)
+            cancelAppiontment()
+            approvedCounter = 0
+            setModalContent({title:'הסרת חסימה ',text:'להסרת החסימה לחצו אישור'})
+        } else {
+            // must be modal after trying to schedaule reccurence block but dates are occupied
+            setOpen(false)
+            setEventsToDisplay(prevEventsToDisplay)
+            setPrevEventsToDisplay(null)
         }
     } else if (!isApproved && approvedCounter){
+        // wants to delete only ony specific block from the reccurence counter must be at least one from first click
+        console.log('secondif')
     // meaning first click was approved (to delete the block and the second wasnt - want to delete only the specific one - not the whole thing)
         setOpen(false);
         approvedCounter = 0
         setReccurenceBlock(false)
         setModalContent({title:'הסרת חסימה ',text:'להסרת החסימה לחצו אישור'})
-        if (isApproved && !prevEventsToDisplay) cancelAppiontment()
-        if (prevEventsToDisplay) {
+        if (!prevEventsToDisplay) {
+            cancelAppiontment()
+        } else {
             setEventsToDisplay(prevEventsToDisplay)
             setPrevEventsToDisplay(null)
         }
@@ -398,6 +425,7 @@ function _CalendarAdmin(props) {
     async function cancelRecurrenceBlock () {
         const idToCompareWithMongo = eventToRmoveId.calendar.slice(0,40)
         const reccurenceMongoEvent = await EventService.getReccurenceMongoEventBySubStrId(idToCompareWithMongo)
+        console.log(reccurenceMongoEvent,'reccurenceMongoEvent')
         setTempEventToRmoveId(reccurenceMongoEvent.eventId)
         setEventToRmove({ mongo: reccurenceMongoEvent._id, calendar: reccurenceMongoEvent.eventId })
     }
