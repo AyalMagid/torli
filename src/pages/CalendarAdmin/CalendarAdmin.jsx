@@ -371,6 +371,8 @@ function _CalendarAdmin(props) {
         setOpen(true);
     };
 
+
+    // change to switch case with small functions
     // fermove is approved is for the second time - so we can delete all events or just single
     const handleClose = (isApproved) => {
         console.log(reccurenceBlock, 'reccurenceBlock')
@@ -417,6 +419,11 @@ function _CalendarAdmin(props) {
             setPrevEventsToDisplay(null)
         }
     } else {
+        // tried to scheduale recuurence block on dates which are occupied than click bitul
+        if (prevEventsToDisplay) {
+            setEventsToDisplay(prevEventsToDisplay)
+            setPrevEventsToDisplay(null)
+        }
         setOpen(false)
     }
 };
