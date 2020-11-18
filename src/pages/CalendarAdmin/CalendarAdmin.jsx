@@ -405,7 +405,6 @@ function _CalendarAdmin(props) {
         }
     } else if (!isApproved && approvedCounter){
         // wants to delete only ony specific block from the reccurence counter must be at least one from first click
-        console.log('secondif')
     // meaning first click was approved (to delete the block and the second wasnt - want to delete only the specific one - not the whole thing)
         setOpen(false);
         approvedCounter = 0
