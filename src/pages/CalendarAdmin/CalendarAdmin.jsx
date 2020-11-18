@@ -67,9 +67,12 @@ const materialTheme = createMuiTheme({
     },
 });
 
-// {api: "calendar", type: "event", id: "event_NWhmdml1b25sYnZlYXRucHRuYXZjYjlzMG8", account_id: "416830154", calendar_id: "calendar_YmFydmFyZm1hbjNAZ21haWwuY29t", …}
+//"event_OW9xbGFtdXN2ZXFmMTMzYjhhbm8za3RoaDQ"
+//"event_ZmQwbmt2czEydmU4aGNvMTNnc20zNHFqNGc"
+//"event_OW9xbGFtdXN2ZXFmMTMzYjhhbm8za3RoaDRfMjAyMDEyMTNUMDYzMDAwWg"
 
 function _CalendarAdmin(props) {
+
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
     const location = useLocation()
     const constrains = {
@@ -82,7 +85,9 @@ function _CalendarAdmin(props) {
     const [prevEventsToDisplay, setPrevEventsToDisplay] = React.useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
+    const [reccurenceBlock, setReccurenceBlock] = React.useState(false);
     const [modalSubJect, setModalSubJect] = React.useState('');
+    const [modalContent, setModalContent] = React.useState({title:'הסרת חסימה ',text:'להסרת החסימה לחצו אישור'});
     const [isTempModeOn, setIsTempModeOn] = useState(false);
     const [weeklyDates, setWeeklyDates] = useState([]);
     const [timeSlots, setWorkingTimeSlots] = useState(getWorkingTimeSlots());
@@ -99,6 +104,8 @@ function _CalendarAdmin(props) {
     const [loader, setLoader] = useState(true);
 
     let eventsIds = []
+
+    let approvedCounter = 0
 
     let weeklyRange = CalendarService.getDatesWeeklyRange(selectedDate)
     
@@ -191,10 +198,6 @@ function _CalendarAdmin(props) {
     }, [props.users, props.slotsRangeToBlock]);
 
     useEffect(() => {
-        // events to display
-    }, []);
-
-    useEffect(() => {
         (async () => {
                 let table = CalendarService.buildWeeklyModel(timeSlots, await eventsToDisplay)
                 props.updateTableModel(table)
@@ -268,6 +271,8 @@ function _CalendarAdmin(props) {
 
     async function cancelAppiontment() {
         setIsTempModeOn(true)
+        console.log('eventToRmoveId', eventToRmoveId)
+        console.log('tempEventToRmoveId', tempEventToRmoveId)
         let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
         eventsToDisplayCopy = eventsToDisplayCopy.map(dailyEvents => {
             return dailyEvents.filter(ev => ev.id !== tempEventToRmoveId)
@@ -282,7 +287,7 @@ function _CalendarAdmin(props) {
 
         setEventsToDisplay(eventsToDisplayCopy)
         const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
-        console.log(confirmedDeletedEvent)
+        console.log('confiremdn deleted from calendar',confirmedDeletedEvent)
         if (!confirmedDeletedEvent) {
             console.log('problem deleting event')
             //need to put modal
@@ -291,8 +296,8 @@ function _CalendarAdmin(props) {
         setEventsToDisplay(async () => {
             return await getWeeklyEvents(selectedDate)
         })
-        // delete from mongo data base
-        EventService.removeEventFromDB(eventToRmoveId.mongo)
+        // delete from mongo data base - for blocks which are recurrence there is only one mongo event 
+        if (eventToRmoveId.mongo) {EventService.removeEventFromDB(eventToRmoveId.mongo)}
         // EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
     }
 
@@ -333,29 +338,69 @@ function _CalendarAdmin(props) {
         }
     }
 
+    // "event_amYyZGNkMjUxaWNtZmptNzZzYmlwY3JzMmc"
     const handleClickOpen = async (ev) => {
         if (ev) {
-            setTempEventToRmoveId(ev.id)
+
             if (ev.name === 'block - block') {
                 setModalSubJect('block')
             } else {
                  setModalSubJect('appointment')
             }
+
+            if (ev.id.length > 60){
+                // must be a reccurence event
+                setReccurenceBlock(true)
+            }
+            setTempEventToRmoveId(ev.id)
             const mongoEvent = await EventService.getMongoEventByEventCalendarId(ev.id)
-            setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })
+            console.log('mongo event',mongoEvent)
+            if (mongoEvent) {setEventToRmove({ mongo: mongoEvent._id, calendar: ev.id })}
+            else {setEventToRmove({ mongo: '', calendar: ev.id })}
         }
         setOpen(true);
     };
 
+    // fermove is approved is for the second time - so we can delete all events or just single
     const handleClose = (isApproved) => {
+        console.log(isApproved)
+        if (isApproved) {
+            approvedCounter++
+            console.log(approvedCounter, 'approvedCounter')
+        if (reccurenceBlock) {
+            console.log(reccurenceBlock, 'reccurenceBlock')
+            setModalContent({title:'סגירה שחוזרת על עצמה', text:'למחיקת כל המופעים החוזרים של הסגירה, לחצו אישור. למחיקה בתאריך הספציפי שנבחר לחצו ביטול'})
+            // it always has delay of one becasue of setstate
+            if (approvedCounter === 2) {
+                console.log('in')
+                cancelRecurrenceBlock()
+                setOpen(false);
+                approvedCounter = 0
+                return
+            } 
+        }
+    } else if (!isApproved && approvedCounter){
+    // meaning first click was approved (to delete the block and the second wasnt - want to delete only the specific one - not the whole thing)
         setOpen(false);
-        console.log(prevEventsToDisplay)
+        approvedCounter = 0
+        setReccurenceBlock(false)
+        setModalContent({title:'הסרת חסימה ',text:'להסרת החסימה לחצו אישור'})
         if (isApproved && !prevEventsToDisplay) cancelAppiontment()
         if (prevEventsToDisplay) {
             setEventsToDisplay(prevEventsToDisplay)
             setPrevEventsToDisplay(null)
         }
-    };
+    } else {
+        setOpen(false)
+    }
+};
+
+    async function cancelRecurrenceBlock () {
+        const idToCompareWithMongo = eventToRmoveId.calendar.slice(0,40)
+        const reccurenceMongoEvent = await EventService.getReccurenceMongoEventBySubStrId(idToCompareWithMongo)
+        setTempEventToRmoveId(reccurenceMongoEvent.eventId)
+        setEventToRmove({ mongo: reccurenceMongoEvent._id, calendar: reccurenceMongoEvent.eventId })
+    }
 
     async function setAppointment(duration) {
         setIsTempModeOn(true)
@@ -435,7 +480,8 @@ function _CalendarAdmin(props) {
             setIsTempModeOn(false)
             setOpen(true)
             return
-        }
+        } 
+        console.log('confirmed eventId',confirmedBlockOrOccDates.id)
         setEventsToDisplay(async () => {
             return await getWeeklyEvents(selectedDate)
         })
@@ -570,7 +616,7 @@ function _CalendarAdmin(props) {
                                         :
                                         (modalSubJect === 'block')
                                             ?
-                                            'הסרת חסימה'
+                                            modalContent.title
                                             :
                                             (modalSubJect === 'appointment')?
                                             'ביטול תור'
@@ -593,7 +639,7 @@ function _CalendarAdmin(props) {
                                             :
                                             (modalSubJect === 'block')
                                                 ?
-                                                'להסרת החסימה לחצו אישור'
+                                                modalContent.text
                                                 :
                                                 (modalSubJect === 'appointment')?
                                                 ' לביטול התור לחצו אישור'

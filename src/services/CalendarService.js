@@ -42,10 +42,7 @@ async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorNam
 }
 
 async function removeEventFromCalendar(eventId) {
-    // console.log(eventId)
-    // console.log('3')
     const res = await HttpService.delete('calendar', { eventId })
-    console.log(res);
     return res
 }
 
@@ -124,8 +121,9 @@ async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
     const duration = UtilsService.calculateDuration (time1, time2)
 
     let confirmedEvent 
-    if (!recurrence.isRecurrence) {
+    if (+recurrence.count===1) {
         confirmedEvent = await addEventToCalendar(startTime, endTime, name)
+        console.log('herer')
     } else {
         // checking if recurrence is possible during all the chosen dates
 

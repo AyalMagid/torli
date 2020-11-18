@@ -3,6 +3,7 @@ import HttpService from './HttpService'
 export default {
     saveConfirmedEvent,
     getMongoEventByEventCalendarId,
+    getReccurenceMongoEventBySubStrId,
     getEventByPhone,
     removeEventFromDB
 }
@@ -20,6 +21,10 @@ function getEventByPhone (phone) {
 
 function getMongoEventByEventCalendarId(evId) {
     return HttpService.get(`event/${evId}`)
+}
+
+async function getReccurenceMongoEventBySubStrId(subStrId) {
+    return await HttpService.get(`event/reccurence/${subStrId}`)
 }
 
 function removeEventFromDB (_id) {
