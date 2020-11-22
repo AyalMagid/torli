@@ -52,6 +52,21 @@ export function _App(props) {
           <Route path="/advertise" component={Advertise} />
           <Route path="/adminContacts" component={AdminContacts} />
           <Route path="/" component={HomePage} />
+          {/* <Route path="/:workPlace/calendar" component={CalendarApp} />
+          <Route path="/:workPlace/cancelAppointment" component={CancelAppointment} />
+          <Route path="/:workPlace/form" component={SubmitForm} />
+          <Route path="/:workPlace/treatments" component={TreatmentApp} />
+          <Route path="/:workPlace/editTreatments" component={EditTreatments} />
+          <Route path="/:workPlace/treatmentToEdit" component={TreatmentToEdit} />
+          <Route path="/:workPlace/signupOrLogin" component={SignupOrLogin} />
+          <Route path="/:workPlace/login" component={Login} />
+          <Route path="/:workPlace/signup" component={Signup} />
+          <Route path="/:workPlace/editUser" component={EditUser} />
+          <Route path="/:workPlace/calendarAdmin" component={CalendarAdmin} />
+          <Route path="/:workPlace/advertise" component={Advertise}/>
+          <Route path="/:workPlace/adminContacts" component={AdminContacts}/>
+          <Route path="/:workPlace" component={HomePage} /> */}
+          {/* <Route path="?method=get&name=adi" component={HomePage} /> */}
         </Switch>
       </div>
     </Router>

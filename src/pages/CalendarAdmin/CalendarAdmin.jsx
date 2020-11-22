@@ -730,6 +730,14 @@ function _CalendarAdmin(props) {
                                     <Route path="/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
                                     <Route path="/calendarAdmin/blockHours" component={BlockHours} />
                                     <Route path="/calendarAdmin/blockConfermation" component={BlockConfermation} />
+                                    {/* <Route path="/:workPlace/calendarAdmin/contacts" exact component={Contacts} />
+                                    <Route path="/:workPlace/calendarAdmin/contacts/signup" component={Signup} />
+                                    <Route path="/:workPlace/calendarAdmin/treatments" component={TreatmentApp} />
+                                    <Route path="/:workPlace/calendarAdmin/form" component={SubmitForm} />
+                                    <Route path="/:workPlace/calendarAdmin/freq" component={AppointmentFreq} />
+                                    <Route path="/:workPlace/calendarAdmin/appointmentOrBlock" component={AppointmentOrBlock} />
+                                    <Route path="/:workPlace/calendarAdmin/blockHours" component={BlockHours} />
+                                    <Route path="/:workPlace/calendarAdmin/blockConfermation" component={BlockConfermation} /> */}
                                 </Router>
                                 {((location.pathname !== '/calendarAdmin/appointmentOrBlock') && (location.pathname !== '/calendarAdmin/contacts/signup')) && <ModalButton handleModalRoute={handleModalRoute} isClicked={isClicked} />}
                                 <div className="close-admin-modal-btn" onClick={closeAppointmentsModal}><i class="fas fa-times"></i></div>
