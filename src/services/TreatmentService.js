@@ -27,9 +27,15 @@ function getTreatments() {
     return HttpService.get('treatment')
 }
 
+// routim
+// function getTreatments(workPlace) {
+//     return HttpService.get(`treatment/owner/${workPlace}`)
+// }
+
 function getById(treatmentId) {
     return HttpService.get(`treatment/${treatmentId}`)
 }
+
 function remove(treatmentId) {
     return HttpService.delete(`treatment/${treatmentId}`)
 }

@@ -13,6 +13,8 @@ export function _Advertise(props) {
 
     useEffect(() => {
         (async () => {
+            // routim
+            // let ad = await AdvertiseService.getAd(props.owner.workPlace)
             let ad = await AdvertiseService.getAd()
             setIsAdModeOn(ad[0].isAdModeOn)
             setAdvertiseContent(ad[0].content)
@@ -29,11 +31,24 @@ export function _Advertise(props) {
         //open modal useing store
         props.updateIsModalOpen(true)
     }
+
+    // routim
+    // function updateAdContent() {
+    //     AdvertiseService.updateAd({ advertiseContent, wokrPlace:props.owner.workPlace})
+    //     //open modal useing store
+    //     props.updateIsModalOpen(true)
+    // }
     
     function toggleAdMode() {
         AdvertiseService.toggleAdMode({isAdModeOn:!isAdModeOn})
         setIsAdModeOn(!isAdModeOn)
     }
+
+    // routim
+    // function toggleAdMode() {
+    //     AdvertiseService.toggleAdMode({isAdModeOn:!isAdModeOn, wokrPlace:props.owner.workPlace})
+    //     setIsAdModeOn(!isAdModeOn)
+    // }
 
     return (
         <main className="main-ad-container">
@@ -69,6 +84,8 @@ export function _Advertise(props) {
 
 function mapStateProps(state) {
     return {
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

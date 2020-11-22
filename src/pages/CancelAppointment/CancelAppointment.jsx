@@ -63,6 +63,10 @@ export function _CancelAppointment(props) {
             })
     }
 
+
+    // routim
+    //   CalendarService.removeEventFromCalendar(eventToRmove)line 74
+    // email service need changes
     async function cancelAppointment(eventId) {
         props.updateIsModalOpen(true)
         const events = await EventService.getEventByPhone(phone)

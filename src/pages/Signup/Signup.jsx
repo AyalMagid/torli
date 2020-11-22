@@ -17,14 +17,16 @@ import { EditButton } from '../../cmps/EditButton/EditButton';
 import MotionService from "../../services/MotionService";
 import './Signup.scss';
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export function _Signup(props) {
+
     const location = useLocation()
     const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
+    // routim
+    // const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '', workPlace: props.owner.workPlace })
     const { name, phone, email } = credentials
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
@@ -109,6 +111,7 @@ export function _Signup(props) {
 
     function navToContacts() {
         props.history.push('/calendarAdmin/contacts')
+              {/* routim `/${props.owner.workPlace}/calendarAdmin/contacts' */}
     }
 
     const isContactsPath = (location.pathname === '/calendarAdmin/contacts/signup')
@@ -122,7 +125,9 @@ export function _Signup(props) {
             await UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
                 if (phone !== '123456789') props.history.push('/treatments')
+                //   {/* routim `/${props.owner.workPlace}/treatments' */}
                 else props.history.push('/calendarAdmin')
+                // routim ('/${props.owner.workPlace}/calendarAdmin')
             } else {
                 await props.updateUserPhoneInContactSignup(credentials.phone)
                 props.updateUserToSchedule(credentials)
@@ -212,6 +217,7 @@ export function _Signup(props) {
                                 <div className="flex">
                                     <div>להתחברות לחץ</div>
                                     <Link className="login-link flex align-center justify-center" to="/login">
+                                              {/* routim to=`/${props.owner.workPlace}/login` */}
                                         כאן
                                        </Link>
                                 </div>
@@ -233,7 +239,8 @@ export function _Signup(props) {
 
 function mapStateProps(state) {
     return {
-
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 
@@ -244,3 +251,9 @@ const mapDispatchToProps = {
 }
 
 export const Signup = connect(mapStateProps, mapDispatchToProps)(_Signup)
+
+// routim
+// when saving new owner props.owner.workPlace to data 
+// props.owner.workPlace = props.owner.workPlace.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());    uppercase first letter in every word
+// props.owner.workPlace = props.owner.workPlace.replace(/\s/g,'') => delete all spaces
+// props.owner.workPlace = props.owner.workPlace.charAt(0).toLocaleLowerCase()+props.owner.workPlace.slice(1)   => lowwercase only the first letter

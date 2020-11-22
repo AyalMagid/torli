@@ -115,6 +115,8 @@ export function _EditUser(props) {
         if (!props.loggedInUser.isAdmin) {
             UserService.updateUser(credentials)
             props.history.push('/')
+            // routim
+            // props.history.push(`/${props.owner.workPlace}`)
         }
         else {
             handleClickOpen()
@@ -135,6 +137,7 @@ export function _EditUser(props) {
                 setOpen(false);
                 UserService.updateUser(credentials)
                 props.history.push('/')
+                //routim props.history.push(`/${props.owner.workPlace}`)
             }
             else {
                 setDialogTitle('ססמא שגויה!')
@@ -239,6 +242,7 @@ export function _EditUser(props) {
         StorageService.removeFromStorage('tori-user')
         props.updateLoggedInUser(null)
         props.history.push('/')
+        //routim props.history.push(`/${props.owner.workPlace}`)
     }
 
     return (
@@ -359,6 +363,8 @@ export function _EditUser(props) {
 function mapStateProps(state) {
     return {
         loggedInUser: state.UserReducer.loggedInUser
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

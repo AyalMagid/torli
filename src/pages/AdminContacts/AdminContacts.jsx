@@ -7,7 +7,10 @@ export function _AdminContacts(props) {
     const [searchTerm, setSearchTerm] = useState('')
     const [clickedUser, setClickedUser] = useState('')
     const [appointmentsModalIsOpen, setAppointmentsModalIsOpen] = useState(false);
+
     useEffect(() => {
+        // routim
+        // props.loadUsers(props.owner.workPlace)
         props.loadUsers()
     }, [props.loadUsers]);
     function handleChange({ target }) {
@@ -88,6 +91,8 @@ function mapStateProps(state) {
     return {
         users: state.UserReducer.users,
         loggedInUser: state.UserReducer.loggedInUser
+         // routim
+        //owner:state.UserReducer.owner
     }
 }
 const mapDispatchToProps = {

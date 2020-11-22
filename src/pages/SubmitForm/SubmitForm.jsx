@@ -39,6 +39,8 @@ export function _SubmitForm(props) {
 
     async function setAppointment() {
         await CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment)
+        // routim
+        // await CalendarService.setAppointment(markedTreatmetns, props.duration, phone, email, name, props.treatment, props.owner)
     }
 
     let isCalendarAdminForm = (location.pathname === '/calendarAdmin/form')
@@ -92,6 +94,8 @@ function mapStateProps(state) {
         treatment: state.TreatmentReducer.treatment,
         duration: state.TreatmentReducer.duration,
         userToSchedule: state.UserReducer.userToSchedule,
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

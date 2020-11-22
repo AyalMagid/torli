@@ -4,6 +4,8 @@ export default {
     sendEmail
 }
 
+// routim
+// function sendEmail(name, date, email='', isConfirmation, phone='', duration='', time='', treatments='', businessName) {
 function sendEmail(name, date, email='', isConfirmation, phone='', duration='', time='', treatments='') {
     const businessName='נייל סלון'
     let bodyText = ''

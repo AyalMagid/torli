@@ -11,6 +11,17 @@ export function loadUsers() {
     };
   }
 }
+// routim
+// export function loadUsers(workPlace) {
+//   return async dispatch => {
+//     try {
+//       const users = await UserService.getUsers(workPlace);
+//       dispatch(setUsers(users));
+//     } catch (err) {
+//       console.log('userActions: err in loadUsers', err);
+//     };
+//   }
+// }
 
 export function setUsers(users) {
   return {
@@ -36,6 +47,23 @@ export function _updateUsers(users) {
   };
 }
 
+// routim
+export function setOwner(owner) {
+  return async dispatch => {
+    try {
+      dispatch(_updateUsers(owner));
+    } catch (err) {
+      console.log('userActions: err in setting owner', err);
+    };
+  }
+}
+
+export function _setOwner(owner) {
+  return {
+    type: 'SET_OWNER',
+    owner
+  };
+}
 
 export function updateLoggedInUser(loggedInUser) {
   return async dispatch => {

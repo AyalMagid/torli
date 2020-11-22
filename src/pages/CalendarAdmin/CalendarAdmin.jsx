@@ -67,16 +67,18 @@ const materialTheme = createMuiTheme({
     },
 });
 
-//"event_OW9xbGFtdXN2ZXFmMTMzYjhhbm8za3RoaDQ"
-//"event_ZmQwbmt2czEydmU4aGNvMTNnc20zNHFqNGc"
-//"event_OW9xbGFtdXN2ZXFmMTMzYjhhbm8za3RoaDRfMjAyMDEyMTNUMDYzMDAwWg"
-
 let approvedCounter = 0
 
 function _CalendarAdmin(props) {
 
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
     const location = useLocation()
+    // routim
+    // const constrains = {
+    //     start: `2020-10-12T${props.owner.workingHours.start}:00Z`,
+    //     end: `2020-10-12T${props.owner.workingHours.end}:00Z`
+    // }
+
     const constrains = {
         start: "2020-10-12T06:00:00Z",
         end: "2020-10-12T18:00:00Z"
@@ -279,10 +281,12 @@ function _CalendarAdmin(props) {
         })
     }
 
+
+    // routim
+    //  const event = {accountId:props.owner.accountId, calendarId:props.owner.calendarId, eventId:eventToRmoveId.calendar}
+    //  const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(event) line 302
     async function cancelAppiontment() {
         setIsTempModeOn(true)
-        console.log('eventToRmoveId', eventToRmoveId)
-        console.log('tempEventToRmoveId', tempEventToRmoveId)
         let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
         eventsToDisplayCopy = eventsToDisplayCopy.map(dailyEvents => {
             return dailyEvents.filter(ev => ev.id !== tempEventToRmoveId)
@@ -319,6 +323,12 @@ function _CalendarAdmin(props) {
 
     async function getWeeklyEvents(date = new Date()) {
         return await Promise.all((UtilsService.getWeekIsosDatesForCalendar(date.getDay() + 1, date)).map(async isosDate => {
+            // routim
+            // let timeRangeAndIds = {...isosDate}
+            // timeRangeAndIds.accountId = props.owner.accountId
+            // timeRangeAndIds.calendarId = props.owner.calendarId
+            // timeRangeAndIds.token = props.owner.token
+            //   return await CalendarService.getEventsFromCalendar(timeRangeAndIds)
             return await CalendarService.getEventsFromCalendar(isosDate)
         }))
     }
@@ -436,6 +446,8 @@ function _CalendarAdmin(props) {
         setEventToRmove({ mongo: reccurenceMongoEvent._id, calendar: reccurenceMongoEvent.eventId })
     }
 
+    // routim
+    //   const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment, props.owner) line 469
     async function setAppointment(duration) {
         setIsTempModeOn(true)
         const markedTreatmetns = TreatmentService.getMarkedTreatmentsStr(props.treatments)
@@ -464,6 +476,9 @@ function _CalendarAdmin(props) {
         setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 
+
+    // routim
+    //  const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence, props.owner) line 524
     async function blockSlotRange(recurrence) {
         setIsTempModeOn(true)
         let time1 = UtilsService.changeTimeForDisplay(props.slotToBlock.start, 0)
@@ -759,7 +774,9 @@ function mapStateProps(state) {
         slotsRangeToBlock: state.CalendarReducer.slotsRangeToBlock,
         slotToBlock: state.CalendarReducer.slotToBlock,
         recurrence: state.CalendarReducer.recurrence,
-        tableModel: state.CalendarReducer.tableModel
+        tableModel: state.CalendarReducer.tableModel,
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

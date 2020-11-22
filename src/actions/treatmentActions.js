@@ -14,6 +14,20 @@ export function loadTreatments() {
   }
 }
 
+// routim 
+// export function loadTreatments(workPlace) {
+  
+//   return async dispatch => {
+//     try {
+//       const treatments = await TreatmentService.getTreatments(workPlace);
+//       dispatch(setTreatments(treatments));
+   
+//     } catch (err) {
+//       console.log('TreatmentActions: err in loadTreatments', err);
+//     };
+//   }
+// }
+
 export function setTreatments(treatments) {
   return {
     type: 'SET_TREATMENTS',

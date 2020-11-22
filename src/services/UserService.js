@@ -7,7 +7,9 @@ export default {
     addUser,
     removeUser,
     updateUser,
-    unshiftCellByPhoneNumber
+    unshiftCellByPhoneNumber,
+    // routim
+    getOwner
 }
 
 function _sortUsers(users) {
@@ -19,8 +21,21 @@ async function getUsers() {
     return _sortUsers(users)
 }
 
+//  routim
+// async function getUsers(workPlace) {
+//     const users = await HttpService.get(`user/workPlace/${workPlace}`)
+//     return _sortUsers(users)
+// }
+
 function getUser(phone) {
     return HttpService.get(`user/${phone}`)
+}
+
+// routim
+function getOwner(workPlace){
+    // const workPlace = (window.location.href)
+    // console.log(window.location.href)
+    return HttpService.get(`user/owner/${workPlace}`)
 }
 
 function updateUser(user) {
@@ -52,3 +67,5 @@ function unshiftCellByPhoneNumber(users, phone) {
     users.unshift(copySplicedCell)
     return users
 }
+
+

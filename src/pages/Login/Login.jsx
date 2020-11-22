@@ -77,6 +77,7 @@ function _Login(props) {
                 StorageService.saveToStorage('tori-user', { name, email, phone })
                 props.updateLoggedInUser(userFromDb)
                 props.history.push('/treatments')
+                // ('/${props.owner.workPlace}/treatments')
             }
             else {
                 handleClickOpen()
@@ -202,6 +203,7 @@ function _Login(props) {
                             <div className="flex">
                                 <div>להרשמה לחץ</div>
                                 <Link className="login-link flex align-center justify-center" to="/signup">
+                                    {/* to="/${props.owner.workPlace}/signup" */}
                                     כאן
                                        </Link>
                             </div>
@@ -225,6 +227,8 @@ function _Login(props) {
 function mapStateProps(state) {
     return {
         loggedInUser: state.UserReducer.loggedInUser
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

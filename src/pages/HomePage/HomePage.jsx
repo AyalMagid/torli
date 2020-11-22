@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { updateIsAdShown} from '../../actions/userAction';
+import { updateIsAdShown, setOwner} from '../../actions/userAction';
 import { updateIsModalOpen } from '../../actions/modalAction.js';
 import { Modal } from '../../cmps/Modal/Modal';
 import AdvertiseService from '../../services/AdvertiseService';
+import UserService from '../../services/UserService';
+// routim
+// import { useParams } from "react-router";
 import './HomePage.scss';
 
 export function _HomePage(props) {
@@ -11,12 +14,23 @@ export function _HomePage(props) {
         (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
     const [advertise, setAdvertise] = useState();
-    const wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
-    const facebook = 'bokeresh'
-    const instagram = 'restylebar'
+    // routim
+    // let { workPlace } = useParams();
+    let wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
+    let facebook = 'bokeresh'
+    let instagram = 'restylebar'
+
 
     useEffect(() => {
         (async () => {
+                // routim
+                // if (!props.owner) {
+                // loader until owner ? or start ffrom login/signup page
+                // const owner = await UserService.getOwner(workPlace)
+                // props.setOwner(owner)
+                // useLayoutEffect => might be better to use
+                // updateByWorkPlace ()
+                // }
                 let ad = await AdvertiseService.getAd()
                 ad = ad[0]
                 if (props.loggedInUser&&(!props.loggedInUser.isAdmin)) {
@@ -37,7 +51,35 @@ export function _HomePage(props) {
     }, [props.loggedInUser]);
 
 
+    // function updateByWorkPlace() {
+        // routim
+        // wazeUrl = props.owner.wazeUrl
+        // facebook = props.owner.facebookUrl
+        // instagram = props.owner.instagramUrl
+        // let profileImgEl = document.getElementsByClassName("profile-img");
+        // profileImgEl.style.src = props.owner.profileImgUrl;
+        // let profileSubTitleEl = document.getElementsByClassName("profile-sub-title");
+        // profileTitleEl.style.src = props.owner.workPlaceTitle
+        // let profileSubTitleEl = document.getElementsByClassName("profile-title");
+        // profileTitleEl.style.src = props.owner.workPlaceTitle
+        // let coverPhotoEl = document.getElementsByClassName("cover-photo");
+        // coverPhotoEl.style.src = props.owner.coverImgUrl
+    // }
+
+/* routim to=`/${workPlace}/editUser` */
+  /* routim to=`/${workPlace}/signupOrLogin` */
+   /* routim to=`/${workPlace}/treatments` */
+     /* routim to=`/${workPlace}/cancelAppointment` */
+       /* routim to=`/${workPlace}/calendarAdmin` */
+         /* routim to=`/${workPlace}/adminContacts` */
+           /* routim to=`/${workPlace}/advertise` */
+             /* routim to=`/${workPlace}/treatments` */
+               /* routim to=`/${workPlace}/cancelAppointment` */
+                 /* routim href=`tel:${props.owner.phone}`   */
+
     return (
+        // routim
+        // props.owner &&
         <div className="home-page-wrapper">
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
@@ -134,13 +176,17 @@ export function _HomePage(props) {
 function mapStateProps(state) {
     return {
         isAdShown: state.UserReducer.isAdShown,
-        loggedInUser: state.UserReducer.loggedInUser
+        loggedInUser: state.UserReducer.loggedInUser,
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 
 const mapDispatchToProps = {
     updateIsAdShown,
-    updateIsModalOpen
+    updateIsModalOpen,
+    // routim
+    setOwner
 }
 
 export const HomePage = connect(mapStateProps, mapDispatchToProps)(_HomePage)

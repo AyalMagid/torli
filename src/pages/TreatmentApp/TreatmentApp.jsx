@@ -17,7 +17,13 @@ export function _TreatmentApp(props) {
     const { loadTreatments, treatments, setUserToSchedule, userToSchedule } = props
     useEffect(() => {
         if (!treatments) loadTreatments()
+        // routim
+        // if (!treatments) loadTreatments(props.owner.workPlace)
     }, [loadTreatments, treatments]);
+
+    useEffect(() => {
+        console.log(treatments)
+    }, [treatments]);
 
     useEffect(() => {
         (async () => {
@@ -66,7 +72,9 @@ function mapStateProps(state) {
     return {
         treatments: state.TreatmentReducer.treatments,
         userToSchedule: state.UserReducer.userToSchedule,
-        loggedInUser: state.UserReducer.loggedInUser
+        loggedInUser: state.UserReducer.loggedInUser,
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

@@ -5,7 +5,9 @@ const INITIAL_STATE = {
     loggedInUser:null,
     userToSchedule: null,
     isAdShown: false,
-    userPhoneInContactSignup: ''
+    userPhoneInContactSignup: '',
+    // routim
+    owner:null
 }
 
 export function UserReducer(state = INITIAL_STATE, action) {
@@ -30,6 +32,12 @@ export function UserReducer(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 userToSchedule: action.userToSchedule
+            }
+            // routim
+        case 'SET_OWNER':
+            return {
+                ...state,
+                owner: action.owner
             }
         case 'UPDATE_USER_TO_SCHEDULE':
             return {

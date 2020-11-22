@@ -55,6 +55,8 @@ export function _CalendarApp(props) {
 
     const { loadTimeSlots } = props
     useEffect(() => {
+        // routim
+        //  loadTimeSlots(null, props.owner.accountId)
         loadTimeSlots()
         if (props.timeSlots) {
             setLoader(false)
@@ -66,6 +68,8 @@ export function _CalendarApp(props) {
         setLoader(true)
         handleDateChange(date)
         await props.loadTimeSlots(date)
+        // routim
+        // await props.loadTimeSlots(date, props.owner.accountId)
         if (props.timeSlots) {
             setLoader(false)
         }
@@ -188,7 +192,9 @@ export function _CalendarApp(props) {
 function mapStateProps(state) {
     return {
         timeSlots: state.CalendarReducer.timeSlots,
-        duration: state.TreatmentReducer.duration
+        duration: state.TreatmentReducer.duration,
+        // routim
+        //owner:state.UserReducer.owner
     }
 }
 

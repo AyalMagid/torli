@@ -42,8 +42,8 @@ export function _App(props) {
           <Route path="/cancelAppointment" component={CancelAppointment} />
           <Route path="/form" component={SubmitForm} />
           <Route path="/treatments" component={TreatmentApp} />
-          <Route path="/editTreatments" component={EditTreatments} />
-          <Route path="/treatmentToEdit" component={TreatmentToEdit} />
+          {/* <Route path="/editTreatments" component={EditTreatments} /> */}
+          {/* <Route path="/treatmentToEdit" component={TreatmentToEdit} /> */}
           <Route path="/signupOrLogin" component={SignupOrLogin} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />

@@ -21,7 +21,11 @@ export function setCalendar(calendar) {
      };
 }
 
-
+// routim
+// export function loadTimeSlots(pickedDate = null, accountId){
+// firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H', accountId), line 66
+// secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H', accountId),
+// thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H', accountId)
 export function loadTimeSlots(pickedDate = null){
   let date
       if (!pickedDate) {
