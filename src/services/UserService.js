@@ -16,16 +16,17 @@ function _sortUsers(users) {
     return users.sort((a, b) => a.name.localeCompare(b.name))
 }
 
-async function getUsers() {
-    const users = await HttpService.get('user')
-    return _sortUsers(users)
-}
-
-//  routim
-// async function getUsers(workPlace) {
-//     const users = await HttpService.get(`user/workPlace/${workPlace}`)
+// async function getUsers() {
+//     const users = await HttpService.get('user')
 //     return _sortUsers(users)
 // }
+
+//  routim
+async function getUsers(workPlace) {
+    console.log(workPlace)
+    const users = await HttpService.get(`user/workPlace/${workPlace}`)
+    return _sortUsers(users)
+}
 
 function getUser(phone) {
     return HttpService.get(`user/${phone}`)
@@ -33,8 +34,6 @@ function getUser(phone) {
 
 // routim
 function getOwner(workPlace){
-    // const workPlace = (window.location.href)
-    // console.log(window.location.href)
     return HttpService.get(`user/owner/${workPlace}`)
 }
 

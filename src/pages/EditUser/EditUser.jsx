@@ -114,9 +114,9 @@ export function _EditUser(props) {
         //validation of owner phone number
         if (!props.loggedInUser.isAdmin) {
             UserService.updateUser(credentials)
-            props.history.push('/')
+            // props.history.push('/')
             // routim
-            // props.history.push(`/${props.owner.workPlace}`)
+            props.history.push(`/${props.owner.workPlace}`)
         }
         else {
             handleClickOpen()
@@ -136,8 +136,10 @@ export function _EditUser(props) {
             if (password === ownerPassword) {
                 setOpen(false);
                 UserService.updateUser(credentials)
-                props.history.push('/')
-                //routim props.history.push(`/${props.owner.workPlace}`)
+                // props.history.push('/')
+                // routim 
+
+                props.history.push(`/${props.owner.workPlace}`)
             }
             else {
                 setDialogTitle('ססמא שגויה!')
@@ -241,8 +243,10 @@ export function _EditUser(props) {
     function signOut() {
         StorageService.removeFromStorage('tori-user')
         props.updateLoggedInUser(null)
-        props.history.push('/')
-        //routim props.history.push(`/${props.owner.workPlace}`)
+        // props.history.push('/')
+        // routim
+
+        props.history.push(`/${props.owner.workPlace}`)
     }
 
     return (
@@ -362,9 +366,9 @@ export function _EditUser(props) {
 
 function mapStateProps(state) {
     return {
-        loggedInUser: state.UserReducer.loggedInUser
+        loggedInUser: state.UserReducer.loggedInUser,
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

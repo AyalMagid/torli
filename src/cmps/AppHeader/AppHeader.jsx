@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { TabsApp } from '../TabsApp/TabsApp.jsx';
 import { StepperApp } from '../StepperApp/StepperApp.jsx';
 import StoreService from '../../services/StoreService';
@@ -55,7 +56,10 @@ function _AppHeader(props) {
 
     function navToHomePage() {
         StoreService.initApp()
-        props.history.push('/')
+        // props.history.push('/')
+
+        // routim
+        props.history.push(`/${props.owner.workPlace}`)
     }
 
     return (
@@ -89,7 +93,20 @@ function _AppHeader(props) {
     )
 }
 
-export const AppHeader = withRouter(_AppHeader)
+function mapStateProps(state) {
+    return {
+        // routim
+        owner:state.UserReducer.owner
+    }
+}
+
+const mapDispatchToProps = {
+}
+
+
+export const AppHeader = withRouter(connect(mapStateProps, mapDispatchToProps)(_AppHeader))
+
+
 
 
 

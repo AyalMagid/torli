@@ -23,14 +23,14 @@ function getMarkedTreatmentsStr(treatments) {
 }
 
 // comunicate with backend
-function getTreatments() {
-    return HttpService.get('treatment')
-}
+// function getTreatments() {
+//     return HttpService.get('treatment')
+// }
 
 // routim
-// function getTreatments(workPlace) {
-//     return HttpService.get(`treatment/owner/${workPlace}`)
-// }
+function getTreatments(workPlace) {
+    return HttpService.get(`treatment/owner/${workPlace}`)
+}
 
 function getById(treatmentId) {
     return HttpService.get(`treatment/${treatmentId}`)

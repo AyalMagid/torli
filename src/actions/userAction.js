@@ -1,27 +1,28 @@
 import UserService from '../services/UserService';
 import StorageService from '../services/StorageService';
 
-export function loadUsers() {
-  return async dispatch => {
-    try {
-      const users = await UserService.getUsers();
-      dispatch(setUsers(users));
-    } catch (err) {
-      console.log('userActions: err in loadUsers', err);
-    };
-  }
-}
-// routim
-// export function loadUsers(workPlace) {
+// export function loadUsers() {
 //   return async dispatch => {
 //     try {
-//       const users = await UserService.getUsers(workPlace);
+//       const users = await UserService.getUsers();
 //       dispatch(setUsers(users));
 //     } catch (err) {
 //       console.log('userActions: err in loadUsers', err);
 //     };
 //   }
 // }
+// routim
+export function loadUsers(workPlace) {
+  console.log('action ', workPlace)
+  return async dispatch => {
+    try {
+      const users = await UserService.getUsers(workPlace);
+      dispatch(setUsers(users));
+    } catch (err) {
+      console.log('userActions: err in loadUsers', err);
+    };
+  }
+}
 
 export function setUsers(users) {
   return {
@@ -51,7 +52,7 @@ export function _updateUsers(users) {
 export function setOwner(owner) {
   return async dispatch => {
     try {
-      dispatch(_updateUsers(owner));
+      dispatch(_setOwner(owner));
     } catch (err) {
       console.log('userActions: err in setting owner', err);
     };

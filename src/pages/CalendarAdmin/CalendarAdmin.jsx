@@ -74,15 +74,15 @@ function _CalendarAdmin(props) {
     //the date is irrelevant, its only for the formated function the hours wiil be given by the owner.
     const location = useLocation()
     // routim
-    // const constrains = {
-    //     start: `2020-10-12T${props.owner.workingHours.start}:00Z`,
-    //     end: `2020-10-12T${props.owner.workingHours.end}:00Z`
-    // }
-
     const constrains = {
-        start: "2020-10-12T06:00:00Z",
-        end: "2020-10-12T18:00:00Z"
+        start: `2020-10-12T${props.owner.workingHours.start}:00Z`,
+        end: `2020-10-12T${props.owner.workingHours.end}:00Z`
     }
+
+    // const constrains = {
+    //     start: "2020-10-12T06:00:00Z",
+    //     end: "2020-10-12T18:00:00Z"
+    // }
     const [selectedDate, handleDateChange] = useState(new Date());
     const [tempEventToRmoveId, setTempEventToRmoveId] = useState('');
     const [eventToRmoveId, setEventToRmove] = React.useState({});
@@ -282,9 +282,10 @@ function _CalendarAdmin(props) {
     }
 
 
+    // const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
     // routim
-    //  const event = {accountId:props.owner.accountId, calendarId:props.owner.calendarId, eventId:eventToRmoveId.calendar}
-    //  const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(event) line 302
+    // need to cahgne things for email approval
+ 
     async function cancelAppiontment() {
         setIsTempModeOn(true)
         let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
@@ -300,7 +301,9 @@ function _CalendarAdmin(props) {
         })
 
         setEventsToDisplay(eventsToDisplayCopy)
-        const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(eventToRmoveId.calendar)
+    //    added routim
+        const event = {accountId:props.owner.accountId, calendarId:props.owner.calendarId, eventId:eventToRmoveId.calendar, token:props.owner.token}
+        const confirmedDeletedEvent = await CalendarService.removeEventFromCalendar(event) 
         console.log('confiremdn deleted from calendar',confirmedDeletedEvent)
         if (!confirmedDeletedEvent) {
             console.log('problem deleting event')
@@ -358,7 +361,6 @@ function _CalendarAdmin(props) {
         }
     }
 
-    // "event_amYyZGNkMjUxaWNtZmptNzZzYmlwY3JzMmc"
     const handleClickOpen = async (ev) => {
         if (ev) {
 
@@ -446,8 +448,9 @@ function _CalendarAdmin(props) {
         setEventToRmove({ mongo: reccurenceMongoEvent._id, calendar: reccurenceMongoEvent.eventId })
     }
 
+    // const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
     // routim
-    //   const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment, props.owner) line 469
+
     async function setAppointment(duration) {
         setIsTempModeOn(true)
         const markedTreatmetns = TreatmentService.getMarkedTreatmentsStr(props.treatments)
@@ -466,7 +469,7 @@ function _CalendarAdmin(props) {
         let eventsToDisplayCopy = JSON.parse(JSON.stringify(await eventsToDisplay));
         eventsToDisplayCopy[props.treatment.dailyIdx].push(tempEvent)
         setEventsToDisplay(eventsToDisplayCopy)
-        const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment)
+        const confirmedEvent = await CalendarService.setAppointment(markedTreatmetns, duration, phone, email, name, props.treatment, props.owner) 
         if (!confirmedEvent) {
             console.log('couldnt schduale appointment')
             //need to put modal
@@ -476,9 +479,9 @@ function _CalendarAdmin(props) {
         setEventsToDisplay(await getWeeklyEvents(selectedDate))
     }
 
-
+//             const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence) line 530
     // routim
-    //  const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence, props.owner) line 524
+
     async function blockSlotRange(recurrence) {
         setIsTempModeOn(true)
         let time1 = UtilsService.changeTimeForDisplay(props.slotToBlock.start, 0)
@@ -521,7 +524,8 @@ function _CalendarAdmin(props) {
         }
             let prevEvents = [... await eventsToDisplay]
             setEventsToDisplay(eventsToDisplayCopy)
-            const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence)
+            const confirmedBlockOrOccDates = await CalendarService.blockSlotRange(props.slotToBlock, 'block', recurrence, props.owner) 
+
         if (Array.isArray(confirmedBlockOrOccDates)) {
             setModalSubJect('occupied')
             setOccupiedDates (confirmedBlockOrOccDates)
@@ -591,7 +595,9 @@ function _CalendarAdmin(props) {
                             <i className="calendar-icon fas fa-calendar-week"></i>
                             <div className="weekly-dates-text">{weeklyRange.firstDay}<br />{weeklyRange.lastDay} </div>
                         </div>
-                        <div id="text2" onClick={() => props.history.push('/')} >Tori<i className="fas fa-tasks"></i></div>
+                        {/* <div id="text2" onClick={() => props.history.push('/')} >Tori<i className="fas fa-tasks"></i></div> */}
+                        {/* routim */}
+                        <div id="text2" onClick={() => props.history.push(`/${props.owner.workPlace}`)} >Tori<i className="fas fa-tasks"></i></div>
                     </div>
                     <Swipeable onSwiped={(eventData) => onSwipeDirection(eventData.dir)} >
                         <header className="days-header-container flex space-between">
@@ -776,7 +782,7 @@ function mapStateProps(state) {
         recurrence: state.CalendarReducer.recurrence,
         tableModel: state.CalendarReducer.tableModel,
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

@@ -6,7 +6,7 @@ import { Modal } from '../../cmps/Modal/Modal';
 import AdvertiseService from '../../services/AdvertiseService';
 import UserService from '../../services/UserService';
 // routim
-// import { useParams } from "react-router";
+import { useParams } from "react-router";
 import './HomePage.scss';
 
 export function _HomePage(props) {
@@ -15,23 +15,24 @@ export function _HomePage(props) {
     }
     const [advertise, setAdvertise] = useState();
     // routim
-    // let { workPlace } = useParams();
+    let { workPlace } = useParams();
     let wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
-    let facebook = 'bokeresh'
+    let facebook = 'adi.leybovich.5'
     let instagram = 'restylebar'
-
+    let owner 
 
     useEffect(() => {
         (async () => {
                 // routim
-                // if (!props.owner) {
+                console.log('workPlace', workPlace)
+                if (!props.owner) {
                 // loader until owner ? or start ffrom login/signup page
-                // const owner = await UserService.getOwner(workPlace)
-                // props.setOwner(owner)
+                owner = await UserService.getOwner(workPlace)
+                console.log('owner',owner)
+                updateByWorkPlace (owner)
+                props.setOwner(owner)
                 // useLayoutEffect => might be better to use
-                // updateByWorkPlace ()
-                // }
-                let ad = await AdvertiseService.getAd()
+                let ad = await AdvertiseService.getAd(owner.workPlace)
                 ad = ad[0]
                 if (props.loggedInUser&&(!props.loggedInUser.isAdmin)) {
                     if (ad && ad.content && ad.isAdModeOn) {
@@ -44,27 +45,32 @@ export function _HomePage(props) {
                 } else {
                     if (ad) return
                     else {
-                        AdvertiseService.createAd()
+                        AdvertiseService.createAd(owner.workPlace)
                     }
                 }
+            }
         })()
     }, [props.loggedInUser]);
 
-
-    // function updateByWorkPlace() {
+    // useEffect(() => {
+    //     if (props.owner) {
+    //      updateByWorkPlace ()
+    //     }
+    // }, [props.owner])
+  
+    function updateByWorkPlace(owner) {
         // routim
-        // wazeUrl = props.owner.wazeUrl
-        // facebook = props.owner.facebookUrl
-        // instagram = props.owner.instagramUrl
+        wazeUrl = owner.wazeUrl
+        facebook = owner.facebook
+        instagram = owner.instagram
         // let profileImgEl = document.getElementsByClassName("profile-img");
+
+        // console.log(profileImgEl)
         // profileImgEl.style.src = props.owner.profileImgUrl;
-        // let profileSubTitleEl = document.getElementsByClassName("profile-sub-title");
-        // profileTitleEl.style.src = props.owner.workPlaceTitle
-        // let profileSubTitleEl = document.getElementsByClassName("profile-title");
-        // profileTitleEl.style.src = props.owner.workPlaceTitle
+   
         // let coverPhotoEl = document.getElementsByClassName("cover-photo");
         // coverPhotoEl.style.src = props.owner.coverImgUrl
-    // }
+    }
 
 /* routim to=`/${workPlace}/editUser` */
   /* routim to=`/${workPlace}/signupOrLogin` */
@@ -76,10 +82,10 @@ export function _HomePage(props) {
              /* routim to=`/${workPlace}/treatments` */
                /* routim to=`/${workPlace}/cancelAppointment` */
                  /* routim href=`tel:${props.owner.phone}`   */
-
+   
     return (
         // routim
-        // props.owner &&
+        props.owner &&
         <div className="home-page-wrapper">
             <main className="home-page">
                 <img className="cover-photo" src={require('../../styles/img/oo.png')} />
@@ -95,13 +101,18 @@ export function _HomePage(props) {
                         <div>התחבר</div>
                     </div>
                 }
+               {
+                //    routim
+                //    props.owner &&
+                // style={{backgroundImage:`url(${require(props.owner.profileImgUrl)}`}}
                 <div className="profile-container">
-                    <div className="profile-img"></div>
+                    <div className="profile-img" ></div>
                     <div className="profile-text-container">
-                        <div id="profile-title" className="profile-title">Dee Nail Salon</div>
-                        <div className="profile-sub-title">מכון לבניית ציפורניים</div>
+                        <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
+                        <div className="profile-sub-title">{props.owner.workPlaceSubTitle}</div>
                     </div>
-                </div>
+                </div> 
+}
                 <div className="icons-container flex column align-center justify-center">
                 {((props.loggedInUser ) && !props.loggedInUser.isAdmin)
                         ?
@@ -178,7 +189,7 @@ function mapStateProps(state) {
         isAdShown: state.UserReducer.isAdShown,
         loggedInUser: state.UserReducer.loggedInUser,
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

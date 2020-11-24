@@ -64,15 +64,17 @@ export function _CancelAppointment(props) {
     }
 
 
+   
+    // CalendarService.removeEventFromCalendar(eventToRmove.eventId)
     // routim
-    //   CalendarService.removeEventFromCalendar(eventToRmove)line 74
     // email service need changes
     async function cancelAppointment(eventId) {
         props.updateIsModalOpen(true)
         const events = await EventService.getEventByPhone(phone)
         let eventToRmove = events.find(event => event._id === eventId)
         // delete from Calendar
-        CalendarService.removeEventFromCalendar(eventToRmove.eventId)
+        CalendarService.removeEventFromCalendar(eventToRmove)
+
         if (pageCount) { setPageCount(pageCount - 1) }
         EmailService.sendEmail(eventToRmove.name, eventToRmove.date, eventToRmove.email, false)
         // delete from mongo data base

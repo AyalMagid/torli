@@ -10,8 +10,8 @@ export function _AdminContacts(props) {
 
     useEffect(() => {
         // routim
-        // props.loadUsers(props.owner.workPlace)
-        props.loadUsers()
+        props.loadUsers(props.owner.workPlace)
+        // props.loadUsers()
     }, [props.loadUsers]);
     function handleChange({ target }) {
         const field = target.name;
@@ -52,7 +52,9 @@ export function _AdminContacts(props) {
             <div className="search-input-wrapper flex align-center">
                 <input className="search-input-admin-contacts" placeholder="חפשו לפי שם או טלפון" name="term" value={searchTerm} onChange={handleChange} />
                 <i className="fas fa-search"></i>
-                <div onClick={() => props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></div>
+                {/* <div onClick={() => props.history.push('/')} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></div> */}
+                {/* routim */}
+                <div onClick={() => props.history.push(`/${props.owner.workPlace}`)} id="text" className="logo"> Tori<i className="fas fa-tasks"></i></div>
             </div>
             <div className="admin-contacts-modal-title">
                 ניתן להתקשר, לשלוח ווצאפ, לראות תורים שנקבעו
@@ -90,9 +92,9 @@ export function _AdminContacts(props) {
 function mapStateProps(state) {
     return {
         users: state.UserReducer.users,
-        loggedInUser: state.UserReducer.loggedInUser
+        loggedInUser: state.UserReducer.loggedInUser,
          // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 const mapDispatchToProps = {

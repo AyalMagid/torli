@@ -22,11 +22,10 @@ export function setCalendar(calendar) {
 }
 
 // routim
-// export function loadTimeSlots(pickedDate = null, accountId){
-// firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H', accountId), line 66
-// secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H', accountId),
-// thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H', accountId)
-export function loadTimeSlots(pickedDate = null){
+
+
+// export function loadTimeSlots(pickedDate = null){
+  export function loadTimeSlots(pickedDate = null, owner){
   let date
       if (!pickedDate) {
         date = new Date()
@@ -63,9 +62,13 @@ export function loadTimeSlots(pickedDate = null){
     try {
       const timeSlots = {
         // 1H means the min block time range later to scheduale a meeting
-      firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H'),
-      secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H'),
-      thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H')
+        firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H', owner), 
+        secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H', owner),
+        thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H', owner)
+
+      // firstDaySlots: await CalendarService.getAvailbleDailySlots(`${firstDay}T06:00:00`, `${firstDay}T18:00:00`, '1H'),
+      // secondDaySlots: await CalendarService.getAvailbleDailySlots(`${secondDay}T06:00:00`, `${secondDay}T18:00:00`, '1H'),
+      // thirdDaySlots : await CalendarService.getAvailbleDailySlots(`${thirdDay}T06:00:00`, `${thirdDay}T18:00:00`, '1H')
       }
       dispatch(setTimeSlots(timeSlots));
     } catch (err) {

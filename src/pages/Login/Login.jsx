@@ -226,9 +226,9 @@ function _Login(props) {
 
 function mapStateProps(state) {
     return {
-        loggedInUser: state.UserReducer.loggedInUser
+        loggedInUser: state.UserReducer.loggedInUser,
         // routim
-        //owner:state.UserReducer.owner
+        // owner:state.UserReducer.owner
     }
 }
 

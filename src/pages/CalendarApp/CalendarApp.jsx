@@ -56,8 +56,8 @@ export function _CalendarApp(props) {
     const { loadTimeSlots } = props
     useEffect(() => {
         // routim
-        //  loadTimeSlots(null, props.owner.accountId)
-        loadTimeSlots()
+         loadTimeSlots(null, props.owner)
+        // loadTimeSlots()
         if (props.timeSlots) {
             setLoader(false)
         }
@@ -67,9 +67,9 @@ export function _CalendarApp(props) {
     async function handleChange(date) {
         setLoader(true)
         handleDateChange(date)
-        await props.loadTimeSlots(date)
+        // await props.loadTimeSlots(date)
         // routim
-        // await props.loadTimeSlots(date, props.owner.accountId)
+        await props.loadTimeSlots(date, props.owner)
         if (props.timeSlots) {
             setLoader(false)
         }
@@ -115,7 +115,10 @@ export function _CalendarApp(props) {
 
     function navToHomePage() {
         StoreService.initApp()
-        props.history.push('/')
+        // props.history.push('/')
+        // routim
+
+        props.history.push(`/${props.owner.workPlace}`)
     }
 
     return (
@@ -194,7 +197,7 @@ function mapStateProps(state) {
         timeSlots: state.CalendarReducer.timeSlots,
         duration: state.TreatmentReducer.duration,
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

@@ -51,8 +51,16 @@ export function _App(props) {
           <Route path="/calendarAdmin" component={CalendarAdmin} />
           <Route path="/advertise" component={Advertise} />
           <Route path="/adminContacts" component={AdminContacts} />
-          <Route path="/" component={HomePage} />
-          {/* <Route path="/:workPlace/calendar" component={CalendarApp} />
+          {/* <Route path="/" component={HomePage} /> */}
+          <Route path="/:workPlace" component={HomePage} />
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+
+          {/* /* <Route path="/:workPlace/calendar" component={CalendarApp} />
           <Route path="/:workPlace/cancelAppointment" component={CancelAppointment} />
           <Route path="/:workPlace/form" component={SubmitForm} />
           <Route path="/:workPlace/treatments" component={TreatmentApp} />
@@ -64,14 +72,7 @@ export function _App(props) {
           <Route path="/:workPlace/editUser" component={EditUser} />
           <Route path="/:workPlace/calendarAdmin" component={CalendarAdmin} />
           <Route path="/:workPlace/advertise" component={Advertise}/>
-          <Route path="/:workPlace/adminContacts" component={AdminContacts}/>
-          <Route path="/:workPlace" component={HomePage} /> */}
-          {/* <Route path="?method=get&name=adi" component={HomePage} /> */}
-        </Switch>
-      </div>
-    </Router>
-  );
-}
+          <Route path="/:workPlace/adminContacts" component={AdminContacts}/> */}
 
 
 function mapStateProps(state) {

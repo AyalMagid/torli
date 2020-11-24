@@ -7,7 +7,9 @@ export function _Contacts(props) {
     const [searchTerm, setSearchTerm] = React.useState('')
    
     useEffect(() => {
-        props.loadUsers()
+        // props.loadUsers()
+        // routim
+        props.loadUsers(props.owner.workPlace)
     }, [props.loadUsers]);
 
     function handleChange({ target }) {
@@ -95,7 +97,9 @@ export function _Contacts(props) {
 function mapStateProps(state) {
     return {
         users: state.UserReducer.users,
-        userPhoneInContactSignup: state.UserReducer.userPhoneInContactSignup
+        userPhoneInContactSignup: state.UserReducer.userPhoneInContactSignup,
+        // routim
+        owner:state.UserReducer.owner
     }
 }
 

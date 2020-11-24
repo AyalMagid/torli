@@ -24,9 +24,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export function _Signup(props) {
 
     const location = useLocation()
-    const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
+    // const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '' })
     // routim
-    // const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '', workPlace: props.owner.workPlace })
+    const [credentials, setCredentials] = React.useState({ name: '', phone: '', email: '', workPlace: props.owner.workPlace })
     const { name, phone, email } = credentials
     const [toggleNameValidation, setToggleNameValidation] = useState('visibility');
     const [togglePhoneValidation, setTogglePhoneValidation] = useState('visibility');
@@ -240,7 +240,7 @@ export function _Signup(props) {
 function mapStateProps(state) {
     return {
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

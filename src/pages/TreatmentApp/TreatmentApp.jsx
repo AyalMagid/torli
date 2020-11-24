@@ -16,9 +16,9 @@ export function _TreatmentApp(props) {
     const location = useLocation()
     const { loadTreatments, treatments, setUserToSchedule, userToSchedule } = props
     useEffect(() => {
-        if (!treatments) loadTreatments()
+        // if (!treatments) loadTreatments()
         // routim
-        // if (!treatments) loadTreatments(props.owner.workPlace)
+        if (!treatments) loadTreatments(props.owner.workPlace)
     }, [loadTreatments, treatments]);
 
     useEffect(() => {
@@ -74,7 +74,7 @@ function mapStateProps(state) {
         userToSchedule: state.UserReducer.userToSchedule,
         loggedInUser: state.UserReducer.loggedInUser,
         // routim
-        //owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

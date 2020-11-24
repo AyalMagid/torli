@@ -10,22 +10,22 @@ export default {
 // MONGO DB - GOES THREW BACKEND
 
 // routim
-//  function getAd(workPlace) {
-//     return HttpService.get(`advertise/${workPlace}`)
+ function getAd(workPlace) {
+    return HttpService.get(`advertise/${workPlace}`)
+}
+
+//  function getAd() {
+//     return HttpService.get('advertise')
 // }
 
- function getAd() {
-    return HttpService.get('advertise')
-}
-
-function updateAd(content) {
-    return HttpService.put('advertise', content)
-}
+// function updateAd(content) {
+//     return HttpService.put('advertise', content)
+// }
 
 // routim
-// function updateAd(advertise) {
-//     return HttpService.put('advertise', advertise)
-// }
+function updateAd(advertise) {
+    return HttpService.put('advertise', advertise)
+}
 
 function toggleAdMode(isAdMoneOn){
     return HttpService.put('advertise/mode',isAdMoneOn)
@@ -36,7 +36,12 @@ function toggleAdMode(isAdMoneOn){
 //     return HttpService.put('advertise/mode',modeObj)
 // }
 
- function createAd() {
-    return  HttpService.post('advertise')
+//  function createAd() {
+//     return  HttpService.post('advertise')
+// }
+
+// routim
+ function createAd(workPlace) {
+    return  HttpService.post(`advertise/${workPlace}`)
 }
 

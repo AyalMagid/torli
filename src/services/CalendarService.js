@@ -35,59 +35,58 @@ async function getEventsFromCalendar(timeRange) {
 //     return await HttpService.get('calendar/events', timeRangeAndIds)
 // }
 
-function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block', creatorEmail) {
-    const event = { eventName, creatorName, creatorEmail, startTime, endTime }
-    return HttpService.post('calendar', event)
-}
-
-// routim
-// function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block', creatorEmail, accountId) {
-//     const event = { eventName, creatorName, creatorEmail, startTime, endTime, accountId}
+// function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block', creatorEmail) {
+//     const event = { eventName, creatorName, creatorEmail, startTime, endTime }
 //     return HttpService.post('calendar', event)
 // }
 
-// adding Recurrence event/block
-async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorName = 'block', recurrence) {
-    const event = { eventName, creatorName, startTime, endTime, recurrence}
-    return HttpService.post('calendar/recurrence', event)
+// routim
+function addEventToCalendar(startTime, endTime, eventName, creatorName = 'block', creatorEmail, owner) {
+    const event = { eventName, creatorName, creatorEmail, startTime, endTime, owner}
+    return HttpService.post('calendar', event)
 }
 
 // adding Recurrence event/block
-// routim
-// async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorName = 'block', recurrence, owner) {
-//     const token = owner.token
-//     const accountId = owner.accountId
-//     const event = { eventName, creatorName, startTime, endTime, recurrence, token, accountId}
+// async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorName = 'block', recurrence) {
+//     const event = { eventName, creatorName, startTime, endTime, recurrence}
 //     return HttpService.post('calendar/recurrence', event)
 // }
 
+// adding Recurrence event/block
 // routim
-// async function removeEventFromCalendar(event) {
-//     const res = await HttpService.delete('calendar', event)
-//     return res
-// }
+async function addRecurrenceToCalendar(startTime, endTime, eventName, creatorName = 'block', recurrence, owner) {
+    const token = owner.token
+    const accountId = owner.accountId
+    const event = { eventName, creatorName, startTime, endTime, recurrence, token, accountId}
+    return HttpService.post('calendar/recurrence', event)
+}
 
-async function removeEventFromCalendar(eventId) {
-    const res = await HttpService.delete('calendar', { eventId })
+// routim
+async function removeEventFromCalendar(event) {
+    const res = await HttpService.delete('calendar', event)
     return res
 }
 
-// routim
-// async function getAvailbleDailySlots(startTime, endtTime, duration, calendarId) {
-//     const dailySlots = { startTime, endtTime, duration, calendarId }
-//     return await HttpService.post('calendar/slots', dailySlots)
+// async function removeEventFromCalendar(eventId) {
+//     const res = await HttpService.delete('calendar', { eventId })
+//     return res
 // }
 
-async function getAvailbleDailySlots(startTime, endtTime, duration) {
-    const dailySlots = { startTime, endtTime, duration }
+// routim
+async function getAvailbleDailySlots(startTime, endtTime, duration, owner) {
+    const dailySlots = { startTime, endtTime, duration, owner }
     return await HttpService.post('calendar/slots', dailySlots)
 }
 
+// async function getAvailbleDailySlots(startTime, endtTime, duration) {
+//     const dailySlots = { startTime, endtTime, duration }
+//     return await HttpService.post('calendar/slots', dailySlots)
+// }
 
-// routim
-// async function setAppointment(treatments, duration, phone, email, name, treatment, owner) { line 60
-// confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com', owner.accountId) line 69
-// const event = { line 99
+// MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
+// async function setAppointment(treatments, duration, phone, email, name, treatment) {
+// confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
+// const event = {
 //     name,
 //     email,
 //     phone,
@@ -96,15 +95,14 @@ async function getAvailbleDailySlots(startTime, endtTime, duration) {
 //     duration,
 //     startTime: startTime.slice(11, 20),
 //     endTime: endTime.slice(11, 20),
-//     date: startTime.slice(0, 10),
-//     accountId: owner.accountId,
-//     workPlace: owner.workPlace
+//     date: startTime.slice(0, 10)
 // }
+
+// email for routim wasnt applied yet
 //  EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments, owner.workPlaceTitle) line 111
 // on email service needs to update the ENV file somehow or send those details
-
-// MAKING SOME CALCULATIONS AND THAN CALLING OTHER FUNCTIONS TO ADD THE EVENT TO CALENDAR + MONGO DB
-async function setAppointment(treatments, duration, phone, email, name, treatment) {
+// routim
+    async function setAppointment(treatments, duration, phone, email, name, treatment, owner) { 
     // in case of recurrence => (treatments, duration, phone, email, name, treatment, recurrence)
     let time = UtilsService.changeTimeForDisplay(treatment.time, gUtcDiff)
     let firstTime = time
@@ -113,7 +111,7 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     const endTime = `${treatment.date}T${time}:00Z`
     let confirmedEvent
     // if (!recurrence.isRecurrence){
-        confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com')
+        confirmedEvent = await addEventToCalendar(startTime, endTime, treatments, name, 'ayal@gmail.com', owner) 
     // } else {
         // checking if recurrence is possible during all the chosen dates
     //     const occupiedDates = await checkRecurrenceAvailbility (new Date(`${treatment.date}T02:00:00Z`), firstTime, time, duration, recurrence)
@@ -124,7 +122,8 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
     //         return
     //     }
     // }
-    const event = {
+
+    const event = { 
         name,
         email,
         phone,
@@ -133,19 +132,25 @@ async function setAppointment(treatments, duration, phone, email, name, treatmen
         duration,
         startTime: startTime.slice(11, 20),
         endTime: endTime.slice(11, 20),
-        date: startTime.slice(0, 10)
+        date: startTime.slice(0, 10),
+        accountId: owner.accountId,
+        calendarId: owner.calendarId,
+        token: owner.token,
+        workPlace: owner.workPlace
     }
     EventService.saveConfirmedEvent(event)
     EmailService.sendEmail(name, treatment.date, email, true, phone, duration, treatment.time, treatments)
     return confirmedEvent
 }
 
+
+// async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence) {
+//     const availbleSlots = await getAvailbleDailySlots(startTime, endTime, duration)
 // routim
-// async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence, owner) {
-//   const availbleSlots = await getAvailbleDailySlots(startTime, endTime, duration, owner.calendarId)
 
 // freq should get DAILY or WEEKLY depends - representing day or week diff. count - for how many times to repeat 
-async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence) {
+async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence, owner) {
+
     let occupiedDates = []
     let startTime
     let endTime
@@ -157,7 +162,8 @@ async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, 
     for (var i=0; i < recurrence.count; i++){
     startTime = `${isosDate}T${firstTime}:00Z`
     endTime = `${isosDate}T${time}:00Z`
-    const availbleSlots = await getAvailbleDailySlots(startTime, endTime, duration)
+    const availbleSlots = await getAvailbleDailySlots(startTime, endTime, duration, owner)
+
     // if the time is already occupied the day isnt avaiblle
     if (typeof availbleSlots === 'string'){
         occupiedDates.push(isosDate)
@@ -168,24 +174,24 @@ async function checkRecurrenceAvailbility (fullDate, firstTime, time, duration, 
     return occupiedDates
 }
 
+// async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
+//  confirmedEvent = await addEventToCalendar(startTime, endTime, name) 
+// const occupiedDates = await checkRecurrenceAvailbility (new Date(`${slotToBlock.date}T02:00:00Z`), time1, time2, duration, recurrence)
+//            confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
+// const event = {
+//     name,
+//     email: '',
+//     phone: '',
+//     eventId: confirmedEvent.id,
+//     treatments: '',
+//     duration: '',
+//     startTime: startTime.slice(11, 20),
+//     endTime: endTime.slice(11, 20),
+//     date: startTime.slice(0, 10)
+// }
 // routim
-// async function blockSlotRange(slotToBlock, name = 'block', recurrence, owner) {
-// confirmedEvent = await addEventToCalendar(startTime, endTime, name, owner.accountId)
-// checkRecurrenceAvailbility (fullDate, firstTime, time, duration, recurrence, owner) {
-    // const event = {
-    //     name,
-    //     email: '',
-    //     phone: '',
-    //     eventId: confirmedEvent.id,
-    //     treatments: '',
-    //     duration: '',
-    //     startTime: startTime.slice(11, 20),
-    //     endTime: endTime.slice(11, 20),
-    //     date: startTime.slice(0, 10)
-    //     accountId : owner.accountId,
-    //     calendarId : owner.calendarId
-    // }
-async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
+
+async function blockSlotRange(slotToBlock, name = 'block', recurrence, owner) {
     let time1 = UtilsService.changeTimeForDisplay(slotToBlock.start, gUtcDiff)
     let time2 = UtilsService.changeTimeForDisplay(slotToBlock.end, gUtcDiff)
     const startTime = `${slotToBlock.date}T${time1}:00Z`
@@ -194,21 +200,22 @@ async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
 
     let confirmedEvent 
     if (+recurrence.count===1) {
-        confirmedEvent = await addEventToCalendar(startTime, endTime, name)
+        confirmedEvent = await addEventToCalendar(startTime, endTime, name, 'block', '', owner)
         console.log('herer')
     } else {
         // checking if recurrence is possible during all the chosen dates
 
-        const occupiedDates = await checkRecurrenceAvailbility (new Date(`${slotToBlock.date}T02:00:00Z`), time1, time2, duration, recurrence)
+        const occupiedDates = await checkRecurrenceAvailbility (new Date(`${slotToBlock.date}T02:00:00Z`), time1, time2, duration, recurrence, owner)
         if (!occupiedDates.length) {
-             confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence)
+             confirmedEvent = await addRecurrenceToCalendar(startTime, endTime, name, 'block', recurrence, owner)
         } else {
             console.log ('recurrence is not possible - the xx date is already full', occupiedDates)
             return occupiedDates
         }
     }
     console.log('adsasd', confirmedEvent)
-    const event = {
+
+    const event = { 
         name,
         email: '',
         phone: '',
@@ -217,7 +224,11 @@ async function blockSlotRange(slotToBlock, name = 'block', recurrence) {
         duration: '',
         startTime: startTime.slice(11, 20),
         endTime: endTime.slice(11, 20),
-        date: startTime.slice(0, 10)
+        date: startTime.slice(0, 10),
+        accountId: owner.accountId,
+        calendarId: owner.calendarId,
+        token: owner.token,
+        workPlace: owner.workPlace
     }
     EventService.saveConfirmedEvent(event)
     return confirmedEvent

@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -29,7 +30,10 @@ export function _TabsApp(props) {
 
   function navToHomePage() {
     StoreService.initApp()
-    props.history.push('/')
+    // props.history.push('/')
+
+    // routim
+    props.history.push(`/${props.owner.workPlace}`)
 }
 
   return (
@@ -44,4 +48,17 @@ export function _TabsApp(props) {
   );
 }
 
-export const TabsApp = withRouter(_TabsApp)
+function mapStateProps(state) {
+  return {
+      // routim
+      owner:state.UserReducer.owner
+  }
+}
+
+const mapDispatchToProps = {
+}
+
+
+export const TabsApp = withRouter(connect(mapStateProps, mapDispatchToProps)(_TabsApp))
+
+
