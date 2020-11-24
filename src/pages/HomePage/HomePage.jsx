@@ -14,12 +14,10 @@ export function _HomePage(props) {
         (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
     const [advertise, setAdvertise] = useState();
+    // let  profileImgUrl = require.context('./images', true, /.png$/);
+
     // routim
     let { workPlace } = useParams();
-    let wazeUrl = 'https://www.waze.com/ul?ll=32.07757250%2C34.82430500&navigate=yes'
-    let facebook = 'adi.leybovich.5'
-    let instagram = 'restylebar'
-    let owner 
 
     useEffect(() => {
         (async () => {
@@ -27,9 +25,9 @@ export function _HomePage(props) {
                 console.log('workPlace', workPlace)
                 if (!props.owner) {
                 // loader until owner ? or start ffrom login/signup page
-                owner = await UserService.getOwner(workPlace)
+                const owner = await UserService.getOwner(workPlace)
+             
                 console.log('owner',owner)
-                updateByWorkPlace (owner)
                 props.setOwner(owner)
                 // useLayoutEffect => might be better to use
                 let ad = await AdvertiseService.getAd(owner.workPlace)
@@ -52,37 +50,6 @@ export function _HomePage(props) {
         })()
     }, [props.loggedInUser]);
 
-    // useEffect(() => {
-    //     if (props.owner) {
-    //      updateByWorkPlace ()
-    //     }
-    // }, [props.owner])
-  
-    function updateByWorkPlace(owner) {
-        // routim
-        wazeUrl = owner.wazeUrl
-        facebook = owner.facebook
-        instagram = owner.instagram
-        // let profileImgEl = document.getElementsByClassName("profile-img");
-
-        // console.log(profileImgEl)
-        // profileImgEl.style.src = props.owner.profileImgUrl;
-   
-        // let coverPhotoEl = document.getElementsByClassName("cover-photo");
-        // coverPhotoEl.style.src = props.owner.coverImgUrl
-    }
-
-/* routim to=`/${workPlace}/editUser` */
-  /* routim to=`/${workPlace}/signupOrLogin` */
-   /* routim to=`/${workPlace}/treatments` */
-     /* routim to=`/${workPlace}/cancelAppointment` */
-       /* routim to=`/${workPlace}/calendarAdmin` */
-         /* routim to=`/${workPlace}/adminContacts` */
-           /* routim to=`/${workPlace}/advertise` */
-             /* routim to=`/${workPlace}/treatments` */
-               /* routim to=`/${workPlace}/cancelAppointment` */
-                 /* routim href=`tel:${props.owner.phone}`   */
-   
     return (
         // routim
         props.owner &&
@@ -103,10 +70,9 @@ export function _HomePage(props) {
                 }
                {
                 //    routim
-                //    props.owner &&
-                // style={{backgroundImage:`url(${require(props.owner.profileImgUrl)}`}}
+                props.owner &&
                 <div className="profile-container">
-                    <div className="profile-img" ></div>
+                    <div className="profile-img" style={{backgroundImage:'url(/static/media/logo3.13d5f073.png)'}}></div>
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
                         <div className="profile-sub-title">{props.owner.workPlaceSubTitle}</div>
@@ -164,15 +130,15 @@ export function _HomePage(props) {
                             </div>
                     }
                     <div className="top-icons-container flex space-around">
-                        <a className="facebook-container" href={`https://www.facebook.com/${facebook}/`} >
+                        <a className="facebook-container" href={`https://www.facebook.com/${(props.owner)?props.owner.facebook:''}/`} >
                             <div className="circle"><i class="fab fa-facebook-f"></i> </div>
                        פייסבוק
                         </a>
-                        <a className="instagram-container" href={`https://www.instagram.com/${instagram}/`}>
+                        <a className="instagram-container" href={`https://www.instagram.com/${(props.owner)?props.owner.instagram:''}/`}>
                             <div className="circle"><i class="fab fa-instagram"></i></div>
                            אינסטגרם
                         </a>
-                        <a className="waze-container" href={wazeUrl}>
+                        <a className="waze-container" href={(props.owner)?props.owner.wazeUrl:'' }>
                             <div className="circle"> <i className="fab fa-waze"></i></div>
                         נווטו אלינו
                         </a>
