@@ -72,7 +72,7 @@ export function _HomePage(props) {
                 //    routim
                 props.owner &&
                 <div className="profile-container">
-                    <div className="profile-img" style={{backgroundImage:'url(/static/media/logo3.13d5f073.png)'}}></div>
+                    <div className="profile-img" style={{backgroundImage:`url(/static/media/logo3.13d5f073.png)`}}></div>
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
                         <div className="profile-sub-title">{props.owner.workPlaceSubTitle}</div>
