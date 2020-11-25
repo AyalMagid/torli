@@ -16,7 +16,7 @@ import { updateLoggedInUser } from '../../actions/userAction.js';
 import './Login.scss';
 
 
-const ownerPassword = '1234'
+// const ownerPassword = '1234'
 
 function _Login(props) {
     const [phone, setPhone] = React.useState('')
@@ -97,8 +97,9 @@ function _Login(props) {
     const handleClose = async (close) => {
         const userFromDb = await UserService.getUser(phone)
         if (close !== 'close') {
-            //owner password
-            if (password === ownerPassword) {
+            //ownerPassword 
+            // routim
+            if (password === props.owner.pass) {
                 setOpen(false);
                 const { name, email, phone } = userFromDb
                 StorageService.saveToStorage('tori-user', { name, email, phone })
@@ -228,7 +229,7 @@ function mapStateProps(state) {
     return {
         loggedInUser: state.UserReducer.loggedInUser,
         // routim
-        // owner:state.UserReducer.owner
+        owner:state.UserReducer.owner
     }
 }
 

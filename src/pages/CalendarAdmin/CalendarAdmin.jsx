@@ -642,7 +642,7 @@ function _CalendarAdmin(props) {
                                             </tbody>
                                         </table>
                                         <footer className="calendar-footer flex align-center justify-center">
-                                            <div className="footer-hours">20:00</div>
+                                            <div className="footer-hours">{timeSlots[timeSlots.length-1]}</div>
                                         </footer>
                                     </div>
                                     :

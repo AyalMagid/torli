@@ -16,7 +16,6 @@ import { motion } from 'framer-motion'
 import MotionService from "../../services/MotionService";
 import './EditUser.scss';
 
-const ownerPassword = '1234'
 
 export function _EditUser(props) {
     const [credentials, setCredentials] = React.useState(props.loggedInUser)
@@ -133,7 +132,7 @@ export function _EditUser(props) {
     const handleClose = (close) => {
         if (close !== 'close') {
             //owner password
-            if (password === ownerPassword) {
+            if (password === props.owner.pass) {
                 setOpen(false);
                 UserService.updateUser(credentials)
                 // props.history.push('/')
