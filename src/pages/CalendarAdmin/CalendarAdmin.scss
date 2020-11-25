@@ -35,7 +35,7 @@
       height: 44px;
       border: none;
       background-color: white;
-      color: #273650;
+      color: var(--color1);
       width: 100%;
     }
     
@@ -52,7 +52,7 @@
     border-bottom: 1px solid #a9a9b05b;
     font-weight: 600;
     background-color: white;
-    color: #273650; 
+    color: var(--color1); 
   }
 
   table {
@@ -91,7 +91,7 @@
     border-bottom: 1px solid #a9a9b05b;
     border-radius: 7px;
     background-color: white;
-    color: #273650; 
+    color: var(--color1); 
     word-spacing: 60.5px;
  }
 
@@ -105,7 +105,7 @@
     border-bottom: 1px solid #a9a9b02b;
     border-left: 1px solid #a9a9b02b;
     border-radius: 7px;
-    background-color:#ffc0cb00;
+    // background-color:#ffc0cb00;
 }
 
 .even-event-0{
@@ -149,7 +149,7 @@
   
 .header-app{
     padding: 5px 20px;
-    background-color: #273650;
+    background-color: var(--color1);
     color: white;
     height: 3rem;
 }
@@ -194,7 +194,7 @@
 .calendar-footer{
     width: 100%;
     height: 40px;
-    background-color: #273650;
+    background-color: var(--color1);
     .footer-hours{
         font-weight: 600;
         color: white; 

@@ -26,9 +26,9 @@ export function _HomePage(props) {
                 if (!props.owner) {
                 // loader until owner ? or start ffrom login/signup page
                 const owner = await UserService.getOwner(workPlace)
-             
                 console.log('owner',owner)
                 props.setOwner(owner)
+                document.body.style.backgroundImage = `url(${owner.mainBgImgUrl})`
                 // useLayoutEffect => might be better to use
                 let ad = await AdvertiseService.getAd(owner.workPlace)
                 ad = ad[0]
@@ -53,9 +53,13 @@ export function _HomePage(props) {
     return (
         // routim
         props.owner &&
-        <div className="home-page-wrapper">
+        // <div className="home-page-wrapper" >
+        // routim
+        <div className="home-page-wrapper" style={{backgroundImage:`url(${props.owner.homePageBgImgUrl})`}}>
             <main className="home-page">
-                <img className="cover-photo" src={require('../../styles/img/oo.png')} />
+                {/* <img className="cover-photo" src={require('../../styles/img/oo.png')} /> */}
+                {/* routim */}
+                <img className="cover-photo" src={`${props.owner.coverImgUrl}`} />
                 {(props.loggedInUser) ?
                     <div className="login-container" onClick={() => props.history.push('/editUser')}>
                         <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
@@ -70,9 +74,8 @@ export function _HomePage(props) {
                 }
                {
                 //    routim
-                props.owner &&
                 <div className="profile-container">
-                    <div className="profile-img" style={{backgroundImage:`url(/static/media/logo3.13d5f073.png)`}}></div>
+                    <div className="profile-img" style={{backgroundImage:`url(${props.owner.profileImgUrl})`}}></div>
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
                         <div className="profile-sub-title">{props.owner.workPlaceSubTitle}</div>

@@ -49,14 +49,14 @@
             // border-bottom: 0.2px solid white;
             padding: 20px;
             background: #ffffffc7;
-            color: #273650;
+            color: var(--color1);
             border-radius: 5px;
             margin-bottom: 10px;
         }
         .last-cell{
             padding: 20px;
             background: #ffffffc7;
-            color: #273650;
+            color: var(--color1);
             border-radius: 5px;
             margin-bottom: 10px;
             }
@@ -118,7 +118,7 @@
         width: 100%;
         height: 100%;
         border: none;
-        background-color: #273650;
+        background-color: var(--color1);
         color: rgb(173, 173, 173);
     }
 

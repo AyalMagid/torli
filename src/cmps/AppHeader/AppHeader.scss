@@ -13,7 +13,7 @@
     .upper-header {
         justify-content: flex-end;
         height: 3rem;
-        background-color:#273650;
+        background-color:var(--color1);
         color: #f6f6f6;
         padding: 0 20px;
         h2{
@@ -23,7 +23,7 @@
 }
 
 fieldset {
-    border-color:#273650!important
+    border-color:var(--color1)!important
 }
 
 .MuiInputBase-input {
@@ -50,7 +50,7 @@ img{
     .upper-header {
         justify-content: flex-end;
         height: 3rem;
-        background-color:#273650;
+        background-color:var(--color1);
         color: #f6f6f6;
         padding: 0 20px;
         h2{

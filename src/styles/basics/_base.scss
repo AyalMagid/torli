@@ -13,14 +13,22 @@ html {
     font-family: Tinos;
 }
 
+:root {
+    --color1: #273650;
+    --color2: #ffe3ee;
+    --color3: #f8ebed;
+    --color4: #fadee5;
+}
+
 body {
-    color: #273650;
+    // color: var(--color1);
+    color:var(--color1);
     margin: 0;
     font-size: 14px;
     background-color: rgba(236, 236, 236, 0.322);
     height: 100%;
     overflow: hidden;
-    background-image: url(../img/handlight.png);
+    // background-image: url(../img/handlight.png);
     background-size: cover;
 }
 
