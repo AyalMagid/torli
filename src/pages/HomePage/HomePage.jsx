@@ -18,6 +18,7 @@ export function _HomePage(props) {
 
     // routim
     let { workPlace } = useParams();
+    let ad
 
     useEffect(() => {
         (async () => {
@@ -30,21 +31,23 @@ export function _HomePage(props) {
                 props.setOwner(owner)
                 document.body.style.backgroundImage = `url(${owner.mainBgImgUrl})`
                 // useLayoutEffect => might be better to use
-                let ad = await AdvertiseService.getAd(owner.workPlace)
-                ad = ad[0]
-                if (props.loggedInUser&&(!props.loggedInUser.isAdmin)) {
-                    if (ad && ad.content && ad.isAdModeOn) {
-                        if (!props.isAdShown) {
-                            setAdvertise(ad.content)
-                            props.updateIsModalOpen(true)
-                            props.updateIsAdShown(true)
-                        }
+                ad = await AdvertiseService.getAd(owner.workPlace)
+            } else {
+                ad = await AdvertiseService.getAd(props.owner.workPlace)
+            }
+            ad = ad[0]
+            if (props.loggedInUser&&(!props.loggedInUser.isAdmin)) {
+                if (ad && ad.content && ad.isAdModeOn) {
+                    if (!props.isAdShown) {
+                        setAdvertise(ad.content)
+                        props.updateIsModalOpen(true)
+                        props.updateIsAdShown(true)
                     }
-                } else {
-                    if (ad) return
-                    else {
-                        AdvertiseService.createAd(owner.workPlace)
-                    }
+                }
+            } else {
+                if (ad) return
+                else {
+                    AdvertiseService.createAd(props.owner.workPlace)
                 }
             }
         })()

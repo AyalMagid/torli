@@ -124,7 +124,7 @@ export function _Signup(props) {
             if (!isContactsPath) props.updateLoggedInUser(credentials)
             await UserService.addUser(credentials, isContactsPath)
             if (!isContactsPath) {
-                if (phone !== '123456789') props.history.push('/treatments')
+                if (phone !== props.owner.phone) props.history.push('/treatments')
                 //   {/* routim `/${props.owner.workPlace}/treatments' */}
                 else props.history.push('/calendarAdmin')
                 // routim ('/${props.owner.workPlace}/calendarAdmin')

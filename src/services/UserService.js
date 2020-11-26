@@ -47,8 +47,8 @@ async function addUser(user, isCreateadByAdmin) {
     user.isMarked = false
     if (!isCreateadByAdmin) StorageService.saveToStorage('tori-user', user)
     //need to come from backend env
-    if (user.phone === '123456789') user.isAdmin = true
-    else user.isAdmin = false
+    // if (user.phone === '123456789') user.isAdmin = true else
+    user.isAdmin = false
     return await HttpService.post('user', user)
 }
 

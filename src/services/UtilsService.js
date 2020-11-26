@@ -143,7 +143,6 @@ function dateToDisplay(date) {
 function getDailySlotsForPreview(slotsRanges, duration) {
   const timeslotsByConstraints = slotsRanges.map(sr => getTimeSlotsForPreview(sr, duration))
   const mergedTimeSlotsToRender = [].concat.apply([], timeslotsByConstraints);
-  console.log(mergedTimeSlotsToRender)
   return mergedTimeSlotsToRender
 }
 

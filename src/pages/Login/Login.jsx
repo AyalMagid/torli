@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import StorageService from "../../services/StorageService";
 import UserService from "../../services/UserService";
+import AuthService from "../../services/AuthService";
 import { motion } from 'framer-motion'
 import MotionService from "../../services/MotionService";
 import Button from '@material-ui/core/Button';
@@ -99,6 +100,7 @@ function _Login(props) {
         if (close !== 'close') {
             //ownerPassword 
             // routim
+            // if (AuthService.login(userFromDb, password)) {
             if (password === props.owner.pass) {
                 setOpen(false);
                 const { name, email, phone } = userFromDb
