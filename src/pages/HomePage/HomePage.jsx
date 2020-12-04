@@ -34,9 +34,10 @@ export function _HomePage(props) {
                 // loader until owner ? or start ffrom login/signup page
                 owner = await UserService.getOwner(workPlace)
                 console.log('owner',owner)
-
                 props.setOwner(owner)
-                document.body.style.backgroundImage = `url(${owner.mainBgImgUrl}`
+                console.log('owner.mainBgImgUrl',owner)
+                document.body.style.backgroundImage = `url(${require('../../styles/img/handlight.png')})`
+                // document.body.style.backgroundImage = `url(${owner.mainBgImgUrl}`
                 // useLayoutEffect => might be better to use
                 ad = await AdvertiseService.getAd(owner.workPlace)
             } else {
@@ -65,10 +66,10 @@ export function _HomePage(props) {
         props.owner &&
         // <div className="home-page-wrapper" >
         // routim
-        // <div className="home-page-wrapper" style={{backgroundImage:`url(${require('../../styles/img/hex3.png')})`}}>
-        <div className="home-page-wrapper" style={{backgroundImage:`url(${props.owner.homePageBgImgUrl}`}}>
+        <div className="home-page-wrapper" style={{backgroundImage:`url(${require('../../styles/img/hex3.png')})`}}>
+        {/* <div className="home-page-wrapper" style={{backgroundImage:`url(${props.owner.homePageBgImgUrl}`}}> */}
             <main className="home-page">
-                {/* <img className="cover-photo" src={require('../../styles/img/oo.png')} /> */}
+                {/* <img className="cover-photo" src={require('../../styles/img/newhand.png')} /> */}
                 {/* routim */}
                 <img className="cover-photo" src={props.owner.coverImgUrl}/>
                 {(props.loggedInUser) ?
@@ -86,6 +87,7 @@ export function _HomePage(props) {
                {
                 //    routim
                 <div className="profile-container">
+                    {/* <div className="profile-img" style={{backgroundImage:`url(${require('../../styles/img/logo3.png')})`}}></div> */}
                     <div className="profile-img" style={{backgroundImage:`url(${props.owner.profileImgUrl}`}}></div>
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
