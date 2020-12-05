@@ -332,7 +332,7 @@ function _CalendarAdmin(props) {
             // timeRangeAndIds.calendarId = props.owner.calendarId
             // timeRangeAndIds.token = props.owner.token
             //   return await CalendarService.getEventsFromCalendar(timeRangeAndIds)
-            return await CalendarService.getEventsFromCalendar(isosDate)
+            return await CalendarService.getEventsFromCalendar(isosDate, props.owner)
         }))
     }
 

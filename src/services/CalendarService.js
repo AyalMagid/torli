@@ -26,8 +26,10 @@ function getCalendar() {
 }
 
 
-async function getEventsFromCalendar(timeRange) {
-    return await HttpService.get(`calendar/${timeRange.start}/${timeRange.end}`)
+async function getEventsFromCalendar(timeRange, owner) {
+    console.log(owner)
+    // return await HttpService.post(`calendar/${timeRange.start}/${timeRange.end}`)
+    return await HttpService.post(`calendar/events`, {timeRange, owner})
 }
 
 // routim
