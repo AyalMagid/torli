@@ -8,10 +8,7 @@ import UserService from '../../services/UserService';
 // routim
 import { useParams } from "react-router";
 import './HomePage.scss';
-// import MainBgImgUrl from 
-// import HomePageBgImgUrl from './images/cat.png'
-// import profileImgUrl from './images/lion.png'
-import coverImgUrl from '../../styles/img/oo.png'
+
 
 export function _HomePage(props) {
     function changeRoute(route) {
@@ -19,7 +16,6 @@ export function _HomePage(props) {
     }
     let { workPlace } = useParams();
     const [advertise, setAdvertise] = useState();
-    // let  profileImgUrl = require.context('./images', true, /.png$/);
 
     // routim
    
@@ -36,8 +32,8 @@ export function _HomePage(props) {
                 console.log('owner',owner)
                 props.setOwner(owner)
                 console.log('owner.mainBgImgUrl',owner)
-                // document.body.style.backgroundImage = `url(${require('../../styles/img/handlight.png')})`
-                document.body.style.backgroundImage = `url(${owner.mainBgImgUrl}`
+                document.body.style.backgroundImage = `url(${require('../../styles/img/handlight.png')})`
+                // document.body.style.backgroundImage = `url(${owner.mainBgImgUrl}`
                 // useLayoutEffect => might be better to use
                 ad = await AdvertiseService.getAd(owner.workPlace)
             } else {
@@ -66,12 +62,12 @@ export function _HomePage(props) {
         props.owner &&
         // <div className="home-page-wrapper" >
         // routim
-        // <div className="home-page-wrapper" style={{backgroundImage:`url(${require('../../styles/img/hex3.png')})`}}>
-        <div className="home-page-wrapper" style={{backgroundImage:`url(${props.owner.homePageBgImgUrl}`}}>
+        <div className="home-page-wrapper" style={{backgroundImage:`url(${require('../../styles/img/hex3.png')})`}}>
+        {/* // <div className="home-page-wrapper" style={{backgroundImage:`url(${props.owner.homePageBgImgUrl}`}}> */}
             <main className="home-page">
-                {/* <img className="cover-photo" src={require('../../styles/img/newhand.png')} /> */}
+                <img className="cover-photo" src={require('../../styles/img/oo.png')} />
                 {/* routim */}
-                <img className="cover-photo" src={props.owner.coverImgUrl}/>
+                {/* <img className="cover-photo" src={props.owner.coverImgUrl}/> */}
                 {(props.loggedInUser) ?
                     <div className="login-container" onClick={() => props.history.push('/editUser')}>
                         <div className="admin-logo"> <i className="fas fa-user-tie"></i></div>
@@ -87,8 +83,8 @@ export function _HomePage(props) {
                {
                 //    routim
                 <div className="profile-container">
-                    {/* <div className="profile-img" style={{backgroundImage:`url(${require('../../styles/img/ornailsart2.png')})`}}></div> */}
-                    <div className="profile-img" style={{backgroundImage:`url(${props.owner.profileImgUrl}`}}></div>
+                    <div className="profile-img" style={{backgroundImage:`url(${require('../../styles/img/ornailsart2.png')})`}}></div>
+                    {/* <div className="profile-img" style={{backgroundImage:`url(${props.owner.profileImgUrl}`}}></div> */}
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
                         <div className="profile-sub-title">{props.owner.workPlaceSubTitle}</div>
@@ -184,3 +180,4 @@ const mapDispatchToProps = {
 
 export const HomePage = connect(mapStateProps, mapDispatchToProps)(_HomePage)
 
+// "postbuild": "rsync  -a build/static ../backend/public",
