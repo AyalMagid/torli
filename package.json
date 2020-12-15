@@ -47,7 +47,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "rsync  -a build/static ../backend/public",
+    "postbuild": "mv build/ ../backend/public/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

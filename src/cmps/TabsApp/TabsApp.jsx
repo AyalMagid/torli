@@ -33,7 +33,8 @@ export function _TabsApp(props) {
     // props.history.push('/')
 
     // routim
-    props.history.push(`/${props.owner.workPlace}`)
+    props.history.push(`/`)
+    // props.history.push(`/${props.owner.workPlace}`)
 }
 
   return (

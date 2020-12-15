@@ -138,7 +138,8 @@ export function _EditUser(props) {
                 // props.history.push('/')
                 // routim 
 
-                props.history.push(`/${props.owner.workPlace}`)
+                // props.history.push(`/${props.owner.workPlace}`)
+                props.history.push(`/`)
             }
             else {
                 setDialogTitle('ססמא שגויה!')

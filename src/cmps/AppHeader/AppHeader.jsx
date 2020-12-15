@@ -59,7 +59,8 @@ function _AppHeader(props) {
         // props.history.push('/')
 
         // routim
-        props.history.push(`/${props.owner.workPlace}`)
+        // props.history.push(`/${props.owner.workPlace}`)
+        props.history.push(`/`)
     }
 
     return (

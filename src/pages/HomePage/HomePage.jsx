@@ -14,7 +14,8 @@ export function _HomePage(props) {
     function changeRoute(route) {
         (props.loggedInUser) ? props.history.push(route) : props.history.push('/signupOrLogin')
     }
-    let { workPlace } = useParams();
+    // let { workPlace } = useParams();
+    let workPlace = window.location.hostname.split(".")[1].split('-')[1]
     const [advertise, setAdvertise] = useState();
 
     // routim
@@ -84,7 +85,7 @@ export function _HomePage(props) {
                {
                 //    routim
                 <div className="profile-container">
-                    {/* <div className="profile-img" style={{backgroundImage:`url(${require('../../styles/img/logo3.png')})`}}></div> */}
+                    {/* <div className="profile-img" style={{backgroundImage:`url(${require('../../styles/img/ornailsart2.png')})`}}></div> */}
                     <div className="profile-img" style={{backgroundImage:`url(${props.owner.profileImgUrl}`}}></div>
                     <div className="profile-text-container">
                         <div id="profile-title" className="profile-title">{props.owner.workPlaceTitle}</div>
@@ -182,3 +183,5 @@ const mapDispatchToProps = {
 export const HomePage = connect(mapStateProps, mapDispatchToProps)(_HomePage)
 
 // "postbuild": "rsync  -a build/static ../backend/public",
+
+// switch case for require ==== or build copy media rebuild/

@@ -51,8 +51,8 @@ export function _App(props) {
           <Route path="/calendarAdmin" component={CalendarAdmin} />
           <Route path="/advertise" component={Advertise} />
           <Route path="/adminContacts" component={AdminContacts} />
-          {/* <Route path="/" component={HomePage} /> */}
-          <Route path="/:workPlace" component={HomePage} />
+          <Route path="/" component={HomePage} />
+          {/* <Route path="/:workPlace" component={HomePage} /> */}
         </Switch>
       </div>
     </Router>
